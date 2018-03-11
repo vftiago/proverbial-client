@@ -2,7 +2,7 @@
   "name": "dark-manor",
   "version": "0.0.0",
   "description": "browser-based gothic roguelike intrigue simulator",
-  "main": "index.js",
+  "main": "index",
   "scripts": {
     "dev": "lite-server",
     "jest": "jest --watchAll"
@@ -11,15 +11,13 @@
   "license": "MIT",
   "repository": "https://github.com/vftiago/dark-manor.git",
   "private": false,
-  "dependencies": {
+  "devDependencies": {
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
+    "@types/jest": "^22.2.0",
     "emotion": "^9.0.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
-  },
-  "devDependencies": {
-    "@types/jest": "^22.2.0",
+    "react-dom": "^16.2.0",
     "awesome-typescript-loader": "^5.0.0-1",
     "jest": "^22.4.2",
     "lite-server": "^2.3.0",

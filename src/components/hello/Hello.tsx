@@ -14,7 +14,7 @@ export class Hello extends React.Component<HelloProps, {}> {
   render() {
     return (
       <h1 className={pink}>
-        Hello asd from {this.props.compiler} and {this.props.framework}!!!
+        Hello from {this.props.compiler} and {this.props.framework}!
       </h1>
     );
   }
