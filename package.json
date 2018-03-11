@@ -1,0 +1,37 @@
+{
+  "name": "dark-manor",
+  "version": "0.0.0",
+  "description": "browser-based gothic roguelike intrigue simulator",
+  "main": "index.js",
+  "scripts": {
+    "dev": "lite-server",
+    "jest": "jest --watchAll"
+  },
+  "author": "Tiago Fernandes <vf.tiago@gmail.com>",
+  "license": "MIT",
+  "repository": "https://github.com/vftiago/dark-manor.git",
+  "private": false,
+  "dependencies": {
+    "@types/react": "^16.0.40",
+    "@types/react-dom": "^16.0.4",
+    "emotion": "^9.0.2",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.0",
+    "awesome-typescript-loader": "^5.0.0-1",
+    "jest": "^22.4.2",
+    "lite-server": "^2.3.0",
+    "source-map-loader": "^0.2.3",
+    "ts-jest": "^22.4.1",
+    "typescript": "^2.7.2"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+  }
+}
