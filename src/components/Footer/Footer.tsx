@@ -15,7 +15,7 @@ const footer = css`
   flex-shrink: 0;
 `;
 
-export class Footer extends React.Component<FooterProps, {}> {
+export class Footer extends React.Component<FooterProps> {
   render() {
     return (
       <div className={footer}>

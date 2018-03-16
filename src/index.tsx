@@ -2,9 +2,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { css } from "emotion";
 
-import { Footer } from "./components/Footer/Footer";
-import { Hello } from "./components/Hello/Hello";
 import { Content } from "./components/Content/Content";
+import { Footer } from "./components/Footer/Footer";
 
 const root = css`
   font-family: Quando;
@@ -15,7 +14,7 @@ const root = css`
 
 ReactDOM.render(
   <div className={root}>
-    <Content />
+    <Content view="single" />
     <Footer compiler="TypeScript" framework="React" />
   </div>,
   document.getElementById("root")
