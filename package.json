@@ -1,7 +1,7 @@
 {
-  "name": "dark-manor",
+  "name": "proverbial",
   "version": "0.0.0",
-  "description": "browser-based gothic roguelike intrigue simulator",
+  "description": "your proverbial app",
   "main": "index",
   "scripts": {
     "dev": "lite-server",
@@ -12,15 +12,15 @@
   "repository": "https://github.com/vftiago/dark-manor.git",
   "private": false,
   "devDependencies": {
+    "@types/jest": "^22.2.0",
     "@types/react": "^16.0.40",
     "@types/react-dom": "^16.0.4",
-    "@types/jest": "^22.2.0",
-    "emotion": "^9.0.2",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
     "awesome-typescript-loader": "^5.0.0-1",
+    "emotion": "^9.0.2",
     "jest": "^22.4.2",
     "lite-server": "^2.3.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "source-map-loader": "^0.2.3",
     "ts-jest": "^22.4.1",
     "typescript": "^2.7.2"
@@ -31,5 +31,6 @@
     },
     "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
-  }
+  },
+  "dependencies": {}
 }
