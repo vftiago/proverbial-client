@@ -30,10 +30,6 @@ function List() {
 }
 
 export class Content extends React.Component<ContentProps> {
-  state = {
-    text: "Loading..."
-  };
-
   render() {
     return (
       <div className={content}>
