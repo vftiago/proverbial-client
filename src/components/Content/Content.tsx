@@ -29,9 +29,9 @@ function List() {
   );
 }
 
-const fetchItem = async () => {
+const fetchItem = async (id: number) => {
   try {
-    const response = await axios.get("http://localhost:4000/proverbs?id=2");
+    const response = await axios.get("http://localhost:4000/proverbs?id=" + id);
     return response.data[0].text;
   } catch (error) {
     console.log(error);
@@ -44,18 +44,14 @@ export class Content extends React.Component<ContentProps> {
   };
 
   async componentDidMount() {
-    const text = await fetchItem();
+    const text = await fetchItem(5);
     this.setState({ text });
   }
 
   render() {
     return (
       <div className={content}>
-        {this.props.view === "item" ? (
-          <Item text={this.state.text} />
-        ) : (
-          <List />
-        )}
+        {this.props.view === "item" ? <Item /> : <List />}
       </div>
     );
   }
