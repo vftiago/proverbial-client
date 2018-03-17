@@ -10,7 +10,7 @@ enum Page {
 }
 
 interface State {
-  currentView: string;
+  view: string;
 }
 
 const root = css`
@@ -22,19 +22,19 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
   state = {
-    currentView: "single"
+    view: "item"
   };
 
   onViewChange = (view: string): void => {
     this.setState({
-      currentView: view
+      view
     });
   };
 
   render() {
     return (
       <div className={root}>
-        <Content view="single" />
+        <Content view="item" />
         <Footer compiler="TypeScript" framework="React" />
       </div>
     );

@@ -1,6 +1,9 @@
 import * as React from "react";
-import axios from "axios";
 import { css } from "emotion";
+import axios from "axios";
+
+import { Response } from "../../../src/types";
+import { Item } from "./Item/Item";
 
 export interface ContentProps {
   view: string;
@@ -16,9 +19,6 @@ const content = css`
   justify-content: center;
   align-items: center;
   flex: 1 0 auto;
-  p {
-    cursor: pointer;
-  }
 `;
 
 function List() {
@@ -29,25 +29,34 @@ function List() {
   );
 }
 
-function Item() {
-  return (
-    <div className={content}>
-      <p>A bird in the hand is worth two in the bush.</p>
-    </div>
-  );
-}
-
-async function onClick() {
+const fetchItem = async () => {
   try {
-    const response = await axios.get("/user?ID=12345");
-    console.log(response);
+    const response = await axios.get("http://localhost:4000/proverbs?id=2");
+    return response.data[0].text;
   } catch (error) {
-    console.error(error);
+    console.log(error);
   }
-}
+};
 
 export class Content extends React.Component<ContentProps> {
+  state = {
+    text: "Loading..."
+  };
+
+  async componentDidMount() {
+    const text = await fetchItem();
+    this.setState({ text });
+  }
+
   render() {
-    return this.props.view === "single" ? <Item onClick={onClick} /> : <List />;
+    return (
+      <div className={content}>
+        {this.props.view === "item" ? (
+          <Item text={this.state.text} />
+        ) : (
+          <List />
+        )}
+      </div>
+    );
   }
 }
