@@ -1,21 +1,6 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { css } from "emotion";
+import { render } from "react-dom";
 
-import { Content } from "./components/Content/Content";
-import { Footer } from "./components/Footer/Footer";
+import { App } from "./App";
 
-const root = css`
-  font-family: Quando;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-`;
-
-ReactDOM.render(
-  <div className={root}>
-    <Content view="single" />
-    <Footer compiler="TypeScript" framework="React" />
-  </div>,
-  document.getElementById("root")
-);
+render(<App />, document.getElementById("root"));

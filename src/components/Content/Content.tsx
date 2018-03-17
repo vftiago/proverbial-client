@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import { css } from "emotion";
 
 export interface ContentProps {
@@ -36,8 +37,17 @@ function Item() {
   );
 }
 
+async function onClick() {
+  try {
+    const response = await axios.get("/user?ID=12345");
+    console.log(response);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export class Content extends React.Component<ContentProps> {
   render() {
-    return this.props.view === "single" ? <Item /> : <List />;
+    return this.props.view === "single" ? <Item onClick={onClick} /> : <List />;
   }
 }
