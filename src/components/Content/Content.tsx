@@ -29,24 +29,10 @@ function List() {
   );
 }
 
-const fetchItem = async (id: number) => {
-  try {
-    const response = await axios.get("http://localhost:4000/proverbs?id=" + id);
-    return response.data[0].text;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export class Content extends React.Component<ContentProps> {
   state = {
     text: "Loading..."
   };
-
-  async componentDidMount() {
-    const text = await fetchItem(5);
-    this.setState({ text });
-  }
 
   render() {
     return (
