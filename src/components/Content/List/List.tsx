@@ -2,9 +2,9 @@ import * as React from "react";
 import { css } from "emotion";
 import axios from "axios";
 
-export interface ItemProps {}
+export interface ListProps {}
 
-const item = css`
+const list = css`
 	p {
 		cursor: pointer;
 	}
@@ -21,28 +21,23 @@ const fetchItem = async (id: number) => {
 	}
 };
 
-export class Item extends React.Component<ItemProps> {
+export class List extends React.Component<ListProps> {
 	state = {
 		text: "Loading..."
 	};
-
 	fetchItem = async (id: number) => {
 		const text = await fetchItem(id);
-		console.log(id);
 		this.setState({ text });
 	};
-
 	handleClick = () => {
 		this.fetchItem(11);
 	};
-
 	async componentDidMount() {
 		this.fetchItem(22);
 	}
-
 	render() {
 		return (
-			<div className={item} onClick={this.handleClick}>
+			<div className={list}>
 				<p>{this.state.text}</p>
 			</div>
 		);

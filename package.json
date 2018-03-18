@@ -1,36 +1,36 @@
 {
-  "name": "proverbial",
-  "version": "0.0.0",
-  "description": "your proverbial app",
-  "main": "index",
-  "scripts": {
-    "dev": "lite-server",
-    "jest": "jest --watchAll"
-  },
-  "author": "Tiago Fernandes <vf.tiago@gmail.com>",
-  "license": "MIT",
-  "repository": "https://github.com/vftiago/dark-manor.git",
-  "private": false,
-  "devDependencies": {
-    "axios": "^0.18.0",
-    "@types/jest": "^22.2.0",
-    "@types/react": "^16.0.40",
-    "@types/react-dom": "^16.0.4",
-    "awesome-typescript-loader": "^5.0.0-1",
-    "emotion": "^9.0.2",
-    "jest": "^22.4.2",
-    "lite-server": "^2.3.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "source-map-loader": "^0.2.3",
-    "ts-jest": "^22.4.1",
-    "typescript": "^2.7.2"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
-  }
+	"name": "proverbial",
+	"version": "0.0.0",
+	"description": "your proverbial app",
+	"main": "index",
+	"scripts": {
+		"dev": "lite-server",
+		"jest": "jest --watchAll"
+	},
+	"author": "Tiago Fernandes <vf.tiago@gmail.com>",
+	"license": "MIT",
+	"repository": "https://github.com/vftiago/dark-manor.git",
+	"private": false,
+	"devDependencies": {
+		"@types/jest": "^22.2.0",
+		"@types/react": "^16.0.40",
+		"@types/react-dom": "^16.0.4",
+		"awesome-typescript-loader": "^5.0.0-1",
+		"axios": "^0.18.0",
+		"emotion": "^9.0.2",
+		"jest": "^22.4.2",
+		"lite-server": "^2.3.0",
+		"react": "^16.2.0",
+		"react-dom": "^16.2.0",
+		"source-map-loader": "^0.2.3",
+		"ts-jest": "^22.4.1",
+		"typescript": "^2.7.2"
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+		"moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+	}
 }

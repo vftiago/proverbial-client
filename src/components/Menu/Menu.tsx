@@ -12,7 +12,7 @@ const menuItems = ["Empire", "Fleets", "Politics"];
 export interface MainMenu {}
 
 export class MainMenu extends React.Component<MainMenu, {}> {
-  render() {
-    return <div className={mainMenu} />;
-  }
+	render() {
+		return <div className={mainMenu} />;
+	}
 }
