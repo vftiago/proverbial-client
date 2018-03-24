@@ -60,6 +60,8 @@ export class Content extends React.Component<ContentProps> {
 					)}
 				</div>
 			);
+		} else {
+			return false;
 		}
 	}
 }
