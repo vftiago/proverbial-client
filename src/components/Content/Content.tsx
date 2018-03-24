@@ -54,7 +54,7 @@ export class Content extends React.Component<ContentProps> {
 			return (
 				<div className={content}>
 					{this.props.view === "item" ? (
-						<Item lang="en" count={this.state.count} />
+						<Item lang={this.props.lang} count={this.state.count} />
 					) : (
 						<List />
 					)}
