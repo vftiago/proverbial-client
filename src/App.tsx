@@ -1,12 +1,17 @@
+// vendor imports
 import * as React from "react";
 import { css } from "emotion";
-
+// local imports
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 
+const DEFAULTS = {
+	lang: "en",
+};
+
 enum Page {
 	LandingPage = "LandingPage",
-	ConfigurationPage = "ConfigurationPage"
+	ConfigurationPage = "ConfigurationPage",
 }
 
 interface State {
@@ -22,19 +27,19 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "item"
+		view: "item",
 	};
 
 	onViewChange = (view: string): void => {
 		this.setState({
-			view
+			view,
 		});
 	};
 
 	render() {
 		return (
 			<div className={root}>
-				<Content view="item" />
+				<Content view="item" lang={DEFAULTS.lang} />
 				<Footer compiler="TypeScript" framework="React" />
 			</div>
 		);
