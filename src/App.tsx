@@ -19,6 +19,8 @@ interface State {
 }
 
 const root = css`
+	background-color: #222;
+	color: wheat;
 	font-family: Quando;
 	height: 100%;
 	display: flex;

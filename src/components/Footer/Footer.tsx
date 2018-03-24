@@ -7,7 +7,6 @@ export interface FooterProps {
 }
 
 const footer = css`
-	background-color: #e5e5e5;
 	font-size: 12px;
 	display: flex;
 	justify-content: center;
