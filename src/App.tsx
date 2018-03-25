@@ -1,6 +1,7 @@
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
+import axios from "axios";
 // local imports
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
@@ -8,6 +9,11 @@ import { Footer } from "./components/Footer/Footer";
 const DEFAULTS = {
 	lang: "en",
 };
+
+const db = axios.create({
+	baseURL: "http://localhost:4000",
+	timeout: 1000,
+});
 
 enum Page {
 	LandingPage = "LandingPage",
@@ -22,14 +28,14 @@ const root = css`
 	background-color: #222;
 	color: wheat;
 	font-family: Quando;
-	height: 100%;
+	min-height: 100%;
 	display: flex;
 	flex-direction: column;
 `;
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "item",
+		view: "list",
 	};
 
 	onViewChange = (view: string): void => {
@@ -41,7 +47,7 @@ export class App extends React.Component<{}, State> {
 	render() {
 		return (
 			<div className={root}>
-				<Content view="item" lang={DEFAULTS.lang} />
+				<Content view={this.state.view} lang={DEFAULTS.lang} db={db} />
 				<Footer compiler="TypeScript" framework="React" />
 			</div>
 		);
