@@ -4,6 +4,7 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
+import colorize from "../../../utils/colorize";
 
 export interface ItemProps {
 	lang: string;
@@ -12,6 +13,7 @@ export interface ItemProps {
 }
 
 const item = css`
+	height: 100%;
 	padding: 30px;
 	p {
 		cursor: pointer;
@@ -44,6 +46,7 @@ export class Item extends React.Component<ItemProps> {
 	}
 
 	async handleClick() {
+		console.log(colorize(this.state.text));
 		this.update();
 	}
 
@@ -53,7 +56,11 @@ export class Item extends React.Component<ItemProps> {
 
 	render() {
 		return (
-			<div className={item} onClick={this.handleClick.bind(this)}>
+			<div
+				className={item}
+				onClick={this.handleClick.bind(this)}
+				style={{ "background-color": colorize(this.state.text) }}
+			>
 				<p>{this.state.text}</p>
 			</div>
 		);

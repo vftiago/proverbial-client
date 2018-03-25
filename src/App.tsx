@@ -35,7 +35,7 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "list",
+		view: "item",
 	};
 
 	onViewChange = (view: string): void => {
