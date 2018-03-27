@@ -4,12 +4,13 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
+import colorize from "../../../utils/colorize";
 import { Proverb } from "../../../../types";
 
 export interface ListProps {
-	lang: string;
-	count: number;
 	db: AxiosInstance;
+	count: number;
+	lang: string;
 }
 
 interface State {
@@ -22,7 +23,6 @@ const list = css`
 		list-style: none;
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
 		justify-content: center;
 		height: 100%;
 		padding: 0;
@@ -33,6 +33,7 @@ const list = css`
 			height: 200px;
 			width: 200px;
 			display: flex;
+			flex: 1 1 auto;
 			align-items: center;
 			justify-content: center;
 			padding: 10px;
@@ -42,13 +43,13 @@ const list = css`
 
 export class List extends React.Component<ListProps> {
 	state: State = {
-		list: undefined,
+		list: undefined
 	};
 
-	async fetchList(lang: string, _limit: number = 60) {
+	async fetchList(lang: string, _limit: number = 80) {
 		try {
 			const response = await this.props.db.get("proverbs", {
-				params: { lang, _limit },
+				params: { lang, _limit }
 			});
 			console.log(response.data);
 			return response.data;
@@ -68,7 +69,11 @@ export class List extends React.Component<ListProps> {
 	}
 
 	format(arr: Proverb[]) {
-		return arr.map(el => <li key={el.id}>{el.text}</li>);
+		return arr.map(el => (
+			<li style={{ "background-color": colorize(el.text) }} key={el.id}>
+				<span>{el.text}</span>
+			</li>
+		));
 	}
 
 	render() {

@@ -12,12 +12,6 @@ interface ContentProps {
 	db: AxiosInstance;
 }
 
-interface ContentProps {
-	view: string;
-	lang: string;
-	db: AxiosInstance;
-}
-
 interface State {
 	count: number;
 }
