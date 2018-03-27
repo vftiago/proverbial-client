@@ -13,9 +13,12 @@ export interface ItemProps {
 }
 
 const item = css`
-	height: 100%;
-	padding: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
 	p {
+		padding: 30px;
 		cursor: pointer;
 		user-select: none;
 	}
@@ -23,13 +26,13 @@ const item = css`
 
 export class Item extends React.Component<ItemProps> {
 	state = {
-		text: "",
+		text: ""
 	};
 
 	async fetchItem(id: number, lang: string) {
 		try {
 			const response = await this.props.db.get("proverbs", {
-				params: { lang, id },
+				params: { lang, id }
 			});
 			console.log(response.data[0].text);
 			return response.data[0].text;

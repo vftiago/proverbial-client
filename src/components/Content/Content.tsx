@@ -28,20 +28,18 @@ const content = css`
 	text-shadow: 1px 1px 1px black;
 	font-size: 30px;
 	display: flex;
-	justify-content: center;
-	align-items: center;
 	flex: 1 0 auto;
 `;
 
 export class Content extends React.Component<ContentProps> {
 	state = {
-		count: 0,
+		count: 0
 	};
 
 	async fetchCount(lang: string) {
 		try {
 			const response = await this.props.db.get("counts", {
-				params: { lang },
+				params: { lang }
 			});
 			return response.data[0].count;
 		} catch (error) {
