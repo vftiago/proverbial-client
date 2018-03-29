@@ -4,7 +4,7 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
-import colorize from "../../../utils/colorize";
+import stringToRgb from "../../../utils/stringToRgb";
 
 export interface ItemProps {
 	lang: string;
@@ -49,7 +49,7 @@ export class Item extends React.Component<ItemProps> {
 	}
 
 	async handleClick() {
-		console.log(colorize(this.state.text));
+		console.log(stringToRgb(this.state.text));
 		this.update();
 	}
 
@@ -62,7 +62,7 @@ export class Item extends React.Component<ItemProps> {
 			<div
 				className={item}
 				onClick={this.handleClick.bind(this)}
-				style={{ "background-color": colorize(this.state.text) }}
+				style={{ "background-color": stringToRgb(this.state.text) }}
 			>
 				<p>{this.state.text}</p>
 			</div>

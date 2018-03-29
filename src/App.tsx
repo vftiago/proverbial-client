@@ -7,17 +7,17 @@ import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 
 const DEFAULTS = {
-	lang: "en",
+	lang: "en"
 };
 
 const db = axios.create({
 	baseURL: "http://localhost:4000",
-	timeout: 1000,
+	timeout: 1000
 });
 
 enum Page {
 	LandingPage = "LandingPage",
-	ConfigurationPage = "ConfigurationPage",
+	ConfigurationPage = "ConfigurationPage"
 }
 
 interface State {
@@ -35,12 +35,12 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "item",
+		view: "list"
 	};
 
 	onViewChange = (view: string): void => {
 		this.setState({
-			view,
+			view
 		});
 	};
 

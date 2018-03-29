@@ -4,7 +4,7 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
-import colorize from "../../../utils/colorize";
+import stringToRgb from "../../../utils/stringToRgb";
 import { Proverb } from "../../../../types";
 
 export interface ListProps {
@@ -70,7 +70,10 @@ export class List extends React.Component<ListProps> {
 
 	format(arr: Proverb[]) {
 		return arr.map(el => (
-			<li style={{ "background-color": colorize(el.text) }} key={el.id}>
+			<li
+				style={{ "background-color": stringToRgb(el.text) }}
+				key={el.id}
+			>
 				<span>{el.text}</span>
 			</li>
 		));
