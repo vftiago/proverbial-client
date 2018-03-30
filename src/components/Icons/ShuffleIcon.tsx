@@ -1,12 +1,12 @@
 // vendor imports
 import * as React from "react";
 
-export interface ShuffleIconProps {
+export interface IconProps {
 	size?: number;
 	fill?: string;
 }
 
-const ShuffleIcon = ({ size = 28, fill = "wheat" }: ShuffleIconProps) => (
+const ShuffleIcon = ({ size = 28, fill = "wheat" }: IconProps) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}

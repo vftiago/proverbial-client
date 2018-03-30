@@ -9,7 +9,7 @@ import { List } from "./List/List";
 import { View } from "../../../types";
 
 interface ContentProps {
-	id?: number;
+	id: number;
 	count: number;
 	view: View;
 	lang: string;

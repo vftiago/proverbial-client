@@ -4,6 +4,9 @@ import { css } from "emotion";
 // local
 import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
+import LeftIcon from "../Icons/LeftIcon";
+import RightIcon from "../Icons/RightIcon";
+
 // types
 import { View } from "../../../types";
 
@@ -38,25 +41,49 @@ const menu = css`
 `;
 
 export interface MenuProps {
-	onViewSwitch: (view: View) => void;
+	id: number;
 	view: View;
+	onViewSwitch: (view: View, id?: number) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
 	render() {
 		return (
 			<div className={menu}>
-				<ul>
-					{this.props.view === View.Item ? (
+				<h1>Proverbial</h1>
+				{this.props.view === View.Item ? (
+					<ul>
 						<li onClick={() => this.props.onViewSwitch(View.List)}>
 							<GridIcon size={32} fill={"white"} />
 						</li>
-					) : (
+						<li
+							onClick={() =>
+								this.props.onViewSwitch(
+									View.Item,
+									this.props.id - 1
+								)
+							}
+						>
+							<LeftIcon size={24} fill={"white"} />
+						</li>
+						<li
+							onClick={() =>
+								this.props.onViewSwitch(
+									View.Item,
+									this.props.id + 1
+								)
+							}
+						>
+							<RightIcon size={24} fill={"white"} />
+						</li>
+					</ul>
+				) : (
+					<ul>
 						<li onClick={() => this.props.onViewSwitch(View.Item)}>
 							<ShuffleIcon size={32} fill={"white"} />
 						</li>
-					)}
-				</ul>
+					</ul>
+				)}
 			</div>
 		);
 	}

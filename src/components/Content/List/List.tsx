@@ -20,7 +20,6 @@ interface State {
 }
 
 const list = css`
-	font-size: 13px;
 	ul {
 		list-style: none;
 		display: flex;
@@ -39,6 +38,10 @@ const list = css`
 			align-items: center;
 			justify-content: center;
 			padding: 10px;
+			span {
+				font-size: 14px;
+				cursor: pointer;
+			}
 		}
 	}
 `;
