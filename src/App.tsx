@@ -5,6 +5,7 @@ import axios from "axios";
 // local imports
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
+import { Menu } from "./components/Menu/Menu";
 
 const DEFAULTS = {
 	lang: "en"
@@ -12,7 +13,7 @@ const DEFAULTS = {
 
 const db = axios.create({
 	baseURL: "http://localhost:4000",
-	timeout: 1000
+	timeout: 5000
 });
 
 enum Page {
@@ -35,7 +36,7 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "list"
+		view: "item"
 	};
 
 	onViewChange = (view: string): void => {
@@ -47,6 +48,7 @@ export class App extends React.Component<{}, State> {
 	render() {
 		return (
 			<div className={root}>
+				<Menu />
 				<Content view={this.state.view} lang={DEFAULTS.lang} db={db} />
 				<Footer compiler="TypeScript" framework="React" />
 			</div>
