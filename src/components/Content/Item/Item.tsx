@@ -9,14 +9,8 @@ import stringToRgb from "../../../utils/stringToRgb";
 import { Proverb, View } from "../../../../types";
 
 export interface ItemProps {
-	lang: string;
-	db: AxiosInstance;
 	text: string;
 	onViewSwitch: (view: View, id?: number) => void;
-}
-
-interface State {
-	history: string[];
 }
 
 const item = css`
@@ -33,10 +27,6 @@ const item = css`
 `;
 
 export class Item extends React.Component<ItemProps> {
-	state: State = {
-		history: [""]
-	};
-
 	componentDidMount() {
 		console.log("Item Mounted");
 	}

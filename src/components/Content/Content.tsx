@@ -39,8 +39,6 @@ export class Content extends React.Component<ContentProps> {
 				{this.props.view === View.Item ? (
 					<Item
 						text={this.props.text}
-						db={this.props.db}
-						lang={this.props.lang}
 						onViewSwitch={this.props.onViewSwitch}
 					/>
 				) : (
