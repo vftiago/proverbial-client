@@ -24,7 +24,7 @@ const stringToRgb = (
 		}
 	}
 
-	let { r, g, b } = finalColor;
+	const { r, g, b } = finalColor;
 
 	return `rgb(${r},${g},${b})`;
 };

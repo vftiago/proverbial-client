@@ -5,9 +5,11 @@ import { AxiosInstance } from "axios";
 // local imports
 import { Item } from "./Item/Item";
 import { List } from "./List/List";
+// types
+import { View } from "../../../types";
 
 interface ContentProps {
-	view: string;
+	view: View;
 	lang: string;
 	db: AxiosInstance;
 }
@@ -50,7 +52,7 @@ export class Content extends React.Component<ContentProps> {
 		if (this.state.count) {
 			return (
 				<div className={content}>
-					{this.props.view === "item" ? (
+					{this.props.view === View.Item ? (
 						<Item
 							db={this.props.db}
 							lang={this.props.lang}

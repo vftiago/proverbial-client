@@ -6,6 +6,8 @@ import axios from "axios";
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
+// types
+import { View } from "../types";
 
 const DEFAULTS = {
 	lang: "en"
@@ -16,13 +18,8 @@ const db = axios.create({
 	timeout: 5000
 });
 
-enum Page {
-	LandingPage = "LandingPage",
-	ConfigurationPage = "ConfigurationPage"
-}
-
 interface State {
-	view: string;
+	view: View;
 }
 
 const root = css`
@@ -36,10 +33,10 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state = {
-		view: "item"
+		view: View.Item
 	};
 
-	onViewChange = (view: string): void => {
+	onViewSwitch = (view: View): void => {
 		this.setState({
 			view
 		});
@@ -48,7 +45,7 @@ export class App extends React.Component<{}, State> {
 	render() {
 		return (
 			<div className={root}>
-				<Menu />
+				<Menu onViewSwitch={this.onViewSwitch} />
 				<Content view={this.state.view} lang={DEFAULTS.lang} db={db} />
 				<Footer compiler="TypeScript" framework="React" />
 			</div>

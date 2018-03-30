@@ -4,6 +4,8 @@ import { css } from "emotion";
 // local
 import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
+// types
+import { View } from "../../../types";
 
 const menu = css`
 	padding: 4px 24px;
@@ -25,7 +27,9 @@ const menu = css`
 	}
 `;
 
-export interface MenuProps {}
+export interface MenuProps {
+	onViewSwitch: (view: View) => void;
+}
 
 export class Menu extends React.Component<MenuProps> {
 	render() {
@@ -33,10 +37,10 @@ export class Menu extends React.Component<MenuProps> {
 			<div className={menu}>
 				<h1>Proverbial</h1>
 				<ul>
-					<li>
+					<li onClick={() => this.props.onViewSwitch(View.Item)}>
 						<ShuffleIcon />
 					</li>
-					<li>
+					<li onClick={() => this.props.onViewSwitch(View.List)}>
 						<GridIcon />
 					</li>
 				</ul>
