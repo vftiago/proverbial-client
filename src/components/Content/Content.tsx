@@ -14,6 +14,7 @@ interface ContentProps {
 	view: View;
 	lang: string;
 	db: AxiosInstance;
+	text: string;
 	onViewSwitch: (view: View, id?: number) => void;
 }
 
@@ -37,10 +38,10 @@ export class Content extends React.Component<ContentProps> {
 			<div className={content}>
 				{this.props.view === View.Item ? (
 					<Item
-						id={this.props.id}
+						text={this.props.text}
 						db={this.props.db}
 						lang={this.props.lang}
-						count={this.props.count}
+						onViewSwitch={this.props.onViewSwitch}
 					/>
 				) : (
 					<List

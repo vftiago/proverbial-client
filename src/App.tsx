@@ -20,9 +20,12 @@ const db = axios.create({
 });
 
 interface State {
-	id?: number;
 	count: number;
+	id: number;
+	history: string[];
+	lang: string;
 	view: View;
+	text: string;
 }
 
 const root = css`
@@ -34,9 +37,12 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
 	state: State = {
-		view: View.Item,
 		count: 0,
-		id: 0
+		id: 0,
+		history: [],
+		lang: DEFAULTS.lang,
+		view: View.Item,
+		text: "Loading..."
 	};
 
 	async fetchCount(lang: string) {
@@ -50,24 +56,40 @@ export class App extends React.Component<{}, State> {
 		}
 	}
 
-	onViewSwitch = (view: View, id?: number): void => {
-		id = id || randInt(1, this.state.count);
+	async fetchItem(
+		id: number = this.state.id,
+		lang: string = this.state.lang
+	) {
+		try {
+			const response = await db.get("proverbs", {
+				params: { lang, id }
+			});
+			this.state.history.push(response.data[0].text);
+			return response.data[0].text;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	async update(id: number = randInt(1, this.state.count), view: View) {
+		const text = await this.fetchItem(id);
 		this.setState({
 			id,
+			text,
 			view
 		});
-	};
+	}
 
-	onViewSingle = (id: number): void => {
-		this.setState({
-			view: View.Item
-		});
+	onViewSwitch = (view: View, id?: number) => {
+		this.update(id, view);
+		console.log(this.state);
 	};
 
 	async componentDidMount() {
 		const count = await this.fetchCount(DEFAULTS.lang);
 		const id = randInt(1, count);
-		this.setState({ id, count });
+		const text = await this.fetchItem(id);
+		this.setState({ id, count, text });
 	}
 
 	render() {
@@ -81,6 +103,7 @@ export class App extends React.Component<{}, State> {
 							count={this.state.count}
 							view={this.state.view}
 							lang={DEFAULTS.lang}
+							text={this.state.text}
 							db={db}
 							onViewSwitch={this.onViewSwitch}
 						/>

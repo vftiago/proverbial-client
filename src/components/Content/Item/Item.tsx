@@ -5,16 +5,17 @@ import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
 import stringToRgb from "../../../utils/stringToRgb";
+// types
+import { Proverb, View } from "../../../../types";
 
 export interface ItemProps {
-	id: number;
 	lang: string;
-	count: number;
 	db: AxiosInstance;
+	text: string;
+	onViewSwitch: (view: View, id?: number) => void;
 }
 
 interface State {
-	text: string;
 	history: string[];
 }
 
@@ -33,47 +34,23 @@ const item = css`
 
 export class Item extends React.Component<ItemProps> {
 	state: State = {
-		text: "",
 		history: [""]
 	};
 
-	async fetchItem(
-		id: number = this.props.id,
-		lang: string = this.props.lang
-	) {
-		try {
-			const response = await this.props.db.get("proverbs", {
-				params: { lang, id }
-			});
-			this.state.history.push(response.data[0].text);
-			return response.data[0].text;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	async update() {
-		const text = await this.fetchItem();
-		this.setState({ text });
-	}
-
-	async handleClick() {
-		this.update();
-	}
-
-	async componentDidMount() {
-		console.log(this.props);
-		this.update();
+	componentDidMount() {
+		console.log("Item Mounted");
 	}
 
 	render() {
 		return (
 			<div
 				className={item}
-				onClick={this.handleClick.bind(this)}
-				style={{ "background-color": stringToRgb(this.state.text) }}
+				onClick={() => {
+					this.props.onViewSwitch(View.Item);
+				}}
+				style={{ "background-color": stringToRgb(this.props.text) }}
 			>
-				<p>{this.state.text}</p>
+				<p>{this.props.text}</p>
 			</div>
 		);
 	}

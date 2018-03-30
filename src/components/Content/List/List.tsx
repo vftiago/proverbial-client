@@ -68,6 +68,7 @@ export class List extends React.Component<ListProps> {
 
 	async componentDidMount() {
 		this.update();
+		console.log("List Mounted");
 	}
 
 	format(arr: Proverb[]) {
