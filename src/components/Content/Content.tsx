@@ -30,26 +30,7 @@ const content = css`
 `;
 
 export class Content extends React.Component<ContentProps> {
-	// state = {
-	// 	count: 0
-	// };
-
-	// async fetchCount(lang: string) {
-	// 	try {
-	// 		const response = await this.props.db.get("counts", {
-	// 			params: { lang }
-	// 		});
-	// 		return response.data[0].count;
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// }
-
-	async componentDidMount() {
-		// const count = await this.fetchCount(this.props.lang);
-		// this.setState({ count });
-		debugger;
-	}
+	async componentDidMount() {}
 
 	render() {
 		return (
