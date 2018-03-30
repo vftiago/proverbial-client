@@ -24,6 +24,7 @@ const menu = css`
 	h1 {
 		font-size: 24px;
 		margin-right: 24px;
+		user-select: none;
 	}
 	ul {
 		${verticalCenter};
