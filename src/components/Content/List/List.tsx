@@ -5,12 +5,14 @@ import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
 import stringToRgb from "../../../utils/stringToRgb";
-import { Proverb } from "../../../../types";
+// types
+import { Proverb, View } from "../../../../types";
 
-export interface ListProps {
+interface ListProps {
 	db: AxiosInstance;
 	count: number;
 	lang: string;
+	onViewSwitch: (view: View, id?: number) => void;
 }
 
 interface State {
@@ -71,6 +73,9 @@ export class List extends React.Component<ListProps> {
 	format(arr: Proverb[]) {
 		return arr.map(el => (
 			<li
+				onClick={() => {
+					this.props.onViewSwitch(View.Item, el.id);
+				}}
 				style={{ "background-color": stringToRgb(el.text) }}
 				key={el.id}
 			>

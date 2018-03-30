@@ -6,6 +6,7 @@ import axios from "axios";
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
+import randInt from "./utils/randInt";
 // types
 import { View } from "../types";
 
@@ -19,12 +20,12 @@ const db = axios.create({
 });
 
 interface State {
+	id?: number;
+	count: number;
 	view: View;
 }
 
 const root = css`
-	background-color: #222;
-	color: wheat;
 	font-family: Quando;
 	min-height: 100%;
 	display: flex;
@@ -32,22 +33,58 @@ const root = css`
 `;
 
 export class App extends React.Component<{}, State> {
-	state = {
-		view: View.Item
+	state: State = {
+		view: View.Item,
+		count: 0,
+		id: 0
 	};
 
-	onViewSwitch = (view: View): void => {
+	async fetchCount(lang: string) {
+		try {
+			const response = await db.get("counts", {
+				params: { lang }
+			});
+			return response.data[0].count;
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	onViewSwitch = (view: View, id?: number): void => {
+		id = id || randInt(1, this.state.count);
 		this.setState({
+			id,
 			view
 		});
 	};
 
+	onViewSingle = (id: number): void => {
+		this.setState({
+			view: View.Item
+		});
+	};
+
+	async componentDidMount() {
+		const count = await this.fetchCount(DEFAULTS.lang);
+		const id = randInt(1, count);
+		this.setState({ id, count });
+	}
+
 	render() {
 		return (
 			<div className={root}>
-				<Menu onViewSwitch={this.onViewSwitch} />
-				<Content view={this.state.view} lang={DEFAULTS.lang} db={db} />
-				<Footer compiler="TypeScript" framework="React" />
+				<Menu view={this.state.view} onViewSwitch={this.onViewSwitch} />
+				{this.state.count &&
+					this.state.id && (
+						<Content
+							id={this.state.id}
+							count={this.state.count}
+							view={this.state.view}
+							lang={DEFAULTS.lang}
+							db={db}
+							onViewSwitch={this.onViewSwitch}
+						/>
+					)}
 			</div>
 		);
 	}
