@@ -6,12 +6,12 @@ import { AxiosInstance } from "axios";
 import randInt from "../../../utils/randInt";
 import stringToRgb from "../../../utils/stringToRgb";
 // types
-import { Proverb, View } from "../../../../types";
+import { Proverb, View } from "../../../types";
 
 interface ListProps {
-	db: AxiosInstance;
 	count: number;
 	lang: string;
+	list: Proverb[];
 	onViewSwitch: (view: View, id?: number) => void;
 }
 
@@ -51,21 +51,8 @@ export class List extends React.Component<ListProps> {
 		list: undefined
 	};
 
-	async fetchList(lang: string, _limit: number = 80) {
-		try {
-			const response = await this.props.db.get("proverbs", {
-				params: { lang, _limit }
-			});
-			console.log(response.data);
-			return response.data;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
 	async update() {
-		const lang = this.props.lang;
-		const list = this.format(await this.fetchList(lang));
+		const list = this.format(this.props.list);
 		this.setState({ list });
 	}
 

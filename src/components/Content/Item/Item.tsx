@@ -6,7 +6,7 @@ import { AxiosInstance } from "axios";
 import randInt from "../../../utils/randInt";
 import stringToRgb from "../../../utils/stringToRgb";
 // types
-import { Proverb, View } from "../../../../types";
+import { Proverb, View } from "../../../types";
 
 export interface ItemProps {
 	text: string;

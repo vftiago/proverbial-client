@@ -6,14 +6,14 @@ import { AxiosInstance } from "axios";
 import { Item } from "./Item/Item";
 import { List } from "./List/List";
 // types
-import { View } from "../../../types";
+import { Proverb, View } from "../../types";
 
 interface ContentProps {
 	id: number;
 	count: number;
 	view: View;
 	lang: string;
-	db: AxiosInstance;
+	list: Proverb[];
 	text: string;
 	onViewSwitch: (view: View, id?: number) => void;
 }
@@ -43,8 +43,8 @@ export class Content extends React.Component<ContentProps> {
 					/>
 				) : (
 					<List
-						db={this.props.db}
 						lang={this.props.lang}
+						list={this.props.list}
 						count={this.props.count}
 						onViewSwitch={this.props.onViewSwitch}
 					/>

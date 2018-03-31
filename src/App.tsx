@@ -7,27 +7,21 @@ import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
 import randInt from "./utils/randInt";
+import api from "./api/api";
+import DEFAULTS from "./defaults";
+
 // types
-import { View } from "../types";
-
-const DEFAULTS = {
-	lang: "en",
-	view: View.Item,
-	text: "Loading..."
-};
-
-const db = axios.create({
-	baseURL: "http://localhost:4000",
-	timeout: 5000
-});
+import { Proverb, View } from "./types";
 
 interface State {
 	count: number;
 	id: number;
 	history: string[];
+	list: Proverb[];
 	lang: string;
 	view: View;
 	text: string;
+	ready: boolean;
 }
 
 const root = css`
@@ -42,47 +36,40 @@ export class App extends React.Component<{}, State> {
 		count: 0,
 		id: 0,
 		history: [],
+		list: [],
 		lang: DEFAULTS.lang,
 		view: DEFAULTS.view,
-		text: DEFAULTS.text
+		text: DEFAULTS.text,
+		ready: false
 	};
 
-	async fetchCount(lang: string = this.state.lang) {
-		try {
-			const response = await db.get("counts", {
-				params: { lang }
-			});
-			return response.data[0].count;
-		} catch (error) {
-			console.error(error);
-		}
-	}
-
-	async fetchItem(
-		id: number = this.state.id,
-		lang: string = this.state.lang
-	) {
-		try {
-			const response = await db.get("proverbs", {
-				params: { lang, id }
-			});
-			return response.data[0].text;
-		} catch (error) {
-			console.error(error);
-		}
-	}
+	api = api;
 
 	async update(view: View = View.Item, id?: number) {
-		const count = this.state.count || (await this.fetchCount());
-		id = id || randInt(1, count);
-		const text = await this.fetchItem(id);
-		this.state.history.push(text);
-		this.setState({
-			id,
-			count,
-			text,
-			view
-		});
+		switch (view) {
+			case View.Item:
+				const count =
+					this.state.count ||
+					(await this.api.fetchCount(this.state.lang));
+				id = id || randInt(1, count);
+				const text = await this.api.fetchItem(this.state.lang, id);
+				this.state.history.push(text);
+				this.setState({
+					id,
+					count,
+					text,
+					view
+				});
+				break;
+			case View.List:
+				const list = this.state.list.length
+					? this.state.list
+					: await this.api.fetchList(this.state.lang);
+				this.setState({
+					list,
+					view
+				});
+		}
 		console.log(this.state);
 	}
 
@@ -91,32 +78,30 @@ export class App extends React.Component<{}, State> {
 	};
 
 	async componentDidMount() {
-		this.update();
+		await this.update();
+		this.setState({ ready: true });
 	}
 
 	render() {
 		return (
-			<div className={root}>
-				{this.state.id && (
+			this.state.ready && (
+				<div className={root}>
 					<Menu
 						id={this.state.id}
 						view={this.state.view}
 						onViewSwitch={this.onViewSwitch}
 					/>
-				)}
-				{this.state.count &&
-					this.state.id && (
-						<Content
-							id={this.state.id}
-							count={this.state.count}
-							view={this.state.view}
-							lang={DEFAULTS.lang}
-							text={this.state.text}
-							db={db}
-							onViewSwitch={this.onViewSwitch}
-						/>
-					)}
-			</div>
+					<Content
+						id={this.state.id}
+						count={this.state.count}
+						view={this.state.view}
+						lang={DEFAULTS.lang}
+						text={this.state.text}
+						list={this.state.list}
+						onViewSwitch={this.onViewSwitch}
+					/>
+				</div>
+			)
 		);
 	}
 }

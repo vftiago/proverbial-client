@@ -8,7 +8,7 @@ import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
 
 // types
-import { View } from "../../../types";
+import { View } from "../../types";
 
 const verticalCenter = css`
 	display: flex;
@@ -22,7 +22,7 @@ const menu = css`
 	font-family: "Roboto Condensed";
 	padding: 10px;
 	h1 {
-		font-size: 24px;
+		font-size: 18px;
 		margin-right: 24px;
 		user-select: none;
 	}
@@ -55,7 +55,7 @@ export class Menu extends React.Component<MenuProps> {
 				{this.props.view === View.Item ? (
 					<ul>
 						<li onClick={() => this.props.onViewSwitch(View.List)}>
-							<GridIcon size={32} fill={"white"} />
+							<GridIcon size={28} fill={"white"} />
 						</li>
 						<li
 							onClick={() =>
@@ -65,7 +65,7 @@ export class Menu extends React.Component<MenuProps> {
 								)
 							}
 						>
-							<LeftIcon size={24} fill={"white"} />
+							<LeftIcon size={18} fill={"white"} />
 						</li>
 						<li
 							onClick={() =>
@@ -75,15 +75,21 @@ export class Menu extends React.Component<MenuProps> {
 								)
 							}
 						>
-							<RightIcon size={24} fill={"white"} />
+							<RightIcon size={18} fill={"white"} />
 						</li>
 					</ul>
 				) : (
-					<ul>
-						<li onClick={() => this.props.onViewSwitch(View.Item)}>
-							<ShuffleIcon size={32} fill={"white"} />
-						</li>
-					</ul>
+					<div>
+						<ul>
+							<li
+								onClick={() =>
+									this.props.onViewSwitch(View.Item)
+								}
+							>
+								<ShuffleIcon size={28} fill={"white"} />
+							</li>
+						</ul>
+					</div>
 				)}
 			</div>
 		);
