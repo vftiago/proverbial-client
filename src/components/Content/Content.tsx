@@ -24,8 +24,8 @@ interface State {
 
 const content = css`
 	background-color: #222;
-	color: wheat;
-	text-shadow: 1px 1px 1px black;
+	color: #ffd;
+	text-shadow: 0 1px 1px black;
 	display: flex;
 	flex: 1 0 auto;
 `;

@@ -65,18 +65,19 @@ const list = css`
 		justify-content: center;
 		padding: 0;
 		margin: 0;
+		min-height: 100%;
 		li {
 			text-align: center;
-			max-width: 50%;
-			height: 200px;
+			min-height: 200px;
 			width: 200px;
 			display: flex;
 			flex: 1 1 auto;
 			align-items: center;
 			justify-content: center;
-			padding: 10px;
+			padding: 12px;
+			line-height: 1.4;
 			span {
-				font-size: 14px;
+				font-size: 13px;
 				cursor: pointer;
 			}
 		}
