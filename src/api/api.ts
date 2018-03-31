@@ -34,7 +34,6 @@ const api = {
 			const response = await instance.get("proverbs", {
 				params: { lang, _limit }
 			});
-			console.log(response.data);
 			return response.data;
 		} catch (error) {
 			console.error(error);

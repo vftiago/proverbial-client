@@ -27,6 +27,7 @@ interface State {
 const root = css`
 	font-family: Quando;
 	min-height: 100%;
+	min-width: 500px;
 	display: flex;
 	flex-direction: column;
 `;
@@ -45,7 +46,7 @@ export class App extends React.Component<{}, State> {
 
 	api = api;
 
-	async update(view: View = View.Item, id?: number) {
+	async update(view: View = DEFAULTS.view, id?: number) {
 		switch (view) {
 			case View.Item:
 				const count =

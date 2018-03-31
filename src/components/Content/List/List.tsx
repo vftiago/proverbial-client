@@ -7,6 +7,7 @@ import randInt from "../../../utils/randInt";
 import stringToRgb from "../../../utils/stringToRgb";
 // types
 import { Proverb, View } from "../../../types";
+import SearchIcon from "../../Icons/SearchIcon";
 
 interface ListProps {
 	count: number;
@@ -16,8 +17,45 @@ interface ListProps {
 }
 
 interface State {
-	list: Proverb[];
+	list: JSX.Element[];
 }
+
+const filter = css`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	/* height: 100px; */
+	background-color: #444;
+	padding: 12px 44px;
+	input {
+		height: 20px;
+		flex-grow: 0;
+		font-size: 16px;
+		font-family: "Roboto Condensed";
+		min-width: 66%;
+		border-radius: 3px;
+		padding: 6px;
+		border: none;
+		::-webkit-input-placeholder {
+			color: #777;
+		}
+		:-ms-input-placeholder {
+			color: #777;
+		}
+		::-moz-placeholder {
+			color: #777;
+			opacity: 1;
+		}
+		:-moz-placeholder {
+			color: #777;
+			opacity: 1;
+		}
+	}
+	svg {
+		position: relative;
+		right: 30px;
+	}
+`;
 
 const list = css`
 	ul {
@@ -25,7 +63,6 @@ const list = css`
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
-		height: 100%;
 		padding: 0;
 		margin: 0;
 		li {
@@ -57,11 +94,11 @@ export class List extends React.Component<ListProps> {
 	}
 
 	async componentDidMount() {
-		this.update();
+		await this.update();
 		console.log("List Mounted");
 	}
 
-	format(arr: Proverb[]) {
+	format(arr: Proverb[]): JSX.Element[] {
 		return arr.map(el => (
 			<li
 				onClick={() => {
@@ -78,6 +115,10 @@ export class List extends React.Component<ListProps> {
 	render() {
 		return (
 			<div className={list}>
+				<div className={filter}>
+					<input type="text" placeholder="Search" />
+					<SearchIcon fill="#777" size={32} />
+				</div>
 				<ul>{this.state.list}</ul>
 			</div>
 		);

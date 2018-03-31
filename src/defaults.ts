@@ -2,7 +2,7 @@ import { Proverb, View } from "./types";
 
 const DEFAULTS = {
 	lang: "en",
-	view: View.Item,
+	view: View.List,
 	text: "Loading...",
 	pageSize: 80
 };
