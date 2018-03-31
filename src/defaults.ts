@@ -4,6 +4,6 @@ const DEFAULTS = {
 	lang: "en",
 	view: View.List,
 	text: "Loading...",
-	pageSize: 80
+	pageSize: 120
 };
 export default DEFAULTS;

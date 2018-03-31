@@ -1,4 +1,4 @@
-import * as sr from "seedrandom";
+import randInt from "./randInt";
 
 interface rgbColor {
 	r: number;
@@ -8,20 +8,15 @@ interface rgbColor {
 }
 
 const stringToRgb = (
-	string: string,
 	baseColor: rgbColor = { r: 255, g: 255, b: 255 },
-	darken: number = 2
+	darken: number = 1.8
 ): string => {
 	let finalColor: rgbColor = { r: 0, g: 0, b: 0 };
 
-	if (string.length) {
-		let seed = Math.abs(sr(string).int32());
-		for (let key in finalColor) {
-			finalColor[key] = Math.round(
-				(seed % 255 + baseColor[key]) / (2 * darken)
-			);
-			seed = seed * seed;
-		}
+	for (let key in finalColor) {
+		finalColor[key] = Math.round(
+			(randInt(0, 255) + baseColor[key]) / (2 * darken)
+		);
 	}
 
 	const { r, g, b } = finalColor;

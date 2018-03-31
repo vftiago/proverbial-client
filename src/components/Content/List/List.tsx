@@ -4,7 +4,7 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
-import stringToRgb from "../../../utils/stringToRgb";
+import randRgb from "../../../utils/randRgb";
 // types
 import { Proverb, View } from "../../../types";
 import SearchIcon from "../../Icons/SearchIcon";
@@ -104,7 +104,7 @@ export class List extends React.Component<ListProps> {
 				onClick={() => {
 					this.props.onViewSwitch(View.Item, el.id);
 				}}
-				style={{ "background-color": stringToRgb(el.text) }}
+				style={{ "background-color": randRgb() }}
 				key={el.id}
 			>
 				<span>{el.text}</span>

@@ -4,7 +4,7 @@ import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
 import randInt from "../../../utils/randInt";
-import stringToRgb from "../../../utils/stringToRgb";
+import randRgb from "../../../utils/randRgb";
 // types
 import { Proverb, View } from "../../../types";
 
@@ -38,7 +38,7 @@ export class Item extends React.Component<ItemProps> {
 				onClick={() => {
 					this.props.onViewSwitch(View.Item);
 				}}
-				style={{ "background-color": stringToRgb(this.props.text) }}
+				style={{ "background-color": randRgb() }}
 			>
 				<p>{this.props.text}</p>
 			</div>
