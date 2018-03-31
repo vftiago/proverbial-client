@@ -15,11 +15,8 @@ interface ContentProps {
 	lang: string;
 	list: Proverb[];
 	text: string;
+	onSearch: () => void;
 	onViewSwitch: (view: View, id?: number) => void;
-}
-
-interface State {
-	count: number;
 }
 
 const content = css`
@@ -31,8 +28,6 @@ const content = css`
 `;
 
 export class Content extends React.Component<ContentProps> {
-	async componentDidMount() {}
-
 	render() {
 		return (
 			<div className={content}>
@@ -43,6 +38,7 @@ export class Content extends React.Component<ContentProps> {
 					/>
 				) : (
 					<List
+						onSearch={this.props.onSearch}
 						lang={this.props.lang}
 						list={this.props.list}
 						count={this.props.count}

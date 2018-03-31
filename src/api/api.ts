@@ -7,7 +7,7 @@ const instance = axios.create({
 });
 
 const api = {
-	fetchCount: async (lang: string) => {
+	fetchCount: async (lang: string = DEFAULTS.lang) => {
 		try {
 			const response = await instance.get("counts", {
 				params: { lang }
@@ -18,7 +18,7 @@ const api = {
 		}
 	},
 
-	fetchItem: async (lang: string, id: number) => {
+	fetchItem: async (lang: string = DEFAULTS.lang, id: number) => {
 		try {
 			const response = await instance.get("proverbs", {
 				params: { lang, id }
@@ -29,7 +29,10 @@ const api = {
 		}
 	},
 
-	fetchList: async (lang: string, _limit: number = DEFAULTS.pageSize) => {
+	fetchList: async (
+		lang: string = DEFAULTS.lang,
+		_limit: number = DEFAULTS.pageSize
+	) => {
 		try {
 			const response = await instance.get("proverbs", {
 				params: { lang, _limit }

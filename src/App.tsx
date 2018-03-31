@@ -47,12 +47,11 @@ export class App extends React.Component<{}, State> {
 	api = api;
 
 	async update(view: View = DEFAULTS.view, id?: number) {
+		const count =
+			this.state.count || (await this.api.fetchCount(this.state.lang));
+		id = id || randInt(1, count);
 		switch (view) {
 			case View.Item:
-				const count =
-					this.state.count ||
-					(await this.api.fetchCount(this.state.lang));
-				id = id || randInt(1, count);
 				const text = await this.api.fetchItem(this.state.lang, id);
 				this.state.history.push(text);
 				this.setState({
@@ -68,11 +67,27 @@ export class App extends React.Component<{}, State> {
 					: await this.api.fetchList(this.state.lang);
 				this.setState({
 					list,
+					count,
 					view
 				});
 		}
 		console.log(this.state);
 	}
+
+	onSearch = () => {
+		this.fetchAll();
+	};
+
+	fetchAll = async () => {
+		console.log(1);
+		const list = await this.api.fetchList(
+			this.state.lang,
+			this.state.count
+		);
+		this.setState({
+			list
+		});
+	};
 
 	onViewSwitch = (view: View, id?: number) => {
 		this.update(view, id);
@@ -93,6 +108,7 @@ export class App extends React.Component<{}, State> {
 						onViewSwitch={this.onViewSwitch}
 					/>
 					<Content
+						onSearch={this.onSearch}
 						id={this.state.id}
 						count={this.state.count}
 						view={this.state.view}

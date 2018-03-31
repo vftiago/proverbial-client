@@ -10,6 +10,7 @@ import { Proverb, View } from "../../../types";
 import SearchIcon from "../../Icons/SearchIcon";
 
 interface ListProps {
+	onSearch: () => void;
 	count: number;
 	lang: string;
 	list: Proverb[];
@@ -90,7 +91,11 @@ export class List extends React.Component<ListProps> {
 	};
 
 	filterList(e: React.ChangeEvent<HTMLInputElement>): void {
-		console.log(this);
+		console.log(this.props.list.length);
+		console.log(this.props.count);
+		if (this.props.list.length < this.props.count) {
+			this.props.onSearch();
+		}
 		const list = this.props.list.filter(
 			item =>
 				item.text.toLowerCase().search(e.target.value.toLowerCase()) !==
