@@ -17,14 +17,13 @@ interface ListProps {
 }
 
 interface State {
-	list: JSX.Element[];
+	formattedList: JSX.Element[];
 }
 
 const filter = css`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	/* height: 100px; */
 	background-color: #444;
 	padding: 12px 44px;
 	input {
@@ -53,11 +52,12 @@ const filter = css`
 	}
 	svg {
 		position: relative;
-		right: 30px;
+		right: 33px;
 	}
 `;
 
 const list = css`
+	width: 100%;
 	ul {
 		list-style: none;
 		display: flex;
@@ -85,12 +85,22 @@ const list = css`
 
 export class List extends React.Component<ListProps> {
 	state: State = {
-		list: undefined
+		formattedList: undefined
 	};
 
+	filterList(e: React.ChangeEvent<HTMLInputElement>): void {
+		console.log(this);
+		const list = this.props.list.filter(
+			item =>
+				item.text.toLowerCase().search(e.target.value.toLowerCase()) !==
+				-1
+		);
+		this.setState({ formattedList: this.format(list) });
+	}
+
 	async update() {
-		const list = this.format(this.props.list);
-		this.setState({ list });
+		const formattedList = this.format(this.props.list);
+		this.setState({ formattedList });
 	}
 
 	async componentDidMount() {
@@ -116,10 +126,14 @@ export class List extends React.Component<ListProps> {
 		return (
 			<div className={list}>
 				<div className={filter}>
-					<input type="text" placeholder="Search" />
+					<input
+						type="text"
+						placeholder="Search"
+						onChange={this.filterList.bind(this)}
+					/>
 					<SearchIcon fill="#777" size={32} />
 				</div>
-				<ul>{this.state.list}</ul>
+				<ul>{this.state.formattedList}</ul>
 			</div>
 		);
 	}
