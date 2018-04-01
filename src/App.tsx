@@ -103,9 +103,6 @@ export class App extends React.Component<{}, State> {
 				<div className={root}>
 					<Menu id={this.state.id} onNavigation={this.onNavigation} />
 					<Content
-						id={this.state.id}
-						count={this.state.count}
-						lang={DEFAULTS.lang}
 						list={this.state.list}
 						onNavigation={this.onNavigation}
 						onSearch={this.onSearch}

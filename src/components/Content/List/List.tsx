@@ -1,16 +1,12 @@
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
-import { AxiosInstance } from "axios";
 // local imports
-import randInt from "../../../utils/randInt";
 import randRgb from "../../../utils/randRgb";
 // types
 import { Proverb } from "../../../types";
 
 interface ListProps {
-	count: number;
-	lang: string;
 	list: Proverb[];
 	onNavigation: (id?: number) => void;
 }
@@ -51,7 +47,7 @@ const list = css`
 `;
 
 export class List extends React.Component<ListProps> {
-	async componentDidMount() {
+	componentDidMount() {
 		console.log("List Mounted");
 	}
 
