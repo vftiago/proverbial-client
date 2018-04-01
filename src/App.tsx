@@ -89,6 +89,7 @@ export class App extends React.Component<{}, State> {
 	};
 
 	onNavigation = (id?: number) => {
+		// if (this.state.list.length === 1) id = randInt(0, this.state.count);
 		this.update(id);
 	};
 

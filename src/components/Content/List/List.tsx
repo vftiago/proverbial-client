@@ -5,14 +5,11 @@ import { css } from "emotion";
 import randRgb from "../../../utils/randRgb";
 // types
 import { Proverb } from "../../../types";
+import Item from "./Item/Item";
 
 interface ListProps {
 	list: Proverb[];
 	onNavigation: (id?: number) => void;
-}
-
-interface State {
-	formattedList: JSX.Element[];
 }
 
 const list = css`
@@ -28,21 +25,6 @@ const list = css`
 		justify-content: center;
 		padding: 0;
 		margin: 0;
-		li {
-			text-align: center;
-			min-height: 200px;
-			width: 200px;
-			display: flex;
-			flex: 1 1 auto;
-			align-items: center;
-			justify-content: center;
-			padding: 12px;
-			line-height: 1.4;
-			span {
-				font-size: 13px;
-				cursor: pointer;
-			}
-		}
 	}
 `;
 
@@ -53,17 +35,7 @@ export class List extends React.Component<ListProps> {
 
 	format(arr: Proverb[]): JSX.Element[] {
 		return arr.map(el => (
-			<li
-				onClick={() => {
-					if (this.props.list.length > 1) {
-						this.props.onNavigation(el.id);
-					}
-				}}
-				style={{ "background-color": randRgb() }}
-				key={el.id}
-			>
-				<span>{el.text}</span>
-			</li>
+			<Item el={el} onNavigation={this.props.onNavigation} />
 		));
 	}
 
