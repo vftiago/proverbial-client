@@ -65,8 +65,16 @@ export class App extends React.Component<{}, State> {
 		console.log(this.state);
 	}
 
-	onSearch = () => {
-		this.fetchAll();
+	filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (this.state.list.length < this.state.count) {
+			this.fetchAll();
+		}
+		const list = this.state.list.filter(
+			item =>
+				item.text.toLowerCase().search(e.target.value.toLowerCase()) !==
+				-1
+		);
+		this.setState({ list });
 	};
 
 	fetchAll = async () => {
@@ -98,12 +106,12 @@ export class App extends React.Component<{}, State> {
 						onViewSwitch={this.onViewSwitch}
 					/>
 					<Content
-						onSearch={this.onSearch}
 						id={this.state.id}
 						count={this.state.count}
 						lang={DEFAULTS.lang}
 						list={this.state.list}
 						onViewSwitch={this.onViewSwitch}
+						filterList={this.filterList}
 					/>
 				</div>
 			)

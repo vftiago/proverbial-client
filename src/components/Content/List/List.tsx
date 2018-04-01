@@ -10,10 +10,10 @@ import { Proverb, View } from "../../../types";
 import SearchIcon from "../../Icons/SearchIcon";
 
 interface ListProps {
-	onSearch: () => void;
 	count: number;
 	lang: string;
 	list: Proverb[];
+	filterList: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onViewSwitch: (id?: number) => void;
 }
 
@@ -86,29 +86,7 @@ const list = css`
 `;
 
 export class List extends React.Component<ListProps> {
-	state: State = {
-		formattedList: undefined
-	};
-
-	filterList(e: React.ChangeEvent<HTMLInputElement>): void {
-		if (this.props.list.length < this.props.count) {
-			this.props.onSearch();
-		}
-		const list = this.props.list.filter(
-			item =>
-				item.text.toLowerCase().search(e.target.value.toLowerCase()) !==
-				-1
-		);
-		this.setState({ formattedList: this.format(list) });
-	}
-
-	async update() {
-		const formattedList = this.format(this.props.list);
-		this.setState({ formattedList });
-	}
-
 	async componentDidMount() {
-		await this.update();
 		console.log("List Mounted");
 	}
 
@@ -135,7 +113,7 @@ export class List extends React.Component<ListProps> {
 					<input
 						type="text"
 						placeholder="Search"
-						onChange={this.filterList.bind(this)}
+						onChange={this.props.filterList}
 					/>
 					<SearchIcon fill="#777" size={32} />
 				</div>

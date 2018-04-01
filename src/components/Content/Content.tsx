@@ -13,8 +13,8 @@ interface ContentProps {
 	count: number;
 	lang: string;
 	list: Proverb[];
-	onSearch: () => void;
 	onViewSwitch: (id?: number) => void;
+	filterList: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const content = css`
@@ -39,11 +39,11 @@ export class Content extends React.Component<ContentProps> {
 		return (
 			<div className={content}>
 				<List
-					onSearch={this.props.onSearch}
 					lang={this.props.lang}
 					list={this.props.list}
 					count={this.props.count}
 					onViewSwitch={this.props.onViewSwitch}
+					filterList={this.props.filterList}
 				/>
 			</div>
 		);
