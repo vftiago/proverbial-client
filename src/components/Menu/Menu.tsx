@@ -45,7 +45,7 @@ const menu = css`
 export interface MenuProps {
 	id: number;
 	view: View;
-	onViewSwitch: (id?: number) => void;
+	onNavigation: (id?: number) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
@@ -54,25 +54,25 @@ export class Menu extends React.Component<MenuProps> {
 			<div className={menu}>
 				<h1>Proverbial</h1>
 				<ul>
-					<li onClick={() => this.props.onViewSwitch()}>
+					<li onClick={() => this.props.onNavigation()}>
 						<GridIcon size={28} fill={"white"} />
 					</li>
 					<li
 						onClick={() =>
-							this.props.onViewSwitch(this.props.id - 1)
+							this.props.onNavigation(this.props.id - 1)
 						}
 					>
 						<LeftIcon size={18} fill={"white"} />
 					</li>
 					<li
 						onClick={() =>
-							this.props.onViewSwitch(this.props.id + 1)
+							this.props.onNavigation(this.props.id + 1)
 						}
 					>
 						<RightIcon size={18} fill={"white"} />
 					</li>
 					<li
-						onClick={() => this.props.onViewSwitch(randInt(0, 550))}
+						onClick={() => this.props.onNavigation(randInt(0, 550))}
 					>
 						<ShuffleIcon size={28} fill={"white"} />
 					</li>

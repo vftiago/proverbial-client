@@ -65,29 +65,32 @@ export class App extends React.Component<{}, State> {
 		console.log(this.state);
 	}
 
-	filterList = (e: React.ChangeEvent<HTMLInputElement>) => {
+	onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const term = e.target.value.toLowerCase();
 		if (this.state.list.length < this.state.count) {
-			this.fetchAll();
+			this.fetchAll(term);
+		} else {
+			this.filterList(term);
 		}
+	};
+
+	filterList = (term: string) => {
 		const list = this.state.list.filter(
-			item =>
-				item.text.toLowerCase().search(e.target.value.toLowerCase()) !==
-				-1
+			item => item.text.toLowerCase().search(term) !== -1
 		);
 		this.setState({ list });
 	};
 
-	fetchAll = async () => {
+	fetchAll = async (term: string) => {
 		const list = await this.api.fetchList(
 			this.state.lang,
 			this.state.count
 		);
-		this.setState({
-			list
-		});
+		this.setState({ list });
+		this.filterList(term);
 	};
 
-	onViewSwitch = (id?: number) => {
+	onNavigation = (id?: number) => {
 		this.update(id);
 	};
 
@@ -103,15 +106,15 @@ export class App extends React.Component<{}, State> {
 					<Menu
 						id={this.state.id}
 						view={this.state.view}
-						onViewSwitch={this.onViewSwitch}
+						onNavigation={this.onNavigation}
 					/>
 					<Content
 						id={this.state.id}
 						count={this.state.count}
 						lang={DEFAULTS.lang}
 						list={this.state.list}
-						onViewSwitch={this.onViewSwitch}
-						filterList={this.filterList}
+						onNavigation={this.onNavigation}
+						onSearch={this.onSearch}
 					/>
 				</div>
 			)

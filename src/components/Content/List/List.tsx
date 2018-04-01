@@ -13,8 +13,8 @@ interface ListProps {
 	count: number;
 	lang: string;
 	list: Proverb[];
-	filterList: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	onViewSwitch: (id?: number) => void;
+	onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onNavigation: (id?: number) => void;
 }
 
 interface State {
@@ -95,7 +95,7 @@ export class List extends React.Component<ListProps> {
 			<li
 				onClick={() => {
 					if (this.props.list.length > 1) {
-						this.props.onViewSwitch(el.id);
+						this.props.onNavigation(el.id);
 					}
 				}}
 				style={{ "background-color": randRgb() }}
@@ -113,7 +113,7 @@ export class List extends React.Component<ListProps> {
 					<input
 						type="text"
 						placeholder="Search"
-						onChange={this.props.filterList}
+						onChange={this.props.onSearch}
 					/>
 					<SearchIcon fill="#777" size={32} />
 				</div>

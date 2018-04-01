@@ -13,8 +13,8 @@ interface ContentProps {
 	count: number;
 	lang: string;
 	list: Proverb[];
-	onViewSwitch: (id?: number) => void;
-	filterList: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	onNavigation: (id?: number) => void;
+	onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const content = css`
@@ -42,8 +42,8 @@ export class Content extends React.Component<ContentProps> {
 					lang={this.props.lang}
 					list={this.props.list}
 					count={this.props.count}
-					onViewSwitch={this.props.onViewSwitch}
-					filterList={this.props.filterList}
+					onNavigation={this.props.onNavigation}
+					onSearch={this.props.onSearch}
 				/>
 			</div>
 		);
