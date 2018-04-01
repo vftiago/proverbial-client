@@ -6,14 +6,12 @@ import { AxiosInstance } from "axios";
 import randInt from "../../../utils/randInt";
 import randRgb from "../../../utils/randRgb";
 // types
-import { Proverb, View } from "../../../types";
-import SearchIcon from "../../Icons/SearchIcon";
+import { Proverb } from "../../../types";
 
 interface ListProps {
 	count: number;
 	lang: string;
 	list: Proverb[];
-	onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	onNavigation: (id?: number) => void;
 }
 
@@ -21,52 +19,19 @@ interface State {
 	formattedList: JSX.Element[];
 }
 
-const filter = css`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	background-color: #444;
-	padding: 12px 44px;
-	input {
-		height: 20px;
-		flex-grow: 0;
-		font-size: 16px;
-		font-family: "Roboto Condensed";
-		min-width: 66%;
-		border-radius: 3px;
-		padding: 6px;
-		border: none;
-		::-webkit-input-placeholder {
-			color: #777;
-		}
-		:-ms-input-placeholder {
-			color: #777;
-		}
-		::-moz-placeholder {
-			color: #777;
-			opacity: 1;
-		}
-		:-moz-placeholder {
-			color: #777;
-			opacity: 1;
-		}
-	}
-	svg {
-		position: relative;
-		right: 33px;
-	}
-`;
-
 const list = css`
 	width: 100%;
+	flex-direction: column;
+	flex: 1 0 auto;
+	display: flex;
 	ul {
 		list-style: none;
 		display: flex;
+		flex: 1 0 auto;
 		flex-wrap: wrap;
 		justify-content: center;
 		padding: 0;
 		margin: 0;
-		min-height: 100%;
 		li {
 			text-align: center;
 			min-height: 200px;
@@ -109,14 +74,6 @@ export class List extends React.Component<ListProps> {
 	render() {
 		return (
 			<div className={list}>
-				<div className={filter}>
-					<input
-						type="text"
-						placeholder="Search"
-						onChange={this.props.onSearch}
-					/>
-					<SearchIcon fill="#777" size={32} />
-				</div>
 				<ul>{this.format(this.props.list)}</ul>
 			</div>
 		);

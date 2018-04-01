@@ -3,10 +3,10 @@ import * as React from "react";
 import { css } from "emotion";
 import { AxiosInstance } from "axios";
 // local imports
-import { Item } from "./Item/Item";
 import { List } from "./List/List";
 // types
-import { Proverb, View } from "../../types";
+import { Proverb } from "../../types";
+import { SearchBar } from "./SearchBar/SearchBar";
 
 interface ContentProps {
 	id: number;
@@ -22,7 +22,8 @@ const content = css`
 	color: #ffd;
 	text-shadow: 0 1px 1px black;
 	display: flex;
-	flex: 1 0 auto;
+	flex-direction: column;
+	flex: 1;
 `;
 
 export class Content extends React.Component<ContentProps> {
@@ -38,12 +39,12 @@ export class Content extends React.Component<ContentProps> {
 	render() {
 		return (
 			<div className={content}>
+				<SearchBar onSearch={this.props.onSearch} />
 				<List
 					lang={this.props.lang}
 					list={this.props.list}
 					count={this.props.count}
 					onNavigation={this.props.onNavigation}
-					onSearch={this.props.onSearch}
 				/>
 			</div>
 		);

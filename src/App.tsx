@@ -11,14 +11,13 @@ import api from "./api/api";
 import DEFAULTS from "./defaults";
 
 // types
-import { Proverb, View } from "./types";
+import { Proverb } from "./types";
 
 interface State {
 	count: number;
 	id: number;
 	list: Proverb[];
 	lang: string;
-	view: View;
 	text: string;
 	ready: boolean;
 }
@@ -37,7 +36,6 @@ export class App extends React.Component<{}, State> {
 		id: 0,
 		list: [],
 		lang: DEFAULTS.lang,
-		view: DEFAULTS.view,
 		text: DEFAULTS.text,
 		ready: false
 	};
@@ -103,11 +101,7 @@ export class App extends React.Component<{}, State> {
 		return (
 			this.state.ready && (
 				<div className={root}>
-					<Menu
-						id={this.state.id}
-						view={this.state.view}
-						onNavigation={this.onNavigation}
-					/>
+					<Menu id={this.state.id} onNavigation={this.onNavigation} />
 					<Content
 						id={this.state.id}
 						count={this.state.count}

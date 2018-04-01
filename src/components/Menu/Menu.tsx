@@ -8,9 +8,6 @@ import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
 import randInt from "../../utils/randInt";
 
-// types
-import { View } from "../../types";
-
 const verticalCenter = css`
 	display: flex;
 	align-items: center;
@@ -44,7 +41,6 @@ const menu = css`
 
 export interface MenuProps {
 	id: number;
-	view: View;
 	onNavigation: (id?: number) => void;
 }
 
