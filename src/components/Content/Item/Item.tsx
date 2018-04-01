@@ -10,7 +10,7 @@ import { Proverb, View } from "../../../types";
 
 export interface ItemProps {
 	text: string;
-	onViewSwitch: (view: View, id?: number) => void;
+	onViewSwitch: (id?: number) => void;
 }
 
 const item = css`
@@ -36,7 +36,7 @@ export class Item extends React.Component<ItemProps> {
 			<div
 				className={item}
 				onClick={() => {
-					this.props.onViewSwitch(View.Item);
+					this.props.onViewSwitch();
 				}}
 				style={{ "background-color": randRgb() }}
 			>

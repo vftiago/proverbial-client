@@ -11,12 +11,10 @@ import { Proverb, View } from "../../types";
 interface ContentProps {
 	id: number;
 	count: number;
-	view: View;
 	lang: string;
 	list: Proverb[];
-	text: string;
 	onSearch: () => void;
-	onViewSwitch: (view: View, id?: number) => void;
+	onViewSwitch: (id?: number) => void;
 }
 
 const content = css`
@@ -28,24 +26,31 @@ const content = css`
 `;
 
 export class Content extends React.Component<ContentProps> {
+	state: State = {
+		list: [],
+		ready: false
+	};
+
+	async componentDidMount() {
+		this.setState({ list: this.props.list, ready: true });
+	}
+
 	render() {
 		return (
 			<div className={content}>
-				{this.props.view === View.Item ? (
-					<Item
-						text={this.props.text}
-						onViewSwitch={this.props.onViewSwitch}
-					/>
-				) : (
-					<List
-						onSearch={this.props.onSearch}
-						lang={this.props.lang}
-						list={this.props.list}
-						count={this.props.count}
-						onViewSwitch={this.props.onViewSwitch}
-					/>
-				)}
+				<List
+					onSearch={this.props.onSearch}
+					lang={this.props.lang}
+					list={this.props.list}
+					count={this.props.count}
+					onViewSwitch={this.props.onViewSwitch}
+				/>
 			</div>
 		);
 	}
+}
+
+interface State {
+	list: Proverb[];
+	ready: boolean;
 }

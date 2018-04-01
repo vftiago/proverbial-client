@@ -14,7 +14,7 @@ interface ListProps {
 	count: number;
 	lang: string;
 	list: Proverb[];
-	onViewSwitch: (view: View, id?: number) => void;
+	onViewSwitch: (id?: number) => void;
 }
 
 interface State {
@@ -91,8 +91,6 @@ export class List extends React.Component<ListProps> {
 	};
 
 	filterList(e: React.ChangeEvent<HTMLInputElement>): void {
-		console.log(this.props.list.length);
-		console.log(this.props.count);
 		if (this.props.list.length < this.props.count) {
 			this.props.onSearch();
 		}
@@ -118,7 +116,9 @@ export class List extends React.Component<ListProps> {
 		return arr.map(el => (
 			<li
 				onClick={() => {
-					this.props.onViewSwitch(View.Item, el.id);
+					if (this.props.list.length > 1) {
+						this.props.onViewSwitch(el.id);
+					}
 				}}
 				style={{ "background-color": randRgb() }}
 				key={el.id}
@@ -139,7 +139,7 @@ export class List extends React.Component<ListProps> {
 					/>
 					<SearchIcon fill="#777" size={32} />
 				</div>
-				<ul>{this.state.formattedList}</ul>
+				<ul>{this.format(this.props.list)}</ul>
 			</div>
 		);
 	}

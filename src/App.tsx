@@ -16,7 +16,6 @@ import { Proverb, View } from "./types";
 interface State {
 	count: number;
 	id: number;
-	history: string[];
 	list: Proverb[];
 	lang: string;
 	view: View;
@@ -36,7 +35,6 @@ export class App extends React.Component<{}, State> {
 	state: State = {
 		count: 0,
 		id: 0,
-		history: [],
 		list: [],
 		lang: DEFAULTS.lang,
 		view: DEFAULTS.view,
@@ -46,30 +44,23 @@ export class App extends React.Component<{}, State> {
 
 	api = api;
 
-	async update(view: View = DEFAULTS.view, id?: number) {
+	async update(id?: number) {
 		const count =
 			this.state.count || (await this.api.fetchCount(this.state.lang));
-		id = id || randInt(1, count);
-		switch (view) {
-			case View.Item:
-				const text = await this.api.fetchItem(this.state.lang, id);
-				this.state.history.push(text);
-				this.setState({
-					id,
-					count,
-					text,
-					view
-				});
-				break;
-			case View.List:
-				const list = this.state.list.length
-					? this.state.list
-					: await this.api.fetchList(this.state.lang);
-				this.setState({
-					list,
-					count,
-					view
-				});
+
+		if (id) {
+			const item = await this.api.fetchItem(this.state.lang, id);
+			this.setState({
+				id,
+				count,
+				list: item
+			});
+		} else {
+			const list = await this.api.fetchList(this.state.lang);
+			this.setState({
+				list,
+				count
+			});
 		}
 		console.log(this.state);
 	}
@@ -79,7 +70,6 @@ export class App extends React.Component<{}, State> {
 	};
 
 	fetchAll = async () => {
-		console.log(1);
 		const list = await this.api.fetchList(
 			this.state.lang,
 			this.state.count
@@ -89,8 +79,8 @@ export class App extends React.Component<{}, State> {
 		});
 	};
 
-	onViewSwitch = (view: View, id?: number) => {
-		this.update(view, id);
+	onViewSwitch = (id?: number) => {
+		this.update(id);
 	};
 
 	async componentDidMount() {
@@ -111,9 +101,7 @@ export class App extends React.Component<{}, State> {
 						onSearch={this.onSearch}
 						id={this.state.id}
 						count={this.state.count}
-						view={this.state.view}
 						lang={DEFAULTS.lang}
-						text={this.state.text}
 						list={this.state.list}
 						onViewSwitch={this.onViewSwitch}
 					/>

@@ -6,6 +6,7 @@ import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
+import randInt from "../../utils/randInt";
 
 // types
 import { View } from "../../types";
@@ -44,7 +45,7 @@ const menu = css`
 export interface MenuProps {
 	id: number;
 	view: View;
-	onViewSwitch: (view: View, id?: number) => void;
+	onViewSwitch: (id?: number) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
@@ -52,45 +53,30 @@ export class Menu extends React.Component<MenuProps> {
 		return (
 			<div className={menu}>
 				<h1>Proverbial</h1>
-				{this.props.view === View.Item ? (
-					<ul>
-						<li onClick={() => this.props.onViewSwitch(View.List)}>
-							<GridIcon size={28} fill={"white"} />
-						</li>
-						<li
-							onClick={() =>
-								this.props.onViewSwitch(
-									View.Item,
-									this.props.id - 1
-								)
-							}
-						>
-							<LeftIcon size={18} fill={"white"} />
-						</li>
-						<li
-							onClick={() =>
-								this.props.onViewSwitch(
-									View.Item,
-									this.props.id + 1
-								)
-							}
-						>
-							<RightIcon size={18} fill={"white"} />
-						</li>
-					</ul>
-				) : (
-					<div>
-						<ul>
-							<li
-								onClick={() =>
-									this.props.onViewSwitch(View.Item)
-								}
-							>
-								<ShuffleIcon size={28} fill={"white"} />
-							</li>
-						</ul>
-					</div>
-				)}
+				<ul>
+					<li onClick={() => this.props.onViewSwitch()}>
+						<GridIcon size={28} fill={"white"} />
+					</li>
+					<li
+						onClick={() =>
+							this.props.onViewSwitch(this.props.id - 1)
+						}
+					>
+						<LeftIcon size={18} fill={"white"} />
+					</li>
+					<li
+						onClick={() =>
+							this.props.onViewSwitch(this.props.id + 1)
+						}
+					>
+						<RightIcon size={18} fill={"white"} />
+					</li>
+					<li
+						onClick={() => this.props.onViewSwitch(randInt(0, 550))}
+					>
+						<ShuffleIcon size={28} fill={"white"} />
+					</li>
+				</ul>
 			</div>
 		);
 	}

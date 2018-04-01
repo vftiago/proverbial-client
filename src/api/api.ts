@@ -23,7 +23,7 @@ const api = {
 			const response = await instance.get("proverbs", {
 				params: { lang, id }
 			});
-			return response.data[0].text;
+			return response.data;
 		} catch (error) {
 			console.error(error);
 		}
