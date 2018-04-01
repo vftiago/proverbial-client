@@ -27,7 +27,7 @@ interface ItemProps {
 	onNavigation: (id?: number) => void;
 }
 
-const Item: React.SFC<ItemProps> = (props: ItemProps) => {
+const Item: React.SFC<ItemProps> = props => {
 	return (
 		<li
 			className={item}

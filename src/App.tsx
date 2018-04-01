@@ -18,7 +18,6 @@ interface State {
 	id: number;
 	list: Proverb[];
 	lang: string;
-	text: string;
 	ready: boolean;
 }
 
@@ -36,7 +35,6 @@ export class App extends React.Component<{}, State> {
 		id: 0,
 		list: [],
 		lang: DEFAULTS.lang,
-		text: DEFAULTS.text,
 		ready: false
 	};
 
