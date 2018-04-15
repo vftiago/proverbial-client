@@ -6,7 +6,6 @@ import axios from "axios";
 import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
-import randInt from "./utils/randInt";
 import api from "./api/api";
 import DEFAULTS from "./defaults";
 
@@ -93,7 +92,7 @@ export class App extends React.Component<{}, State> {
     };
 
     onNavigation = (id?: number) => {
-        // if (this.state.list.length === 1) id = randInt(0, this.state.count);
+        console.log(id);
         this.update(id);
     };
 

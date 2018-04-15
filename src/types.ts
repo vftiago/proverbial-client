@@ -1,5 +1,5 @@
 export interface Proverb {
-	id: number;
-	text: string;
-	lang: string;
+    _id: number;
+    text: string;
+    lang: string;
 }

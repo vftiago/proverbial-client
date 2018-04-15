@@ -6,7 +6,6 @@ import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
-import randInt from "../../utils/randInt";
 
 const verticalCenter = css`
     display: flex;

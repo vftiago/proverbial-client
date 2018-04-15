@@ -18,12 +18,13 @@ const api = {
         }
     },
 
-    fetchItem: async (lang: string = DEFAULTS.lang, id: number) => {
+    fetchItem: async (lang: string = DEFAULTS.lang, _id: number) => {
         try {
-            const response = await instance.get("proverbs", {
-                params: { lang, id }
+            const response = await instance.get(`proverbs/${_id}`, {
+                params: { lang }
             });
-            return response.data;
+            console.log(response.data);
+            return [response.data];
         } catch (error) {
             console.error(error);
         }
