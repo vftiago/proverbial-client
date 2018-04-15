@@ -14,100 +14,106 @@ import DEFAULTS from "./defaults";
 import { Proverb } from "./types";
 
 interface State {
-	count: number;
-	id: number;
-	list: Proverb[];
-	lang: string;
-	ready: boolean;
+    count: number;
+    id: number;
+    list: Proverb[];
+    lang: string;
+    ready: boolean;
 }
 
 const root = css`
-	font-family: Quando;
-	min-height: 100%;
-	min-width: 500px;
-	display: flex;
-	flex-direction: column;
+    font-family: Quando;
+    min-height: 100%;
+    min-width: 500px;
+    display: flex;
+    flex-direction: column;
 `;
 
 export class App extends React.Component<{}, State> {
-	state: State = {
-		count: 0,
-		id: 0,
-		list: [],
-		lang: DEFAULTS.lang,
-		ready: false
-	};
+    state: State = {
+        count: 0,
+        id: 0,
+        list: [],
+        lang: DEFAULTS.lang,
+        ready: false
+    };
 
-	api = api;
+    api = api;
 
-	async update(id?: number) {
-		const count =
-			this.state.count || (await this.api.fetchCount(this.state.lang));
+    async update(id?: number) {
+        const count =
+            this.state.count || (await this.api.fetchCount(this.state.lang));
+        if (id === 99999) {
+            const item = await this.api.fetchRandom(this.state.lang);
+            this.setState({
+                id,
+                count,
+                list: item
+            });
+        } else if (id) {
+            const item = await this.api.fetchItem(this.state.lang, id);
+            this.setState({
+                id,
+                count,
+                list: item
+            });
+        } else {
+            const list = await this.api.fetchList(this.state.lang);
+            this.setState({
+                list,
+                count
+            });
+        }
+        console.log(this.state);
+    }
 
-		if (id) {
-			const item = await this.api.fetchItem(this.state.lang, id);
-			this.setState({
-				id,
-				count,
-				list: item
-			});
-		} else {
-			const list = await this.api.fetchList(this.state.lang);
-			this.setState({
-				list,
-				count
-			});
-		}
-		console.log(this.state);
-	}
+    onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const term = e.target.value.toLowerCase();
+        if (this.state.list.length < this.state.count) {
+            this.fetchAll(term);
+        } else {
+            this.filterList(term);
+        }
+    };
 
-	onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const term = e.target.value.toLowerCase();
-		if (this.state.list.length < this.state.count) {
-			this.fetchAll(term);
-		} else {
-			this.filterList(term);
-		}
-	};
+    filterList = (term: string) => {
+        const list = this.state.list.filter(
+            item => item.text.toLowerCase().search(term) !== -1
+        );
+        this.setState({ list });
+    };
 
-	filterList = (term: string) => {
-		const list = this.state.list.filter(
-			item => item.text.toLowerCase().search(term) !== -1
-		);
-		this.setState({ list });
-	};
+    fetchAll = async (term: string) => {
+        const list = await this.api.fetchList(
+            this.state.lang,
+            this.state.count
+        );
+        this.setState({ list });
+        this.filterList(term);
+    };
 
-	fetchAll = async (term: string) => {
-		const list = await this.api.fetchList(
-			this.state.lang,
-			this.state.count
-		);
-		this.setState({ list });
-		this.filterList(term);
-	};
+    onNavigation = (id?: number) => {
+        // if (this.state.list.length === 1) id = randInt(0, this.state.count);
+        this.update(id);
+    };
 
-	onNavigation = (id?: number) => {
-		// if (this.state.list.length === 1) id = randInt(0, this.state.count);
-		this.update(id);
-	};
+    async componentDidMount() {
+        await this.update();
+        this.setState({ ready: true });
+    }
 
-	async componentDidMount() {
-		await this.update();
-		this.setState({ ready: true });
-	}
-
-	render() {
-		return (
-			this.state.ready && (
-				<div className={root}>
-					<Menu id={this.state.id} onNavigation={this.onNavigation} />
-					<Content
-						list={this.state.list}
-						onNavigation={this.onNavigation}
-						onSearch={this.onSearch}
-					/>
-				</div>
-			)
-		);
-	}
+    render() {
+        return (
+            this.state.ready && (
+                <div className={root}>
+                    <Menu id={this.state.id} onNavigation={this.onNavigation} />
+                    <Content
+                        list={this.state.list}
+                        onNavigation={this.onNavigation}
+                        onSearch={this.onSearch}
+                    />
+                </div>
+            )
+        );
+    }
 }

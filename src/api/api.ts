@@ -29,6 +29,17 @@ const api = {
         }
     },
 
+    fetchRandom: async (lang: string = DEFAULTS.lang) => {
+        try {
+            const response = await instance.get("random", {
+                params: { lang }
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     fetchList: async (
         lang: string = DEFAULTS.lang,
         _limit: number = DEFAULTS.pageSize
