@@ -6,7 +6,6 @@
     "scripts": {
         "start": "lite-server",
         "dev": "webpack --watch",
-        "db": "json-server db.json --watch",
         "jest": "jest --watchAll"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
