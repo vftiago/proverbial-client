@@ -6,6 +6,7 @@ import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
+import { Options, View } from "../../types";
 
 const verticalCenter = css`
     display: flex;
@@ -40,7 +41,7 @@ const menu = css`
 
 export interface MenuProps {
     id: number;
-    onNavigation: (id?: number) => void;
+    onNavigation: (options: Options) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
@@ -49,24 +50,21 @@ export class Menu extends React.Component<MenuProps> {
             <div className={menu}>
                 <h1>Proverbial</h1>
                 <ul>
-                    <li onClick={() => this.props.onNavigation()}>
+                    <li
+                        onClick={() =>
+                            this.props.onNavigation({ view: View.List })
+                        }
+                    >
                         <GridIcon size={28} fill={"white"} />
                     </li>
                     <li
                         onClick={() =>
-                            this.props.onNavigation(this.props.id - 1)
+                            this.props.onNavigation({
+                                view: View.Item,
+                                random: true
+                            })
                         }
                     >
-                        <LeftIcon size={18} fill={"white"} />
-                    </li>
-                    <li
-                        onClick={() =>
-                            this.props.onNavigation(this.props.id + 1)
-                        }
-                    >
-                        <RightIcon size={18} fill={"white"} />
-                    </li>
-                    <li onClick={() => this.props.onNavigation(99999)}>
                         <ShuffleIcon size={28} fill={"white"} />
                     </li>
                 </ul>

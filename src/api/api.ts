@@ -18,21 +18,13 @@ const api = {
         }
     },
 
-    fetchItem: async (lang: string = DEFAULTS.lang, _id: number) => {
-        try {
-            const response = await instance.get(`proverbs/${_id}`, {
-                params: { lang }
-            });
-            console.log(response.data);
-            return [response.data];
-        } catch (error) {
-            console.error(error);
-        }
-    },
+    fetchItem: async (lang: string = DEFAULTS.lang, id?: number | string) => {
+        id = id || "random";
 
-    fetchRandom: async (lang: string = DEFAULTS.lang) => {
+        const route = `proverbs/${id}`;
+
         try {
-            const response = await instance.get("random", {
+            const response = await instance.get(route, {
                 params: { lang }
             });
             return response.data;

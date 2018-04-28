@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import randRgb from "../../../../utils/randRgb";
 // types
-import { Proverb } from "../../../../types";
+import { Options, Proverb, View } from "../../../../types";
 
 const item = css`
     text-align: center;
@@ -24,7 +24,7 @@ const item = css`
 
 interface ItemProps {
     el: Proverb;
-    onNavigation: (_id?: number) => void;
+    onNavigation: (options: Options) => void;
 }
 
 const Item: React.SFC<ItemProps> = props => {
@@ -32,7 +32,7 @@ const Item: React.SFC<ItemProps> = props => {
         <li
             className={item}
             onClick={() => {
-                props.onNavigation(props.el._id);
+                props.onNavigation({ view: View.Item, id: props.el._id });
             }}
             style={{ "background-color": randRgb() }}
         >

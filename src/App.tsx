@@ -10,14 +10,16 @@ import api from "./api/api";
 import DEFAULTS from "./defaults";
 
 // types
-import { Proverb } from "./types";
+import { Proverb, Options, View } from "./types";
 
 interface State {
     count: number;
-    id: number;
-    list: Proverb[];
+    id?: number;
+    list?: Proverb[];
+    filteredList: Proverb[];
     lang: string;
     ready: boolean;
+    allFetched: boolean;
 }
 
 const root = css`
@@ -33,42 +35,46 @@ export class App extends React.Component<{}, State> {
         count: 0,
         id: 0,
         list: [],
+        filteredList: [],
         lang: DEFAULTS.lang,
-        ready: false
+        ready: false,
+        allFetched: false
     };
 
     api = api;
 
-    async update(id?: number) {
-        const count =
+    async update(options: Options) {
+        let filteredList = [];
+        let id = options.id;
+        let count =
             this.state.count || (await this.api.fetchCount(this.state.lang));
-        if (id === 99999) {
-            const item = await this.api.fetchRandom(this.state.lang);
-            this.setState({
-                id,
-                count,
-                list: item
-            });
-        } else if (id) {
-            const item = await this.api.fetchItem(this.state.lang, id);
-            this.setState({
-                id,
-                count,
-                list: item
-            });
-        } else {
-            const list = await this.api.fetchList(this.state.lang);
-            this.setState({
-                list,
-                count
-            });
+
+        switch (options.view) {
+            case View.List:
+                filteredList = await this.api.fetchList(this.state.lang);
+                break;
+            case View.Item:
+                filteredList = await this.api.fetchItem(this.state.lang, id);
+                break;
+            default:
+                return false;
         }
+
+        this.setState({
+            id,
+            count,
+            filteredList
+        });
+
         console.log(this.state);
     }
 
     onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value.toLowerCase();
-        if (this.state.list.length < this.state.count) {
+        if (
+            !this.state.allFetched &&
+            this.state.list.length < this.state.count
+        ) {
             this.fetchAll(term);
         } else {
             this.filterList(term);
@@ -76,10 +82,10 @@ export class App extends React.Component<{}, State> {
     };
 
     filterList = (term: string) => {
-        const list = this.state.list.filter(
+        const filteredList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
         );
-        this.setState({ list });
+        this.setState({ filteredList });
     };
 
     fetchAll = async (term: string) => {
@@ -87,17 +93,19 @@ export class App extends React.Component<{}, State> {
             this.state.lang,
             this.state.count
         );
-        this.setState({ list });
+        this.setState({ list, allFetched: true });
         this.filterList(term);
     };
 
-    onNavigation = (id?: number) => {
-        console.log(id);
-        this.update(id);
+    onNavigation = (options: Options) => {
+        if (options.id && this.state.id === options.id) {
+            return false;
+        }
+        this.update(options);
     };
 
     async componentDidMount() {
-        await this.update();
+        await this.update(DEFAULTS);
         this.setState({ ready: true });
     }
 
@@ -107,7 +115,7 @@ export class App extends React.Component<{}, State> {
                 <div className={root}>
                     <Menu id={this.state.id} onNavigation={this.onNavigation} />
                     <Content
-                        list={this.state.list}
+                        list={this.state.filteredList}
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
                     />
