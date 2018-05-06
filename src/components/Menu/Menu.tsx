@@ -25,8 +25,8 @@ const menu = css`
         user-select: none;
     }
     ul {
-        ${verticalCenter};
         list-style: none;
+        ${verticalCenter};
         li {
             cursor: pointer;
             ${verticalCenter};

@@ -6,6 +6,7 @@ import { List } from "./List/List";
 // types
 import { Options, Proverb } from "../../types";
 import { SearchBar } from "./SearchBar/SearchBar";
+import { AlphabetBar } from "./AlphabetBar";
 
 interface ContentProps {
     list: Proverb[];
@@ -31,6 +32,7 @@ export class Content extends React.Component<ContentProps> {
         return (
             <div className={content}>
                 <SearchBar onSearch={this.props.onSearch} />
+                <AlphabetBar onSearch={this.props.onSearch} />
                 <List
                     list={this.props.list}
                     onNavigation={this.props.onNavigation}
