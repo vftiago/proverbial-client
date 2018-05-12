@@ -2,11 +2,11 @@
 import * as React from "react";
 import { css } from "emotion";
 // local imports
-import randRgb from "../../../../utils/randRgb";
+import stringToRgb from "../../../../utils/stringToRgb";
 // types
 import { Options, Proverb, View } from "../../../../types";
 
-const item = css`
+const itemStyle = css`
     text-align: center;
     min-height: 200px;
     width: 200px;
@@ -16,27 +16,42 @@ const item = css`
     justify-content: center;
     padding: 12px;
     line-height: 1.4;
+    font-size: 13px;
     span {
-        font-size: 13px;
         cursor: pointer;
     }
+`;
+
+const textStyle = css`
+    font-size: 13px;
+`;
+
+const singleItemTextStyle = css`
+    font-size: 32px;
 `;
 
 interface ItemProps {
     el: Proverb;
     onNavigation: (options: Options) => void;
+    proverbCount: number;
 }
 
 const Item: React.SFC<ItemProps> = props => {
     return (
         <li
-            className={item}
+            className={itemStyle}
             onClick={() => {
                 props.onNavigation({ view: View.Item, id: props.el._id });
             }}
-            style={{ "background-color": randRgb() }}
+            style={{ "background-color": stringToRgb(props.el.text) }}
         >
-            <span>{props.el.text}</span>
+            <span
+                className={
+                    props.proverbCount === 1 ? singleItemTextStyle : textStyle
+                }
+            >
+                {props.el.text}
+            </span>
         </li>
     );
 };

@@ -35,7 +35,11 @@ export class List extends React.Component<ListProps> {
 
     format(arr: Proverb[]): JSX.Element[] {
         return arr.map(el => (
-            <Item el={el} onNavigation={this.props.onNavigation} />
+            <Item
+                el={el}
+                onNavigation={this.props.onNavigation}
+                proverbCount={this.props.list.length}
+            />
         ));
     }
 
