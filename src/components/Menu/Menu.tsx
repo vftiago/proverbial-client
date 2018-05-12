@@ -7,6 +7,7 @@ import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
 import { Options, View } from "../../types";
+import { SearchBar } from "./SearchBar";
 
 const verticalCenter = css`
     display: flex;
@@ -18,7 +19,7 @@ const menu = css`
     color: white;
     background-color: #222222;
     font-family: "Roboto Condensed";
-    padding: 10px;
+    padding: 12px;
     h1 {
         font-size: 18px;
         margin-right: 24px;
@@ -28,20 +29,20 @@ const menu = css`
         list-style: none;
         ${verticalCenter};
         li {
-            cursor: pointer;
-            ${verticalCenter};
             padding: 0 12px;
-            span {
-                padding: 0 12px;
-                font-size: 18px;
-            }
         }
     }
+`;
+
+const menuIconStyle = css`
+    ${verticalCenter};
+    cursor: pointer;
 `;
 
 export interface MenuProps {
     id: number;
     onNavigation: (options: Options) => void;
+    onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
@@ -51,13 +52,15 @@ export class Menu extends React.Component<MenuProps> {
                 <h1>Proverbial</h1>
                 <ul>
                     <li
+                        className={menuIconStyle}
                         onClick={() =>
                             this.props.onNavigation({ view: View.List })
                         }
                     >
-                        <GridIcon size={28} fill={"white"} />
+                        <GridIcon size={26} fill={"white"} />
                     </li>
                     <li
+                        className={menuIconStyle}
                         onClick={() =>
                             this.props.onNavigation({
                                 view: View.Item,
@@ -65,7 +68,10 @@ export class Menu extends React.Component<MenuProps> {
                             })
                         }
                     >
-                        <ShuffleIcon size={28} fill={"white"} />
+                        <ShuffleIcon size={26} fill={"white"} />
+                    </li>
+                    <li>
+                        <SearchBar onSearch={this.props.onSearch} />
                     </li>
                 </ul>
             </div>

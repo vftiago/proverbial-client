@@ -2,7 +2,7 @@
 import * as React from "react";
 import { css } from "emotion";
 // types
-import SearchIcon from "../../Icons/SearchIcon";
+import SearchIcon from "../Icons/SearchIcon";
 
 interface SearchBarProps {
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -10,10 +10,7 @@ interface SearchBarProps {
 
 const searchBar = css`
     display: flex;
-    justify-content: center;
     align-items: center;
-    background-color: #444;
-    padding: 12px 44px;
     input {
         height: 20px;
         flex-grow: 0;
@@ -50,10 +47,10 @@ export class SearchBar extends React.Component<SearchBarProps> {
             <div className={searchBar}>
                 <input
                     type="text"
-                    placeholder="Search"
+                    placeholder="Filter"
                     onChange={this.props.onSearch}
                 />
-                <SearchIcon fill="#777" size={32} />
+                <SearchIcon fill="#777" size={24} />
             </div>
         );
     }

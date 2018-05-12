@@ -113,7 +113,11 @@ export class App extends React.Component<{}, State> {
         return (
             this.state.ready && (
                 <div className={root}>
-                    <Menu id={this.state.id} onNavigation={this.onNavigation} />
+                    <Menu
+                        id={this.state.id}
+                        onNavigation={this.onNavigation}
+                        onSearch={this.onSearch}
+                    />
                     <Content
                         list={this.state.filteredList}
                         onNavigation={this.onNavigation}
