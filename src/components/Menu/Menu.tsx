@@ -7,7 +7,7 @@ import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
 import { Options, View } from "../../types";
-import { SearchBar } from "./SearchBar";
+import { FilterBar } from "./FilterBar";
 
 const verticalCenter = css`
     display: flex;
@@ -71,7 +71,7 @@ export class Menu extends React.Component<MenuProps> {
                         <ShuffleIcon size={26} fill={"white"} />
                     </li>
                     <li>
-                        <SearchBar onSearch={this.props.onSearch} />
+                        <FilterBar onSearch={this.props.onSearch} />
                     </li>
                 </ul>
             </div>

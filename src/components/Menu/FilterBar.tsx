@@ -4,11 +4,11 @@ import { css } from "emotion";
 // types
 import SearchIcon from "../Icons/SearchIcon";
 
-interface SearchBarProps {
+interface FilterBarProps {
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const searchBar = css`
+const filterBarStyle = css`
     display: flex;
     align-items: center;
     input {
@@ -41,10 +41,10 @@ const searchBar = css`
     }
 `;
 
-export class SearchBar extends React.Component<SearchBarProps> {
+export class FilterBar extends React.Component<FilterBarProps> {
     render() {
         return (
-            <div className={searchBar}>
+            <div className={filterBarStyle}>
                 <input
                     type="text"
                     placeholder="Filter"
