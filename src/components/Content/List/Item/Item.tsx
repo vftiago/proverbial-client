@@ -18,16 +18,17 @@ const itemStyle = css`
     line-height: 1.4;
     font-size: 13px;
     span {
+        font-size: 13px;
         cursor: pointer;
     }
 `;
 
-const textStyle = css`
-    font-size: 13px;
-`;
-
-const singleItemTextStyle = css`
-    font-size: 32px;
+const singleItemStyle = css`
+    ${itemStyle};
+    transition: 0.5s ease-in-out;
+    span {
+        font-size: 32px;
+    }
 `;
 
 interface ItemProps {
@@ -39,19 +40,13 @@ interface ItemProps {
 const Item: React.SFC<ItemProps> = props => {
     return (
         <li
-            className={itemStyle}
+            className={props.proverbCount === 1 ? singleItemStyle : itemStyle}
             onClick={() => {
                 props.onNavigation({ view: View.Item, id: props.el._id });
             }}
-            style={{ "background-color": stringToRgb(props.el.text) }}
+            style={{ "background-color": stringToRgb(props.el._id.toString()) }}
         >
-            <span
-                className={
-                    props.proverbCount === 1 ? singleItemTextStyle : textStyle
-                }
-            >
-                {props.el.text}
-            </span>
+            <span>{props.el.text}</span>
         </li>
     );
 };
