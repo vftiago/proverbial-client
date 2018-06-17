@@ -1,3 +1,9 @@
+declare global {
+    interface Window {
+        authenticateCallback: any;
+    }
+}
+
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
@@ -29,6 +35,8 @@ const root = css`
     display: flex;
     flex-direction: column;
 `;
+
+let accessToken = "";
 
 export class App extends React.Component<{}, State> {
     state: State = {
@@ -81,6 +89,21 @@ export class App extends React.Component<{}, State> {
         }
     };
 
+    onSignIn = () => {
+        function authenticate() {
+            window.authenticateCallback = function(token: string): void {
+                accessToken = token;
+            };
+        }
+
+        window.location.href = "http://localhost:5000/auth/google/callback";
+    };
+
+    fetchUser = async () => {
+        const user = await api.fetchUser();
+        console.log(user);
+    };
+
     filterList = (term: string) => {
         const filteredList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
@@ -105,6 +128,7 @@ export class App extends React.Component<{}, State> {
     };
 
     async componentDidMount() {
+        this.fetchUser();
         await this.update(DEFAULTS);
         this.setState({ ready: true });
     }
@@ -117,6 +141,7 @@ export class App extends React.Component<{}, State> {
                         id={this.state.id}
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
+                        onSignIn={this.onSignIn}
                     />
                     <Content
                         list={this.state.filteredList}

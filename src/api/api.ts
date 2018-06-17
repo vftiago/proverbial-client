@@ -2,14 +2,23 @@ import axios from "axios";
 import DEFAULTS from "./../defaults";
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000/api",
+    baseURL: "http://localhost:5000/",
     timeout: 5000
 });
 
 const api = {
+    fetchUser: async () => {
+        try {
+            const response = await instance.get("auth/user");
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     fetchCount: async (lang: string = DEFAULTS.lang) => {
         try {
-            const response = await instance.get("counts", {
+            const response = await instance.get("api/counts", {
                 params: { lang }
             });
             return response.data;
@@ -21,7 +30,7 @@ const api = {
     fetchItem: async (lang: string = DEFAULTS.lang, id?: number | string) => {
         id = id || "random";
 
-        const route = `proverbs/${id}`;
+        const route = `api/proverbs/${id}`;
 
         try {
             const response = await instance.get(route, {
@@ -38,7 +47,7 @@ const api = {
         _limit: number = DEFAULTS.pageSize
     ) => {
         try {
-            const response = await instance.get("proverbs", {
+            const response = await instance.get("api/proverbs", {
                 params: { lang, _limit }
             });
             return response.data;
