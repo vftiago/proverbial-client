@@ -96,7 +96,7 @@ export class App extends React.Component<{}, State> {
             };
         }
 
-        window.location.href = "http://localhost:5000/auth/google/callback";
+        window.location.href = "http://localhost:5000/auth/google";
     };
 
     fetchUser = async () => {
