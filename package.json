@@ -20,7 +20,6 @@
         "emotion": "^9.2.8",
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
-        "react-google-login": "^3.2.1",
         "seedrandom": "^2.4.4",
         "source-map-loader": "^0.2.4",
         "typescript": "^3.0.3"
