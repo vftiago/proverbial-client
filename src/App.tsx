@@ -13,7 +13,7 @@ import { Content } from "./components/Content/Content";
 import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
 import api from "./api/api";
-import DEFAULTS from "./defaults";
+import { DEFAULTS, CREDENTIALS } from "./defaults";
 
 // types
 import { Proverb, Options, View } from "./types";

@@ -1,5 +1,5 @@
 import axios from "axios";
-import DEFAULTS from "./../defaults";
+import { DEFAULTS } from "./../defaults";
 
 const instance = axios.create({
     baseURL: "http://localhost:5000/",

@@ -44,7 +44,7 @@ const Item: React.SFC<ItemProps> = props => {
             onClick={() => {
                 props.onNavigation({ view: View.Item, id: props.el._id });
             }}
-            style={{ "background-color": stringToRgb(props.el._id.toString()) }}
+            style={{ background: stringToRgb(props.el._id.toString()) }}
         >
             <span>{props.el.text}</span>
         </li>

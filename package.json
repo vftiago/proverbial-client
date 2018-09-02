@@ -5,46 +5,27 @@
     "main": "index",
     "scripts": {
         "start": "lite-server",
-        "dev": "webpack --watch",
-        "jest": "jest --watchAll"
+        "dev": "webpack --watch"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
     "license": "MIT",
     "repository": "https://github.com/vftiago/proverbial-app.git",
     "private": false,
     "dependencies": {
-        "@types/jest": "^22.2.3",
         "@types/react": "^16.4.13",
         "@types/react-dom": "^16.0.7",
         "@types/seedrandom": "^2.4.27",
         "awesome-typescript-loader": "^5.2.0",
         "axios": "^0.18.0",
-        "dotenv": "^6.0.0",
         "emotion": "^9.2.8",
-        "jest": "^22.4.4",
         "react": "^16.4.2",
         "react-dom": "^16.4.2",
         "react-google-login": "^3.2.1",
         "seedrandom": "^2.4.4",
         "source-map-loader": "^0.2.4",
-        "ts-jest": "^22.4.6",
         "typescript": "^3.0.3"
     },
     "devDependencies": {
         "lite-server": "^2.4.0"
-    },
-    "jest": {
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ]
     }
 }
