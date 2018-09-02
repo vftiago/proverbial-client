@@ -9,7 +9,8 @@ const instance = axios.create({
 const api = {
     fetchUser: async () => {
         try {
-            const response = await instance.get("auth/user");
+            const response = await instance.get("auth/verify");
+            console.log(response);
             return response.data;
         } catch (error) {
             console.error(error);
