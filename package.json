@@ -4,7 +4,7 @@
     "description": "your proverbial app",
     "scripts": {
         "postinstall": "webpack",
-        "start": "http-server",
+        "start": "http-server ./index.html -p 3000",
         "dev": "webpack --watch && lite-server"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
