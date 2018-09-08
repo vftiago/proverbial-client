@@ -2,7 +2,6 @@
     "name": "proverbial-app",
     "version": "0.1.0",
     "description": "your proverbial app",
-    "main": "index",
     "scripts": {
         "postinstall": "webpack",
         "start": "lite-server",
