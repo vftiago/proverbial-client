@@ -2,7 +2,7 @@ import axios from "axios";
 import { DEFAULTS } from "./../defaults";
 
 const instance = axios.create({
-    baseURL: "http://localhost:5000/",
+    baseURL: "https://stark-plains-40227.herokuapp.com/",
     timeout: 5000
 });
 

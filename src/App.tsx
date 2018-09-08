@@ -96,7 +96,8 @@ export class App extends React.Component<{}, State> {
             };
         }
 
-        window.location.href = "http://localhost:5000/auth/google";
+        window.location.href =
+            "https://stark-plains-40227.herokuapp.com/auth/google";
     };
 
     fetchUser = async () => {
