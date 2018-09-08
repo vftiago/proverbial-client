@@ -23,15 +23,9 @@ module.exports = {
             }
         ]
     },
-    externals: {
-        // avoid bundling all our dependencies, which allows browsers to cache libraries between builds
-        react: "React",
-        "react-dom": "ReactDOM"
-    },
     plugins: [
         new HtmlWebpackPlugin( {
-            title: 'Proverbial App',
-            filename: './index.html'
+            template: './index.html'
         } )
     ]
 };
