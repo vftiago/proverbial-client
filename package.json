@@ -4,6 +4,7 @@
     "description": "your proverbial app",
     "main": "index",
     "scripts": {
+        "postinstall": "dev",
         "start": "lite-server",
         "dev": "webpack --watch"
     },
