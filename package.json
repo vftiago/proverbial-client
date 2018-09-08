@@ -4,8 +4,8 @@
     "description": "your proverbial app",
     "scripts": {
         "postinstall": "webpack",
-        "start": "http-server ./dist",
-        "dev": "webpack --watch && lite-server"
+        "start": "lite-server ./dist",
+        "dev": "webpack --watch"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
     "license": "MIT",

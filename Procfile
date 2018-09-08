@@ -1,2 +1,2 @@
-start: lite-server ./dist --port 3000
-web: lite-server ./dist --port 3000
+start: http-server ./dist
+web: http-server ./dist
