@@ -1,2 +1,1 @@
-start: http-server ./dist
-web: http-server ./dist
+start: http-server ./dist --port 3000

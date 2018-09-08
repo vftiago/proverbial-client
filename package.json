@@ -4,7 +4,7 @@
     "description": "your proverbial app",
     "scripts": {
         "postinstall": "webpack",
-        "start": "lite-server ./dist",
+        "start": "lite-server ./dist -p 3000",
         "dev": "webpack --watch"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
@@ -20,7 +20,6 @@
         "harp": "^0.27.0",
         "html-webpack-plugin": "^3.2.0",
         "http-server": "^0.11.1",
-        "lite-server": "^2.4.0",
         "react": "^16.5.0",
         "react-dom": "^16.5.0",
         "seedrandom": "^2.4.4",
@@ -29,5 +28,8 @@
         "typescript": "^3.0.3",
         "webpack": "^4.17.2",
         "webpack-cli": "^3.1.0"
+    },
+    "devDependencies": {
+        "lite-server": "^2.4.0"
     }
 }
