@@ -4,7 +4,7 @@
     "description": "your proverbial app",
     "scripts": {
         "dev": "webpack --watch",
-        "local": "lite-server",
+        "local": "lite-server --baseDir=\"./dist\"",
         "start": "http-server ./dist",
         "postinstall": "webpack"
     },
@@ -13,6 +13,7 @@
     "repository": "https://github.com/vftiago/proverbial-app.git",
     "private": false,
     "dependencies": {
+        "@material-ui/core": "^3.0.3",
         "@types/react": "^16.4.13",
         "@types/react-dom": "^16.0.7",
         "@types/seedrandom": "^2.4.27",

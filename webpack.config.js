@@ -1,4 +1,4 @@
-const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -9,10 +9,11 @@ module.exports = {
     // enable source maps for debugging
     devtool: "source-map",
     resolve: {
-        extensions: [ ".ts", ".tsx", ".js", ".json" ]
+        extensions: [".ts", ".tsx", ".js", ".json"]
     },
     module: {
-        rules: [ {
+        rules: [
+            {
                 test: /\.tsx?$/,
                 loader: "ts-loader"
             },
@@ -24,8 +25,8 @@ module.exports = {
         ]
     },
     plugins: [
-        new HtmlWebpackPlugin( {
-            template: './index.html'
-        } )
+        new HtmlWebpackPlugin({
+            template: "./index.html"
+        })
     ]
 };
