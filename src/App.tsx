@@ -7,12 +7,10 @@ declare global {
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
-import axios from "axios";
 import Snackbar from "@material-ui/core/Snackbar";
 
 // local imports
 import { Content } from "./components/Content/Content";
-import { Footer } from "./components/Footer/Footer";
 import { Menu } from "./components/Menu/Menu";
 import api from "./api/api";
 import { DEFAULTS } from "./defaults";
@@ -37,8 +35,6 @@ const root = css`
     display: flex;
     flex-direction: column;
 `;
-
-let accessToken = "";
 
 export class App extends React.Component<{}, State> {
     state: State = {
@@ -92,19 +88,8 @@ export class App extends React.Component<{}, State> {
     };
 
     onSignIn = () => {
-        function authenticate() {
-            window.authenticateCallback = function(token: string): void {
-                accessToken = token;
-            };
-        }
-
         window.location.href =
             "https://stark-plains-40227.herokuapp.com/auth/google";
-    };
-
-    fetchUser = async () => {
-        const user = await api.fetchUser();
-        console.log(user);
     };
 
     filterList = (term: string) => {
@@ -131,7 +116,6 @@ export class App extends React.Component<{}, State> {
     };
 
     async componentDidMount() {
-        this.fetchUser();
         await this.update(DEFAULTS);
         this.setState({ ready: true });
     }
