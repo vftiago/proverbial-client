@@ -7,7 +7,7 @@ import GridIcon from "../Icons/GridIcon";
 import LeftIcon from "../Icons/LeftIcon";
 import RightIcon from "../Icons/RightIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
-import { Options, View } from "../../types";
+import { Options, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
 
 const menuButtonStyle = css`
@@ -37,7 +37,9 @@ export class MenuButton extends React.Component<MenuButtonProps> {
                 className={menuButtonStyle}
                 onClick={() => this.props.onClick()}
             >
-                {this.props.icon}&nbsp;{this.props.label}
+                {this.props.icon}
+                &nbsp;
+                {this.props.label}
             </div>
         );
     }

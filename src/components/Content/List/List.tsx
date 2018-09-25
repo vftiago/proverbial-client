@@ -1,10 +1,9 @@
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
-// local imports
-import randRgb from "../../../utils/randRgb";
+
 // types
-import { Options, Proverb } from "../../../types";
+import { Options, Proverb } from "../../../types/types";
 import Item from "./Item/Item";
 
 interface ListProps {

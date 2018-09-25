@@ -3,9 +3,8 @@
     "version": "0.1.0",
     "description": "your proverbial app",
     "scripts": {
-        "dev": "webpack --watch",
-        "local": "lite-server --baseDir=\"./dist\"",
         "start": "http-server ./dist",
+        "start:dev": "webpack-dev-server --open",
         "postinstall": "webpack"
     },
     "author": "Tiago Fernandes <vf.tiago@gmail.com>",
@@ -21,7 +20,6 @@
         "axios": "^0.18.0",
         "dotenv-webpack": "^1.5.7",
         "emotion": "^9.2.8",
-        "harp": "^0.27.0",
         "html-webpack-plugin": "^3.2.0",
         "http-server": "^0.11.1",
         "react": "^16.5.0",
@@ -34,6 +32,6 @@
         "webpack-cli": "^3.1.0"
     },
     "devDependencies": {
-        "lite-server": "^2.4.0"
+        "webpack-dev-server": "^3.1.9"
     }
 }

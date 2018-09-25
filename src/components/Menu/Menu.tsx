@@ -1,14 +1,12 @@
 // vendor
 import * as React from "react";
 import { css } from "emotion";
+
 // local
 import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
-import LeftIcon from "../Icons/LeftIcon";
-import RightIcon from "../Icons/RightIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
-import { MenuButton } from "./MenuButton";
-import { Options, View } from "../../types";
+import { Options, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
 
 const verticalCenter = css`
@@ -89,13 +87,6 @@ export class Menu extends React.Component<MenuProps> {
                 <ul className={leftSideMenu}>
                     <li>
                         <h1>Proverbial</h1>
-                    </li>
-                    <li>
-                        <MenuButton
-                            icon={<GridIcon fill={"#333333"} />}
-                            label="Test"
-                            onClick={() => {}}
-                        />
                     </li>
                     <li
                         onClick={() =>

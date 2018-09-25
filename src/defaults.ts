@@ -1,4 +1,4 @@
-import { Options, Proverb, View } from "./types";
+import { Options, Proverb, View } from "./types/types";
 
 const DEFAULTS: Options = {
     view: View.Item,

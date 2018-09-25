@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import stringToRgb from "../../../../utils/stringToRgb";
 // types
-import { Options, Proverb, View } from "../../../../types";
+import { Options, Proverb, View } from "../../../../types/types";
 
 const itemStyle = css`
     text-align: center;

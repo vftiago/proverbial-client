@@ -16,7 +16,7 @@ import api from "./api/api";
 import { DEFAULTS } from "./defaults";
 
 // types
-import { Proverb, Options, View } from "./types";
+import { Proverb, Options, View } from "./types/types";
 
 interface State {
     count: number;

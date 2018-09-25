@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import { List } from "./List/List";
 // types
-import { Options, Proverb } from "../../types";
+import { Options, Proverb } from "../../types/types";
 
 interface ContentProps {
     list: Proverb[];
