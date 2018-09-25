@@ -30,7 +30,8 @@ module.exports = {
     },
     plugins: [
         new DotenvWebpackPlugin({
-            path: `./.env`
+            path: `./.env`,
+            systemvars: true
         }),
         new HtmlWebpackPlugin({
             template: "./index.html"
