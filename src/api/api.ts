@@ -1,7 +1,9 @@
 import axios from "axios";
 import { DEFAULTS } from "./../defaults";
 
-const BASEURL: string = process.env.BASEURL;
+const BASEURL = process.env.BASEURL;
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const REDIRECT_URI = process.env.REDIRECT_URI;
 
 const instance = axios.create({
     baseURL: `${BASEURL}`,
@@ -9,6 +11,25 @@ const instance = axios.create({
 });
 
 const api = {
+    fetchUser: async () => {
+        try {
+            const response = await instance.get(
+                "https://accounts.google.com/o/oauth2/v2/auth",
+                {
+                    params: {
+                        client_id: GOOGLE_CLIENT_ID,
+                        redirect_uri: REDIRECT_URI,
+                        response_type: "token",
+                        scope: ["profile", "email"]
+                    }
+                }
+            );
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     fetchCount: async (lang: string = DEFAULTS.lang) => {
         try {
             const response = await instance.get("api/counts", {

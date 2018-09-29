@@ -87,9 +87,8 @@ export class App extends React.Component<{}, State> {
         }
     };
 
-    onSignIn = () => {
-        window.location.href =
-            "https://stark-plains-40227.herokuapp.com/auth/google";
+    onSignIn = async () => {
+        await this.api.fetchUser();
     };
 
     filterList = (term: string) => {
