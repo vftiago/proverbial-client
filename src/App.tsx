@@ -1,6 +1,6 @@
 declare global {
     interface Window {
-        authenticateCallback: any;
+        gapi: any;
     }
 }
 

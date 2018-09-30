@@ -1,6 +1,7 @@
 // vendor
 import * as React from "react";
 import { css } from "emotion";
+import GoogleLogin from "./GoogleLogin";
 
 // local
 import ShuffleIcon from "../Icons/ShuffleIcon";
@@ -8,6 +9,8 @@ import GridIcon from "../Icons/GridIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
 import { Options, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
+
+const GOOGLE_CLIENT_ID: string = process.env.GOOGLE_CLIENT_ID;
 
 const verticalCenter = css`
     display: flex;
@@ -77,10 +80,13 @@ export interface MenuProps {
     id: number;
     onNavigation: (options: Options) => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    onSignIn: () => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
+    responseGoogle(response: any) {
+        console.log(response);
+    }
+
     render() {
         return (
             <div className={menuStyle}>
@@ -120,16 +126,19 @@ export class Menu extends React.Component<MenuProps> {
                     </li>
                 </ul>
                 <ul className={rightSideMenu}>
-                    <li
-                        onClick={() => this.props.onSignIn()}
-                        className={rightItemStyle}
-                    >
-                        <div className={menuButtonStyle}>
-                            <GoogleIcon />
-                            <p className={googleSignInTextStyle}>
-                                Sign in with Google
-                            </p>
-                        </div>
+                    <li className={rightItemStyle}>
+                        <GoogleLogin
+                            clientId={
+                                "130599439121-7hmvog2onl63mak3nbdr7f9qj3m9vo7s.apps.googleusercontent.com"
+                            }
+                            buttonText="Sign in with Google"
+                            onSuccess={this.responseGoogle}
+                            onFailure={this.responseGoogle}
+                            uxMode="popup"
+                            isSignedIn={true}
+                        >
+                            <GoogleIcon /> Sign In with Google
+                        </GoogleLogin>
                     </li>
                 </ul>
             </div>
