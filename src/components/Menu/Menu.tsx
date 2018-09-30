@@ -128,9 +128,7 @@ export class Menu extends React.Component<MenuProps> {
                 <ul className={rightSideMenu}>
                     <li className={rightItemStyle}>
                         <GoogleLogin
-                            clientId={
-                                "130599439121-7hmvog2onl63mak3nbdr7f9qj3m9vo7s.apps.googleusercontent.com"
-                            }
+                            clientId={GOOGLE_CLIENT_ID}
                             buttonText="Sign in with Google"
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseGoogle}

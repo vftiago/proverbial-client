@@ -87,10 +87,6 @@ export class App extends React.Component<{}, State> {
         }
     };
 
-    onSignIn = async () => {
-        await this.api.fetchUser();
-    };
-
     filterList = (term: string) => {
         const filteredList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
@@ -136,7 +132,6 @@ export class App extends React.Component<{}, State> {
                         id={this.state.id}
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
-                        onSignIn={this.onSignIn}
                     />
                     <Content
                         list={this.state.filteredList}

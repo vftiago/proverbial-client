@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as PropTypes from "prop-types";
 
 interface GoogleLoginProps {
     clientId: string;
@@ -54,7 +53,7 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
         cookiePolicy: "single_host_origin",
         fetchBasicProfile: true,
         isSignedIn: false,
-        uxMode: "popup",
+        uxMode: "redirect",
         disabledStyle: {
             opacity: 0.6
         },
@@ -137,7 +136,7 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
             disabled: false
         });
     }
-    signIn(e: Event | null) {
+    async signIn(e: Event | null) {
         if (e) {
             e.preventDefault(); // to prevent submit if used within form
         }
@@ -162,19 +161,26 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
                         (err: any) => onFailure(err)
                     );
             } else {
-                auth2
-                    .signIn(options)
-                    .then(
-                        (res: any) => this.handleSigninSuccess(res),
-                        (err: any) => onFailure(err)
-                    );
+                try {
+                    const res = await auth2.signIn(options);
+                    console.log(res);
+                    this.handleSigninSuccess(res);
+                } catch (e) {
+                    console.log(e);
+                    onFailure(e);
+                }
+
+                // auth2
+                //     .signIn(options)
+                //     .then(
+                //         (res: any) => this.handleSigninSuccess(res),
+                //         (err: any) => onFailure(err)
+                //     );
             }
         }
     }
     handleSigninSuccess(res: any) {
-        /*
-      offer renamed response keys to names that match use
-    */
+        console.log(res);
         const basicProfile = res.getBasicProfile();
         const authResponse = res.getAuthResponse();
         res.googleId = basicProfile.getId();
