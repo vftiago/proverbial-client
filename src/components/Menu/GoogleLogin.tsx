@@ -53,12 +53,11 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
         cookiePolicy: "single_host_origin",
         fetchBasicProfile: true,
         isSignedIn: false,
-        uxMode: "redirect",
+        uxMode: "popup",
         disabledStyle: {
             opacity: 0.6
         },
-        onRequest: () => {},
-        jsSrc: "https://apis.google.com/js/client:platform.js"
+        jsSrc: "https://apis.google.com/js/platform.js"
     };
 
     componentDidMount() {
@@ -136,51 +135,46 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
             disabled: false
         });
     }
-    async signIn(e: Event | null) {
-        if (e) {
-            e.preventDefault(); // to prevent submit if used within form
+    async signIn(event: Event | null) {
+        if (event) {
+            event.preventDefault();
         }
-        if (!this.state.disabled) {
-            const auth2 = window.gapi.auth2.getAuthInstance();
-            const {
-                onSuccess,
-                onRequest,
-                onFailure,
-                prompt,
-                responseType
-            } = this.props;
-            const options = {
-                prompt
-            };
+        if (this.state.disabled) {
+            return;
+        }
+        const auth2 = window.gapi.auth2.getAuthInstance();
+        const {
+            onSuccess,
+            onRequest,
+            onFailure,
+            prompt,
+            responseType
+        } = this.props;
+        const options = {
+            prompt
+        };
+        if (onRequest) {
             onRequest();
-            if (responseType === "code") {
-                auth2
-                    .grantOfflineAccess(options)
-                    .then(
-                        (res: any) => onSuccess(res),
-                        (err: any) => onFailure(err)
-                    );
-            } else {
-                try {
-                    const res = await auth2.signIn(options);
-                    console.log(res);
-                    this.handleSigninSuccess(res);
-                } catch (e) {
-                    console.log(e);
-                    onFailure(e);
-                }
-
-                // auth2
-                //     .signIn(options)
-                //     .then(
-                //         (res: any) => this.handleSigninSuccess(res),
-                //         (err: any) => onFailure(err)
-                //     );
+        }
+        if (responseType === "code") {
+            try {
+                const res = await auth2.grantOfflineAccess(options);
+                onSuccess(res);
+            } catch (err) {
+                console.error(err);
+                onFailure(err);
+            }
+        } else {
+            try {
+                const res = await auth2.signIn(options);
+                this.handleSigninSuccess(res);
+            } catch (err) {
+                console.error(err);
+                onFailure(err);
             }
         }
     }
     handleSigninSuccess(res: any) {
-        console.log(res);
         const basicProfile = res.getBasicProfile();
         const authResponse = res.getAuthResponse();
         res.googleId = basicProfile.getId();

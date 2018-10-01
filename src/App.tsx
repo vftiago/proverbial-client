@@ -71,8 +71,6 @@ export class App extends React.Component<{}, State> {
             count,
             filteredList
         });
-
-        console.log(this.state);
     }
 
     onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
