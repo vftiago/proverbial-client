@@ -26,6 +26,7 @@ interface State {
     lang: string;
     ready: boolean;
     allFetched: boolean;
+    user?: any;
 }
 
 const root = css`
@@ -85,6 +86,15 @@ export class App extends React.Component<{}, State> {
         }
     };
 
+    onGoogleResponse = async (response: any) => {
+        console.log(response);
+        const user = await this.api.fetchUser(response.code);
+        console.log(user);
+        this.setState({ user });
+    };
+
+    onSignIn = () => {};
+
     filterList = (term: string) => {
         const filteredList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
@@ -130,6 +140,7 @@ export class App extends React.Component<{}, State> {
                         id={this.state.id}
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
+                        onGoogleResponse={this.onGoogleResponse}
                     />
                     <Content
                         list={this.state.filteredList}

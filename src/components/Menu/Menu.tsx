@@ -79,14 +79,11 @@ const rightItemStyle = css`
 export interface MenuProps {
     id: number;
     onNavigation: (options: Options) => void;
+    onGoogleResponse: (response: any) => {};
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export class Menu extends React.Component<MenuProps> {
-    responseGoogle(response: any) {
-        console.log(response);
-    }
-
     render() {
         return (
             <div className={menuStyle}>
@@ -130,8 +127,8 @@ export class Menu extends React.Component<MenuProps> {
                         <GoogleLogin
                             clientId={GOOGLE_CLIENT_ID}
                             buttonText="Sign in with Google"
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.responseGoogle}
+                            onSuccess={this.props.onGoogleResponse}
+                            onFailure={this.props.onGoogleResponse}
                             isSignedIn={false}
                             responseType="code"
                         >

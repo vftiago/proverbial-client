@@ -10,7 +10,19 @@ const instance = axios.create({
 });
 
 const api = {
-    fetchUser: async () => {},
+    fetchUser: async (code: string) => {
+        try {
+            const response = await instance.post("api/auth/user", {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                },
+                data: code
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
+    },
 
     fetchCount: async (lang: string = DEFAULTS.lang) => {
         try {
