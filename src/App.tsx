@@ -87,13 +87,11 @@ export class App extends React.Component<{}, State> {
     };
 
     onGoogleResponse = async (response: any) => {
-        console.log(response);
-        const user = await this.api.fetchUser(response.code);
+        const { tokenId } = response;
+        const user = await this.api.fetchUser(tokenId);
         console.log(user);
         this.setState({ user });
     };
-
-    onSignIn = () => {};
 
     filterList = (term: string) => {
         const filteredList = this.state.list.filter(

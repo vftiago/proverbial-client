@@ -130,7 +130,6 @@ export class Menu extends React.Component<MenuProps> {
                             onSuccess={this.props.onGoogleResponse}
                             onFailure={this.props.onGoogleResponse}
                             isSignedIn={false}
-                            responseType="code"
                         >
                             <GoogleIcon /> Sign In with Google
                         </GoogleLogin>
