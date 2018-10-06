@@ -7,7 +7,6 @@ declare global {
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
-import Snackbar from "@material-ui/core/Snackbar";
 
 // local imports
 import { Content } from "./components/Content/Content";
@@ -125,15 +124,6 @@ export class App extends React.Component<{}, State> {
         return (
             this.state.ready && (
                 <div className={root}>
-                    <Snackbar
-                        anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "left"
-                        }}
-                        open={true}
-                        autoHideDuration={6000}
-                        message={<span>Loading...</span>}
-                    />
                     <Menu
                         id={this.state.id}
                         onNavigation={this.onNavigation}
