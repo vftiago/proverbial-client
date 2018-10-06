@@ -15,7 +15,7 @@ interface ContentProps {
 const content = css`
     background-color: #222;
     color: #ffd;
-    text-shadow: 0 1px 1px black;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
     flex: 1;
