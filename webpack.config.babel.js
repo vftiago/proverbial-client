@@ -18,7 +18,6 @@ module.exports = {
         filename: "bundle.js",
         path: __dirname + "/dist"
     },
-    // enable source maps for debugging
     devtool: "source-map",
     devServer: {
         port: 3000
@@ -26,7 +25,7 @@ module.exports = {
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".json"]
     },
-    mode: "none",
+    mode: isProduction ? "production" : "development",
     module: {
         rules: [
             {
