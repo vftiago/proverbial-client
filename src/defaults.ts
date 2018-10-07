@@ -1,8 +1,8 @@
-import { Options, Proverb, View } from "./types/types";
+import { Options, View } from "./types/types";
 
 const DEFAULTS: Options = {
     view: View.Item,
-    id: null,
+    id: 0,
     lang: "en",
     pageSize: 120,
     random: true

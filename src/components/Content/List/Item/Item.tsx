@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import stringToRgb from "../../../../utils/stringToRgb";
 // types
-import { Options, Proverb, View } from "../../../../types/types";
+import { Proverb, View } from "../../../../types/types";
 
 const itemStyle = css`
     text-align: center;
@@ -33,7 +33,7 @@ const singleItemStyle = css`
 
 interface ItemProps {
     el: Proverb;
-    onNavigation: (options: Options) => void;
+    onNavigation: (options: any) => void;
     proverbCount: number;
 }
 

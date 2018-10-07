@@ -19,8 +19,8 @@ import { Proverb, Options, View } from "./types/types";
 
 interface State {
     count: number;
-    id?: number;
-    list?: Proverb[];
+    id: number;
+    list: Proverb[];
     filteredList: Proverb[];
     lang: string;
     ready: boolean;

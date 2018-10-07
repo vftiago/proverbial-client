@@ -1,8 +1,8 @@
 export interface Options {
     view: View;
-    id?: number;
-    lang?: string;
-    pageSize?: number;
+    lang: string;
+    id: number;
+    pageSize: number;
     random?: boolean;
 }
 

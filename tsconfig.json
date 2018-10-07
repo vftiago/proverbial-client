@@ -1,12 +1,19 @@
 {
-	"compilerOptions": {
-		"lib": ["es2015", "dom"],
-		"outDir": "./dist/",
-		"sourceMap": true,
-		"noImplicitAny": true,
-		"module": "commonjs",
-		"target": "es5",
-		"jsx": "react"
-	},
-	"include": ["./src/**/*"]
+    "compilerOptions": {
+        "lib": ["es2015", "dom"],
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "jsx": "react",
+        "strictNullChecks": true,
+        "allowJs": true,
+        "allowSyntheticDefaultImports": true,
+        "noEmit": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "pretty": true
+    },
+    "include": ["./src/**/*"]
 }
