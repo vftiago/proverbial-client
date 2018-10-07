@@ -1,18 +1,16 @@
-import webpack from "webpack";
-const DotenvWebpackPlugin = require("dotenv-webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+import { EnvironmentPlugin } from "webpack";
+import DotenvWebpackPlugin from "dotenv-webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const devPlugins = [
-    new DotenvWebpackPlugin({
-        path: `./.env`
-    })
-];
-
-const prodPlugins = [
-    new webpack.EnvironmentPlugin(["BASE_URL", "GOOGLE_CLIENT_ID"])
-];
+const plugins = isProduction
+    ? [new EnvironmentPlugin(["BASE_URL", "GOOGLE_CLIENT_ID"])]
+    : [
+          new DotenvWebpackPlugin({
+              path: `./.env`
+          })
+      ];
 
 module.exports = {
     entry: "./src/index.tsx",
@@ -46,5 +44,5 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: "./index.html"
         })
-    ].concat(devPlugins)
+    ].concat(plugins)
 };
