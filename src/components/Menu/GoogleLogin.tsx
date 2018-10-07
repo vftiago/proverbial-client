@@ -213,6 +213,7 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
             display: "flex",
             alignItems: "center",
             borderRadius: "3px",
+            backgroundColor: "white",
             fontSize: "14px",
             fontWeight: 100,
             fontFamily: "Roboto Condensed",
