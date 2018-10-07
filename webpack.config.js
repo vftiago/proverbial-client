@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const DotenvWebpackPlugin = require("dotenv-webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -30,6 +31,7 @@ module.exports = {
 		],
 	},
 	plugins: [
+		new webpack.EnvironmentPlugin(["BASE_URL", "GOOGLE_CLIENT_API"]),
 		new DotenvWebpackPlugin({
 			path: `./.env`,
 			systemvars: true,
