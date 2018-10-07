@@ -4,6 +4,8 @@ import { DEFAULTS } from "./../defaults";
 const BASEURL = process.env.BASEURL;
 const REDIRECT_URI = process.env.REDIRECT_URI;
 
+console.log(process.env)
+
 const instance = axios.create({
     baseURL: `${BASEURL}`,
     timeout: 5000

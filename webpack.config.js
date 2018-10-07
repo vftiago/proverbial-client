@@ -30,7 +30,6 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new webpack.EnvironmentPlugin(["BASE_URL", "GOOGLE_CLIENT_ID"]),
 		new DotenvWebpackPlugin({
 			path: `./.env`,
 			systemvars: true,
