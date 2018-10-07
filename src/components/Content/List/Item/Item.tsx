@@ -27,7 +27,7 @@ const singleItemStyle = css`
     ${itemStyle};
     transition: 0.5s ease-in-out;
     span {
-        font-size: 32px;
+        font-size: 38px;
     }
 `;
 

@@ -8,7 +8,7 @@ const menuButtonStyle = css`
     align-items: center;
     border-radius: 3px;
     font-family: "Roboto";
-    font-size: 14px;
+    font-size: 13px;
     padding: 0 12px 0 8px;
     background-color: white;
     color: black;

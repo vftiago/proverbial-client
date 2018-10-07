@@ -212,11 +212,11 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
         const initialStyle = {
             display: "flex",
             alignItems: "center",
-            borderRadius: 2,
-            fontSize: "13px",
+            borderRadius: "3px",
+            fontSize: "14px",
             fontWeight: 100,
-            fontFamily: "Roboto",
-            paddingRight: "12px",
+            fontFamily: "Roboto Condensed",
+            padding: "0 12px 0 6px",
             border: "none",
             cursor: "pointer"
         };

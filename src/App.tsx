@@ -88,7 +88,6 @@ export class App extends React.Component<{}, State> {
     onGoogleResponse = async (response: any) => {
         const { tokenId } = response;
         const user = await this.api.fetchUser(tokenId);
-        console.log(user);
         this.setState({ user });
     };
 
@@ -129,6 +128,7 @@ export class App extends React.Component<{}, State> {
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
                         onGoogleResponse={this.onGoogleResponse}
+                        user={this.state.user}
                     />
                     <Content
                         list={this.state.filteredList}
