@@ -12,8 +12,6 @@ import { FilterBar } from "./FilterBar";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
-console.log(GOOGLE_CLIENT_ID);
-
 const verticalCenter = css`
 	display: flex;
 	align-items: center;
