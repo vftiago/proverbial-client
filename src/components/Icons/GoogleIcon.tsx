@@ -10,7 +10,7 @@ const GoogleIcon = ({ size = 46 }: IconProps) => (
     <svg
         width={size}
         height={size}
-        viewBox="0 0 46 46"
+        viewBox="8 8 30 30"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
     >

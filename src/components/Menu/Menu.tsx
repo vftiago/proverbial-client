@@ -128,7 +128,8 @@ export class Menu extends React.Component<MenuProps> {
                             isSignedIn={true}
                             uxMode="redirect"
                         >
-                            <GoogleIcon /> Sign In with Google
+                            <GoogleIcon size={32} />
+                            <p>Sign In with Google</p>
                         </GoogleLogin>
                     </li>
                 </ul>

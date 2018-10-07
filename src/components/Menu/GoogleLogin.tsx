@@ -210,17 +210,15 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
         }
 
         const initialStyle = {
-            display: "inline-block",
-            background: "#d14836",
-            color: "#fff",
-            width: 190,
-            paddingTop: 10,
-            paddingBottom: 10,
+            display: "flex",
+            alignItems: "center",
             borderRadius: 2,
-            border: "1px solid transparent",
-            fontSize: 16,
-            fontWeight: "bold",
-            fontFamily: "Roboto"
+            fontSize: "13px",
+            fontWeight: 100,
+            fontFamily: "Roboto",
+            paddingRight: "12px",
+            border: "none",
+            cursor: "pointer"
         };
         const styleProp = (() => {
             if (style) {
