@@ -13,19 +13,22 @@ import { Content } from "./components/Content/Content";
 import { Menu } from "./components/Menu/Menu";
 import api from "./api/api";
 import { DEFAULTS } from "./defaults";
+import Alert from "./components/Alert/Alert";
+
+// pages
+import LoadingPage from "./components/LoadingPage";
 
 // types
 import { Proverb, Options, View } from "./types/types";
 
 interface State {
-    count: number;
     id: number;
     list: Proverb[];
-    filteredList: Proverb[];
+    proverbList: Proverb[];
     lang: string;
-    ready: boolean;
     allFetched: boolean;
     user?: any;
+    errorMessage?: string;
 }
 
 const root = css`
@@ -38,29 +41,23 @@ const root = css`
 
 export class App extends React.Component<{}, State> {
     state: State = {
-        count: 0,
-        id: 0,
+        id: DEFAULTS.id,
         list: [],
-        filteredList: [],
+        proverbList: [],
         lang: DEFAULTS.lang,
-        ready: false,
         allFetched: false
     };
-
-    api = api;
 
     async update(options: Options) {
         let filteredList = [];
         let id = options.id;
-        let count =
-            this.state.count || (await this.api.fetchCount(this.state.lang));
 
         switch (options.view) {
             case View.List:
-                filteredList = await this.api.fetchList(this.state.lang);
+                filteredList = await api.fetchList(this.state.lang);
                 break;
             case View.Item:
-                filteredList = await this.api.fetchItem(this.state.lang, id);
+                filteredList = await api.fetchItem(this.state.lang, id);
                 break;
             default:
                 return false;
@@ -68,17 +65,13 @@ export class App extends React.Component<{}, State> {
 
         this.setState({
             id,
-            count,
-            filteredList
+            proverbList
         });
     }
 
     onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value.toLowerCase();
-        if (
-            !this.state.allFetched &&
-            this.state.list.length < this.state.count
-        ) {
+        if (!this.state.allFetched) {
             this.fetchAll(term);
         } else {
             this.filterList(term);
@@ -87,7 +80,7 @@ export class App extends React.Component<{}, State> {
 
     onGoogleResponse = async (response: any) => {
         const { tokenId } = response;
-        const user = await this.api.fetchUser(tokenId);
+        const user = await api.fetchUser(tokenId);
         this.setState({ user });
     };
 
@@ -95,14 +88,11 @@ export class App extends React.Component<{}, State> {
         const filteredList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
         );
-        this.setState({ filteredList });
+        this.setState({ proverbList });
     };
 
     fetchAll = async (term: string) => {
-        const list = await this.api.fetchList(
-            this.state.lang,
-            this.state.count
-        );
+        const list = await api.fetchList(this.state.lang);
         this.setState({ list, allFetched: true });
         this.filterList(term);
     };
@@ -115,28 +105,44 @@ export class App extends React.Component<{}, State> {
     };
 
     async componentDidMount() {
-        await this.update(DEFAULTS);
-        this.setState({ ready: true });
+        try {
+            const proverbList = await api.fetchList(this.state.lang);
+
+            this.setState({
+                proverbList
+            });
+        } catch (e) {
+            console.error(e);
+            this.setState({
+                errorMessage: e
+            });
+        }
     }
 
     render() {
+        const { errorMessage, proverbList } = this.state;
+
+        console.log(this.state);
+
         return (
-            this.state.ready && (
-                <div className={root}>
-                    <Menu
-                        id={this.state.id}
-                        onNavigation={this.onNavigation}
-                        onSearch={this.onSearch}
-                        onGoogleResponse={this.onGoogleResponse}
-                        user={this.state.user}
-                    />
+            <div className={root}>
+                <Menu
+                    id={this.state.id}
+                    onNavigation={this.onNavigation}
+                    onSearch={this.onSearch}
+                    onGoogleResponse={this.onGoogleResponse}
+                    user={this.state.user}
+                />
+                {errorMessage ? (
+                    <Alert message={errorMessage} />
+                ) : (
                     <Content
-                        list={this.state.filteredList}
+                        list={proverbList}
                         onNavigation={this.onNavigation}
                         onSearch={this.onSearch}
                     />
-                </div>
-            )
+                )}
+            </div>
         );
     }
 }

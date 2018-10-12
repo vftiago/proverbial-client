@@ -54,12 +54,13 @@ const api = {
         _limit: number = DEFAULTS.pageSize
     ) => {
         try {
-            const response = await instance.get("api/proverbs", {
+            const response = await instance.get("api/poverbs", {
                 params: { lang, _limit }
             });
             return response.data;
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            console.error(e);
+            throw e;
         }
     }
 };
