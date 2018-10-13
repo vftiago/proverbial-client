@@ -7,6 +7,7 @@ const rootStyle = css`
     font-family: "Roboto Condensed";
     padding: 12px;
     display: flex;
+    height: 100%;
     width: 100%;
 `;
 

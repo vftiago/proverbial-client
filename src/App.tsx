@@ -24,6 +24,7 @@ import { Proverb, Options, View } from "./types/types";
 interface State {
     id: number;
     list: Proverb[];
+    loading: boolean;
     proverbList: Proverb[];
     lang: string;
     allFetched: boolean;
@@ -44,20 +45,21 @@ export class App extends React.Component<{}, State> {
         id: DEFAULTS.id,
         list: [],
         proverbList: [],
+        loading: true,
         lang: DEFAULTS.lang,
         allFetched: false
     };
 
     async update(options: Options) {
-        let filteredList = [];
+        let proverbList = [];
         let id = options.id;
 
         switch (options.view) {
             case View.List:
-                filteredList = await api.fetchList(this.state.lang);
+                proverbList = await api.fetchList(this.state.lang);
                 break;
             case View.Item:
-                filteredList = await api.fetchItem(this.state.lang, id);
+                proverbList = await api.fetchItem(this.state.lang, id);
                 break;
             default:
                 return false;
@@ -85,7 +87,7 @@ export class App extends React.Component<{}, State> {
     };
 
     filterList = (term: string) => {
-        const filteredList = this.state.list.filter(
+        const proverbList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
         );
         this.setState({ proverbList });
@@ -109,20 +111,19 @@ export class App extends React.Component<{}, State> {
             const proverbList = await api.fetchList(this.state.lang);
 
             this.setState({
-                proverbList
+                proverbList,
+                loading: false
             });
-        } catch (e) {
-            console.error(e);
+        } catch (errorMessage) {
             this.setState({
-                errorMessage: e
+                errorMessage,
+                loading: false
             });
         }
     }
 
     render() {
-        const { errorMessage, proverbList } = this.state;
-
-        console.log(this.state);
+        const { loading, errorMessage, proverbList } = this.state;
 
         return (
             <div className={root}>
@@ -133,7 +134,9 @@ export class App extends React.Component<{}, State> {
                     onGoogleResponse={this.onGoogleResponse}
                     user={this.state.user}
                 />
-                {errorMessage ? (
+                {loading ? (
+                    <LoadingPage />
+                ) : errorMessage ? (
                     <Alert message={errorMessage} />
                 ) : (
                     <Content

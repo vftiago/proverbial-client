@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { DEFAULTS } from "./../defaults";
 
 const BASE_URL = process.env.BASE_URL;
@@ -18,8 +18,9 @@ const api = {
                 data: code
             });
             return response.data;
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            const axiosError = e as AxiosError;
+            throw axiosError.message;
         }
     },
 
@@ -29,8 +30,9 @@ const api = {
                 params: { lang }
             });
             return response.data;
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            const axiosError = e as AxiosError;
+            throw axiosError.message;
         }
     },
 
@@ -44,8 +46,9 @@ const api = {
                 params: { lang }
             });
             return response.data;
-        } catch (error) {
-            console.error(error);
+        } catch (e) {
+            const axiosError = e as AxiosError;
+            throw axiosError.message;
         }
     },
 
@@ -54,13 +57,13 @@ const api = {
         _limit: number = DEFAULTS.pageSize
     ) => {
         try {
-            const response = await instance.get("api/poverbs", {
+            const response = await instance.get("api/proverbs", {
                 params: { lang, _limit }
             });
             return response.data;
         } catch (e) {
-            console.error(e);
-            throw e;
+            const axiosError = e as AxiosError;
+            throw axiosError.message;
         }
     }
 };
