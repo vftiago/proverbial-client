@@ -61,71 +61,70 @@ class GoogleLogin extends React.Component<GoogleLoginProps, GoogleLoginState> {
     };
 
     componentDidMount() {
-        const {
-            clientId,
-            cookiePolicy,
-            loginHint,
-            hostedDomain,
-            autoLoad,
-            isSignedIn,
-            fetchBasicProfile,
-            redirectUri,
-            discoveryDocs,
-            onFailure,
-            uxMode,
-            scope,
-            accessType,
-            responseType,
-            jsSrc
-        } = this.props;
-        ((d, s, id, cb) => {
-            const element = d.getElementsByTagName(s)[0] as HTMLScriptElement;
-            const fjs = element;
-            let js = element;
-            js = d.createElement(s) as HTMLScriptElement;
-            js.id = id;
-            js.src = jsSrc;
-            if (fjs && fjs.parentNode) {
-                fjs.parentNode.insertBefore(js, fjs);
-            } else {
-                d.head.appendChild(js);
-            }
-            js.onload = cb;
-        })(document, "script", "google-login", () => {
-            const params = {
-                client_id: clientId,
-                cookie_policy: cookiePolicy,
-                login_hint: loginHint,
-                hosted_domain: hostedDomain,
-                fetch_basic_profile: fetchBasicProfile,
-                discoveryDocs,
-                ux_mode: uxMode,
-                redirect_uri: redirectUri,
-                scope,
-                access_type: accessType
-            };
-
-            if (responseType === "code") {
-                params.access_type = "offline";
-            }
-
-            window.gapi.load("auth2", () => {
-                this.enableButton();
-                if (!window.gapi.auth2.getAuthInstance()) {
-                    window.gapi.auth2.init(params).then(
-                        (res: any) => {
-                            if (isSignedIn && res.isSignedIn.get()) {
-                                this.handleSigninSuccess(res.currentUser.get());
-                            }
-                        },
-                        (err: any) => onFailure(err)
-                    );
-                }
-                if (autoLoad) {
-                    this.signIn(null);
-                }
-            });
-        });
+        // const {
+        //     clientId,
+        //     cookiePolicy,
+        //     loginHint,
+        //     hostedDomain,
+        //     autoLoad,
+        //     isSignedIn,
+        //     fetchBasicProfile,
+        //     redirectUri,
+        //     discoveryDocs,
+        //     onFailure,
+        //     uxMode,
+        //     scope,
+        //     accessType,
+        //     responseType,
+        //     jsSrc
+        // } = this.props;
+        // ((d, s, id, cb) => {
+        //     const element = d.getElementsByTagName(s)[0] as HTMLScriptElement;
+        //     const fjs = element;
+        //     let js = element;
+        //     js = d.createElement(s) as HTMLScriptElement;
+        //     js.id = id;
+        //     js.src = jsSrc;
+        //     if (fjs && fjs.parentNode) {
+        //         fjs.parentNode.insertBefore(js, fjs);
+        //     } else {
+        //         d.head.appendChild(js);
+        //     }
+        //     js.onload = cb;
+        // })(document, "script", "google-login", () => {
+        //     const params = {
+        //         client_id: clientId,
+        //         cookie_policy: cookiePolicy,
+        //         login_hint: loginHint,
+        //         hosted_domain: hostedDomain,
+        //         fetch_basic_profile: fetchBasicProfile,
+        //         discoveryDocs,
+        //         ux_mode: uxMode,
+        //         redirect_uri: redirectUri,
+        //         scope,
+        //         access_type: accessType
+        //     };
+        //     if (responseType === "code") {
+        //         params.access_type = "offline";
+        //     }
+        //     window.gapi.load("auth2", () => {
+        //         this.enableButton();
+        //         if (!window.gapi.auth2.getAuthInstance()) {
+        //             window.gapi.auth2.init(params).then(
+        //                 (res: any) => {
+        //                     if (isSignedIn && res.isSignedIn.get()) {
+        //                         this.handleSigninSuccess(res.currentUser.get());
+        //                     }
+        //                 },
+        //                 (err: any) => onFailure(err)
+        //             );
+        //         }
+        //         if (autoLoad) {
+        //             this.signIn(null);
+        //         }
+        //     });
+        // });
+        this.enableButton();
     }
     componentWillUnmount() {
         this.enableButton = () => {};

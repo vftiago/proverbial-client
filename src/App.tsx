@@ -18,6 +18,8 @@ import { DEFAULTS } from "./defaults";
 // types
 import { Page, Proverb, Options, View } from "./types/types";
 
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+
 interface State {
     id: number;
     list: Proverb[];
@@ -85,9 +87,9 @@ export class App extends React.Component<{}, State> {
         }
     };
 
-    onGoogleResponse = async (response: any) => {
-        const { tokenId } = response;
+    onGoogleResponse = async (tokenId: string) => {
         const user = await api.fetchUser(tokenId);
+        console.log(user);
         this.setState({ user });
     };
 
@@ -112,6 +114,43 @@ export class App extends React.Component<{}, State> {
     };
 
     async componentDidMount() {
+        ((d, s, id, cb) => {
+            const element = d.getElementsByTagName(s)[0] as HTMLScriptElement;
+            const fjs = element;
+            let js = element;
+            js = d.createElement(s) as HTMLScriptElement;
+            js.id = id;
+            js.src = "https://apis.google.com/js/platform.js";
+            if (fjs && fjs.parentNode) {
+                fjs.parentNode.insertBefore(js, fjs);
+            } else {
+                d.head.appendChild(js);
+            }
+            js.onload = cb;
+        })(document, "script", "google-login", () => {
+            const params = {
+                access_type: "online",
+                client_id: GOOGLE_CLIENT_ID,
+                ux_mode: "redirect",
+                scope: "profile email",
+                fetch_basic_profile: true
+            };
+
+            window.gapi.load("auth2", async () => {
+                // get GoogleAuth object or initialize it
+                const GoogleAuth =
+                    (await window.gapi.auth2.getAuthInstance()) ||
+                    (await window.gapi.auth2.init(params));
+
+                if (!GoogleAuth.isSignedIn.get()) {
+                    return;
+                }
+
+                const currentUser = GoogleAuth.currentUser.get();
+                const authResponse = currentUser.getAuthResponse();
+                this.onGoogleResponse(authResponse.id_token);
+            });
+        });
         try {
             const proverbList = await api.fetchList(this.state.lang);
 
@@ -130,7 +169,7 @@ export class App extends React.Component<{}, State> {
     }
 
     render() {
-        const { loading, errorMessage, currentPage, proverbList } = this.state;
+        const { errorMessage, currentPage, proverbList } = this.state;
 
         return (
             <div className={root}>
