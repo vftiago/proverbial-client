@@ -13,19 +13,16 @@ import { Content } from "./components/Content/Content";
 import { Menu } from "./components/Menu/Menu";
 import api from "./api/api";
 import { DEFAULTS } from "./defaults";
-import Alert from "./components/Alert/Alert";
-
-// pages
-import LoadingPage from "./components/LoadingPage";
 
 // types
-import { Proverb, Options, View } from "./types/types";
+import { Page, Proverb, Options, View } from "./types/types";
 
 interface State {
     id: number;
     list: Proverb[];
     loading: boolean;
     proverbList: Proverb[];
+    currentPage: Page;
     lang: string;
     allFetched: boolean;
     user?: any;
@@ -33,9 +30,8 @@ interface State {
 }
 
 const root = css`
-    font-family: Quando;
-    min-height: 100%;
-    min-width: 500px;
+    font-family: "Roboto Condensed";
+    height: 100%;
     display: flex;
     flex-direction: column;
 `;
@@ -46,6 +42,7 @@ export class App extends React.Component<{}, State> {
         list: [],
         proverbList: [],
         loading: true,
+        currentPage: Page.LoadingPage,
         lang: DEFAULTS.lang,
         allFetched: false
     };
@@ -53,7 +50,13 @@ export class App extends React.Component<{}, State> {
     async update(options: Options) {
         let proverbList = [];
         let id = options.id;
+        const { loading } = this.state;
 
+        if (!loading) {
+            this.setState({
+                loading: true
+            });
+        }
         switch (options.view) {
             case View.List:
                 proverbList = await api.fetchList(this.state.lang);
@@ -67,7 +70,8 @@ export class App extends React.Component<{}, State> {
 
         this.setState({
             id,
-            proverbList
+            proverbList,
+            loading: false
         });
     }
 
@@ -111,11 +115,13 @@ export class App extends React.Component<{}, State> {
             const proverbList = await api.fetchList(this.state.lang);
 
             this.setState({
+                currentPage: Page.ContentPage,
                 proverbList,
                 loading: false
             });
         } catch (errorMessage) {
             this.setState({
+                currentPage: Page.ErrorPage,
                 errorMessage,
                 loading: false
             });
@@ -123,7 +129,7 @@ export class App extends React.Component<{}, State> {
     }
 
     render() {
-        const { loading, errorMessage, proverbList } = this.state;
+        const { loading, errorMessage, currentPage, proverbList } = this.state;
 
         return (
             <div className={root}>
@@ -134,17 +140,14 @@ export class App extends React.Component<{}, State> {
                     onGoogleResponse={this.onGoogleResponse}
                     user={this.state.user}
                 />
-                {loading ? (
-                    <LoadingPage />
-                ) : errorMessage ? (
-                    <Alert message={errorMessage} />
-                ) : (
-                    <Content
-                        list={proverbList}
-                        onNavigation={this.onNavigation}
-                        onSearch={this.onSearch}
-                    />
-                )}
+                <Content
+                    loading={loading}
+                    currentPage={currentPage}
+                    errorMessage={errorMessage}
+                    list={proverbList}
+                    onNavigation={this.onNavigation}
+                    onSearch={this.onSearch}
+                />
             </div>
         );
     }

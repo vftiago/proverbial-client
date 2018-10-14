@@ -1,6 +1,5 @@
 import React from "react";
 import { css } from "emotion";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 const rootStyle = css`
     height: 100%;
@@ -11,12 +10,12 @@ const rootStyle = css`
     justify-content: center;
 `;
 
-const LoadingPage = () => {
+const ErrorPage = () => {
     return (
         <div className={rootStyle}>
-            <CircularProgress />
+            <p>Oops, looks like something went wrong :(</p>
         </div>
     );
 };
 
-export default LoadingPage;
+export default ErrorPage;

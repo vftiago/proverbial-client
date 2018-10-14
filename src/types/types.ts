@@ -16,3 +16,9 @@ export enum View {
     Item = "Item",
     List = "List"
 }
+
+export enum Page {
+    LoadingPage = "LoadingPage",
+    ContentPage = "ContentPage",
+    ErrorPage = "ErrorPage"
+}

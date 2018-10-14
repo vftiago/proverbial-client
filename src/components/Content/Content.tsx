@@ -4,17 +4,23 @@ import { css } from "emotion";
 // local imports
 import { List } from "./List/List";
 // types
-import { Options, Proverb } from "../../types/types";
+import { Options, Page, Proverb } from "../../types/types";
+import LoadingPage from "../LoadingPage";
+import ErrorPage from "../ErrorPage";
 
 interface ContentProps {
     list: Proverb[];
+    currentPage: Page;
+    loading: boolean;
+    errorMessage: string | undefined;
     onNavigation: (options: Options) => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const content = css`
+const contentStyle = css`
     background-color: #222;
     color: #ffd;
+    font-family: "Quando";
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     display: flex;
     flex-direction: column;
@@ -27,13 +33,29 @@ export class Content extends React.Component<ContentProps> {
     }
 
     render() {
-        return (
-            <div className={content}>
-                <List
-                    list={this.props.list}
-                    onNavigation={this.props.onNavigation}
-                />
-            </div>
-        );
+        const { currentPage } = this.props;
+
+        let content;
+
+        switch (currentPage) {
+            case Page.LoadingPage:
+                content = <LoadingPage />;
+                break;
+            case Page.ErrorPage:
+                content = <ErrorPage />;
+                break;
+            default:
+                content = (
+                    <List
+                        list={this.props.list}
+                        onNavigation={this.props.onNavigation}
+                    />
+                );
+                break;
+        }
+
+        console.log(currentPage);
+
+        return <div className={contentStyle}>{content}</div>;
     }
 }
