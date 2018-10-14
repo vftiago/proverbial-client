@@ -7,6 +7,7 @@ declare global {
 // vendor imports
 import * as React from "react";
 import { css } from "emotion";
+import Snackbar from "@material-ui/core/Snackbar";
 
 // local imports
 import { Content } from "./components/Content/Content";
@@ -141,12 +142,19 @@ export class App extends React.Component<{}, State> {
                     user={this.state.user}
                 />
                 <Content
-                    loading={loading}
                     currentPage={currentPage}
                     errorMessage={errorMessage}
                     list={proverbList}
                     onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
+                />
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: "bottom",
+                        horizontal: "left"
+                    }}
+                    open={this.state.loading}
+                    message={<span id="message-id">Loading...</span>}
                 />
             </div>
         );

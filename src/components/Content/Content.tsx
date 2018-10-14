@@ -11,7 +11,6 @@ import ErrorPage from "../ErrorPage";
 interface ContentProps {
     list: Proverb[];
     currentPage: Page;
-    loading: boolean;
     errorMessage: string | undefined;
     onNavigation: (options: Options) => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -53,8 +52,6 @@ export class Content extends React.Component<ContentProps> {
                 );
                 break;
         }
-
-        console.log(currentPage);
 
         return <div className={contentStyle}>{content}</div>;
     }
