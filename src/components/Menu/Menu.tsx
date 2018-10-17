@@ -7,7 +7,7 @@ import GoogleLogin from "./GoogleLogin";
 import ShuffleIcon from "../Icons/ShuffleIcon";
 import GridIcon from "../Icons/GridIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
-import { View } from "../../types/types";
+import { User, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -52,8 +52,7 @@ const menuButtonStyle = css`
 `;
 
 export interface MenuProps {
-    id: number;
-    user?: any;
+    user?: User;
     onNavigation: (options: any) => void;
     onGoogleResponse: (response: any) => {};
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -61,6 +60,7 @@ export interface MenuProps {
 
 export class Menu extends React.Component<MenuProps> {
     render() {
+        const { user } = this.props;
         return (
             <ul className={menuStyle}>
                 <li>
@@ -95,17 +95,23 @@ export class Menu extends React.Component<MenuProps> {
                     <FilterBar onSearch={this.props.onSearch} />
                 </li>
                 <li className={alignRightStyle}>
-                    <GoogleLogin
-                        clientId={GOOGLE_CLIENT_ID}
-                        buttonText="Sign in with Google"
-                        onSuccess={this.props.onGoogleResponse}
-                        onFailure={this.props.onGoogleResponse}
-                        isSignedIn={true}
-                        uxMode="redirect"
-                    >
-                        <GoogleIcon size={32} />
-                        <p>Sign In with Google</p>
-                    </GoogleLogin>
+                    {user ? (
+                        <div className={userInfo}>
+                            Welcome back, {user.firstName}!
+                        </div>
+                    ) : (
+                        <GoogleLogin
+                            clientId={GOOGLE_CLIENT_ID}
+                            buttonText="Sign in with Google"
+                            onSuccess={this.props.onGoogleResponse}
+                            onFailure={this.props.onGoogleResponse}
+                            isSignedIn={true}
+                            uxMode="redirect"
+                        >
+                            <GoogleIcon size={32} />
+                            <p>Sign In with Google</p>
+                        </GoogleLogin>
+                    )}
                 </li>
             </ul>
         );
@@ -114,4 +120,8 @@ export class Menu extends React.Component<MenuProps> {
 
 const alignRightStyle = css`
     margin-left: auto;
+`;
+
+const userInfo = css`
+    color: white;
 `;

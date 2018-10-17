@@ -1,3 +1,12 @@
+export type User = {
+    googleID: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+    imageURL: string;
+};
+
 export interface Options {
     view: View;
     lang: string;

@@ -87,11 +87,7 @@ export class App extends React.Component<{}, State> {
         }
     };
 
-    onGoogleResponse = async (tokenId: string) => {
-        const user = await api.fetchUser(tokenId);
-        console.log(user);
-        this.setState({ user });
-    };
+    onGoogleResponse = async (tokenId: string) => {};
 
     filterList = (term: string) => {
         const proverbList = this.state.list.filter(
@@ -113,44 +109,50 @@ export class App extends React.Component<{}, State> {
         this.update(options);
     };
 
-    async componentDidMount() {
-        ((d, s, id, cb) => {
-            const element = d.getElementsByTagName(s)[0] as HTMLScriptElement;
-            const fjs = element;
-            let js = element;
-            js = d.createElement(s) as HTMLScriptElement;
-            js.id = id;
-            js.src = "https://apis.google.com/js/platform.js";
-            if (fjs && fjs.parentNode) {
-                fjs.parentNode.insertBefore(js, fjs);
-            } else {
-                d.head.appendChild(js);
-            }
-            js.onload = cb;
-        })(document, "script", "google-login", () => {
-            const params = {
+    onGapiLoaded = async () => {
+        const GoogleAuth =
+            (await window.gapi.auth2.getAuthInstance()) ||
+            (await window.gapi.auth2.init({
                 access_type: "online",
                 client_id: GOOGLE_CLIENT_ID,
                 ux_mode: "redirect",
                 scope: "profile email",
                 fetch_basic_profile: true
-            };
+            }));
 
-            window.gapi.load("auth2", async () => {
-                // get GoogleAuth object or initialize it
-                const GoogleAuth =
-                    (await window.gapi.auth2.getAuthInstance()) ||
-                    (await window.gapi.auth2.init(params));
+        if (GoogleAuth.isSignedIn.get()) {
+            const currentUser = GoogleAuth.currentUser.get();
+            const authResponse = currentUser.getAuthResponse();
+            const user = await api.fetchUser(authResponse.id_token);
+            this.componentDidMountWithUser(user);
+        } else {
+            this.componentDidMountWithoutUser();
+        }
+        console.log("Gapi loaded");
+    };
 
-                if (!GoogleAuth.isSignedIn.get()) {
-                    return;
-                }
+    async componentDidMountWithUser(user: any) {
+        console.log(user);
+        try {
+            const proverbList = await api.fetchList(this.state.lang);
 
-                const currentUser = GoogleAuth.currentUser.get();
-                const authResponse = currentUser.getAuthResponse();
-                this.onGoogleResponse(authResponse.id_token);
+            this.setState({
+                user,
+                currentPage: Page.ContentPage,
+                proverbList,
+                loading: false
             });
-        });
+        } catch (errorMessage) {
+            this.setState({
+                user,
+                currentPage: Page.ErrorPage,
+                errorMessage,
+                loading: false
+            });
+        }
+    }
+
+    async componentDidMountWithoutUser() {
         try {
             const proverbList = await api.fetchList(this.state.lang);
 
@@ -168,17 +170,28 @@ export class App extends React.Component<{}, State> {
         }
     }
 
+    async componentDidMount() {
+        try {
+            await window.gapi.load("auth2", this.onGapiLoaded);
+        } catch (errorMessage) {
+            this.setState({
+                currentPage: Page.ErrorPage,
+                errorMessage,
+                loading: false
+            });
+        }
+    }
+
     render() {
-        const { errorMessage, currentPage, proverbList } = this.state;
+        const { errorMessage, currentPage, proverbList, user } = this.state;
 
         return (
             <div className={root}>
                 <Menu
-                    id={this.state.id}
                     onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
                     onGoogleResponse={this.onGoogleResponse}
-                    user={this.state.user}
+                    user={user}
                 />
                 <Content
                     currentPage={currentPage}

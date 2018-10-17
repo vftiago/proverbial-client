@@ -20,7 +20,9 @@ module.exports = {
     },
     devtool: "source-map",
     devServer: {
-        port: 3000
+        port: 3000,
+        contentBase: __dirname + "/dist",
+        open: true
     },
     resolve: {
         extensions: [".ts", ".tsx", ".js", ".json"]
@@ -34,14 +36,16 @@ module.exports = {
             },
             {
                 enforce: "pre",
-                test: /\.js?$/,
+                test: /\.tsx?$/,
                 loader: "source-map-loader"
             }
         ]
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: "./index.html"
+            template: "./index.html",
+            hash: true,
+            minify: true
         })
     ].concat(plugins)
 };
