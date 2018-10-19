@@ -16,7 +16,7 @@ import api from "./api/api";
 import { DEFAULTS } from "./defaults";
 
 // types
-import { Page, Proverb, Options, View } from "./types/types";
+import { Page, Proverb, Options, User, View } from "./types/types";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
@@ -28,7 +28,7 @@ interface State {
     currentPage: Page;
     lang: string;
     allFetched: boolean;
-    user?: any;
+    user?: User;
     errorMessage?: string;
 }
 
@@ -87,8 +87,6 @@ export class App extends React.Component<{}, State> {
         }
     };
 
-    onGoogleResponse = async (tokenId: string) => {};
-
     filterList = (term: string) => {
         const proverbList = this.state.list.filter(
             item => item.text.toLowerCase().search(term) !== -1
@@ -109,6 +107,23 @@ export class App extends React.Component<{}, State> {
         this.update(options);
     };
 
+    onGoogleSignIn = async () => {
+        const GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+        try {
+            const currentUser = await GoogleAuth.signIn();
+            this.handleGoogleSignIn(currentUser);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    handleGoogleSignIn = async (currentUser: any) => {
+        const authResponse = currentUser.getAuthResponse();
+        const user = await api.fetchUser(authResponse.id_token);
+        this.componentDidMountWithUser(user);
+    };
+
     onGapiLoaded = async () => {
         const GoogleAuth =
             (await window.gapi.auth2.getAuthInstance()) ||
@@ -122,16 +137,14 @@ export class App extends React.Component<{}, State> {
 
         if (GoogleAuth.isSignedIn.get()) {
             const currentUser = GoogleAuth.currentUser.get();
-            const authResponse = currentUser.getAuthResponse();
-            const user = await api.fetchUser(authResponse.id_token);
-            this.componentDidMountWithUser(user);
+            this.handleGoogleSignIn(currentUser);
         } else {
             this.componentDidMountWithoutUser();
         }
         console.log("Gapi loaded");
     };
 
-    async componentDidMountWithUser(user: any) {
+    async componentDidMountWithUser(user: User) {
         console.log(user);
         try {
             const proverbList = await api.fetchList(this.state.lang);
@@ -188,9 +201,9 @@ export class App extends React.Component<{}, State> {
         return (
             <div className={root}>
                 <Menu
+                    onGoogleSignIn={this.onGoogleSignIn}
                     onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
-                    onGoogleResponse={this.onGoogleResponse}
                     user={user}
                 />
                 <Content

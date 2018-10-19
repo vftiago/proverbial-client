@@ -10,8 +10,6 @@ import GoogleIcon from "../Icons/GoogleIcon";
 import { User, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-
 const menuStyle = css`
     list-style: none;
     display: flex;
@@ -53,8 +51,8 @@ const menuButtonStyle = css`
 
 export interface MenuProps {
     user?: User;
+    onGoogleSignIn: () => Promise<void>;
     onNavigation: (options: any) => void;
-    onGoogleResponse: (response: any) => {};
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -100,14 +98,7 @@ export class Menu extends React.Component<MenuProps> {
                             Welcome back, {user.firstName}!
                         </div>
                     ) : (
-                        <GoogleLogin
-                            clientId={GOOGLE_CLIENT_ID}
-                            buttonText="Sign in with Google"
-                            onSuccess={this.props.onGoogleResponse}
-                            onFailure={this.props.onGoogleResponse}
-                            isSignedIn={true}
-                            uxMode="redirect"
-                        >
+                        <GoogleLogin onClick={this.props.onGoogleSignIn}>
                             <GoogleIcon size={32} />
                             <p>Sign In with Google</p>
                         </GoogleLogin>
