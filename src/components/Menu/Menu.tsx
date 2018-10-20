@@ -5,6 +5,7 @@ import GoogleLogin from "./GoogleLogin";
 
 // local
 import GoogleIcon from "../Icons/GoogleIcon";
+import MenuButton from "./MenuButton";
 import { User, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
 
@@ -25,24 +26,26 @@ export class Menu extends React.Component<MenuProps> {
                 <li>
                     <h1>Proverbial</h1>
                 </li>
-                <li
-                    onClick={() => this.props.onNavigation({ view: View.List })}
-                >
-                    <div className={menuButtonStyle}>
+                <li>
+                    <MenuButton
+                        onClick={() =>
+                            this.props.onNavigation({ view: View.List })
+                        }
+                    >
                         <p>List</p>
-                    </div>
+                    </MenuButton>
                 </li>
-                <li
-                    onClick={() =>
-                        this.props.onNavigation({
-                            view: View.Item,
-                            random: true
-                        })
-                    }
-                >
-                    <div className={menuButtonStyle}>
+                <li>
+                    <MenuButton
+                        onClick={() =>
+                            this.props.onNavigation({
+                                view: View.Item,
+                                random: true
+                            })
+                        }
+                    >
                         <p>Random</p>
-                    </div>
+                    </MenuButton>
                 </li>
                 <li>
                     <FilterBar onSearch={this.props.onSearch} />
@@ -54,12 +57,11 @@ export class Menu extends React.Component<MenuProps> {
                                 <p className={userGreetingStyle}>
                                     Welcome back, {user.firstName}!
                                 </p>
-                                <div
+                                <MenuButton
                                     onClick={this.props.onGoogleSignOut}
-                                    className={menuButtonStyle}
                                 >
                                     <p>Sign Out</p>
-                                </div>
+                                </MenuButton>
                             </div>
                         ) : (
                             <GoogleLogin onClick={this.props.onGoogleSignIn}>
@@ -90,26 +92,6 @@ const menuStyle = css`
     li {
         padding: 0 10px;
         cursor: pointer;
-    }
-`;
-
-const menuButtonStyle = css`
-    cursor: pointer;
-    border-radius: 3px;
-    font-size: 14px;
-    padding: 0 12px;
-    background-color: white;
-    color: black;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    span {
-        margin-left: 12px;
-    }
-    svg {
-        position: relative;
-        left: -4px;
     }
 `;
 

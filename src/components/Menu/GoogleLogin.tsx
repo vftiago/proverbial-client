@@ -1,5 +1,6 @@
 import * as React from "react";
 import { css } from "emotion";
+
 interface GoogleLoginProps {
     onClick: () => Promise<void>;
 }

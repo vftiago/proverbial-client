@@ -3,35 +3,36 @@ import * as React from "react";
 import { css } from "emotion";
 
 const menuButtonStyle = css`
-    display: flex;
-    height: 32px;
-    align-items: center;
+    cursor: pointer;
     border-radius: 3px;
-    font-family: "Roboto";
-    font-size: 13px;
-    padding: 0 12px 0 8px;
+    font-size: 14px;
+    padding: 0 12px;
     background-color: white;
     color: black;
-    justify-content: space-between;
-    cursor: pointer;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    span {
+        margin-left: 12px;
+    }
+    svg {
+        position: relative;
+        left: -4px;
+    }
 `;
 
 export interface MenuButtonProps {
-    icon: JSX.Element;
-    label: string;
     onClick: () => void;
 }
 
-export class MenuButton extends React.Component<MenuButtonProps> {
+export default class MenuButton extends React.Component<MenuButtonProps> {
     render() {
+        const { children, onClick } = this.props;
+
         return (
-            <div
-                className={menuButtonStyle}
-                onClick={() => this.props.onClick()}
-            >
-                {this.props.icon}
-                &nbsp;
-                {this.props.label}
+            <div className={menuButtonStyle} onClick={onClick}>
+                {children}
             </div>
         );
     }
