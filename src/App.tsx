@@ -112,10 +112,13 @@ export class App extends React.Component<{}, State> {
     };
 
     onGoogleSignIn = async () => {
-        const GoogleAuth = window.gapi.auth2.getAuthInstance();
+        const AuthInstance = window.gapi.auth2.getAuthInstance();
 
         try {
-            await GoogleAuth.signIn();
+            await AuthInstance.signIn({
+                scope: "profile email",
+                prompt: "select_account"
+            });
             this.fetchApplicationContent();
         } catch (err) {
             console.error(err);
@@ -123,10 +126,10 @@ export class App extends React.Component<{}, State> {
     };
 
     onGoogleSignOut = async () => {
-        const GoogleAuth = window.gapi.auth2.getAuthInstance();
+        const AuthInstance = window.gapi.auth2.getAuthInstance();
 
         try {
-            await GoogleAuth.signOut();
+            await AuthInstance.signOut();
             this.fetchApplicationContent();
         } catch (err) {
             console.error(err);
