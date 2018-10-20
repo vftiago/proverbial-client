@@ -8,7 +8,7 @@ export default class GoogleLogin extends React.Component<GoogleLoginProps, {}> {
     render() {
         const { children, onClick } = this.props;
         return (
-            <div className={menuButtonStyle} onClick={() => onClick()}>
+            <div className={menuButtonStyle} onClick={onClick}>
                 {children}
             </div>
         );

@@ -126,7 +126,7 @@ export class App extends React.Component<{}, State> {
 
     onGapiLoaded = async () => {
         const GoogleAuth =
-            (await window.gapi.auth2.getAuthInstance()) ||
+            window.gapi.auth2.getAuthInstance() ||
             (await window.gapi.auth2.init({
                 access_type: "online",
                 client_id: GOOGLE_CLIENT_ID,
@@ -145,7 +145,6 @@ export class App extends React.Component<{}, State> {
     };
 
     async componentDidMountWithUser(user: User) {
-        console.log(user);
         try {
             const proverbList = await api.fetchList(this.state.lang);
 
