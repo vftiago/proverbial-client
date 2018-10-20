@@ -20,7 +20,7 @@ const menuButtonStyle = css`
     height: 32px;
     align-items: center;
     border-radius: 3px;
-    font-family: "Roboto";
+    font-family: "Roboto Condensed";
     font-size: 13px;
     padding: 0 12px 0 8px;
     background-color: white;

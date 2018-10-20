@@ -4,11 +4,75 @@ import { css } from "emotion";
 import GoogleLogin from "./GoogleLogin";
 
 // local
-import ShuffleIcon from "../Icons/ShuffleIcon";
-import GridIcon from "../Icons/GridIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
 import { User, View } from "../../types/types";
 import { FilterBar } from "./FilterBar";
+
+export interface MenuProps {
+    user?: User;
+    initialLoading: boolean;
+    onGoogleSignIn: () => Promise<void>;
+    onGoogleSignOut: () => Promise<void>;
+    onNavigation: (options: any) => void;
+    onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export class Menu extends React.Component<MenuProps> {
+    render() {
+        const { initialLoading, user } = this.props;
+        return (
+            <ul className={menuStyle}>
+                <li>
+                    <h1>Proverbial</h1>
+                </li>
+                <li
+                    onClick={() => this.props.onNavigation({ view: View.List })}
+                >
+                    <div className={menuButtonStyle}>
+                        <p>List</p>
+                    </div>
+                </li>
+                <li
+                    onClick={() =>
+                        this.props.onNavigation({
+                            view: View.Item,
+                            random: true
+                        })
+                    }
+                >
+                    <div className={menuButtonStyle}>
+                        <p>Random</p>
+                    </div>
+                </li>
+                <li>
+                    <FilterBar onSearch={this.props.onSearch} />
+                </li>
+                {!initialLoading && (
+                    <li className={alignRightStyle}>
+                        {user ? (
+                            <div className={userInfoStyle}>
+                                <p className={userGreetingStyle}>
+                                    Welcome back, {user.firstName}!
+                                </p>
+                                <div
+                                    onClick={this.props.onGoogleSignOut}
+                                    className={menuButtonStyle}
+                                >
+                                    <p>Sign Out</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <GoogleLogin onClick={this.props.onGoogleSignIn}>
+                                <GoogleIcon size={32} />
+                                <p>Sign In with Google</p>
+                            </GoogleLogin>
+                        )}
+                    </li>
+                )}
+            </ul>
+        );
+    }
+}
 
 const menuStyle = css`
     list-style: none;
@@ -33,7 +97,7 @@ const menuButtonStyle = css`
     cursor: pointer;
     border-radius: 3px;
     font-size: 14px;
-    padding-right: 12px;
+    padding: 0 12px;
     background-color: white;
     color: black;
     height: 32px;
@@ -49,70 +113,17 @@ const menuButtonStyle = css`
     }
 `;
 
-export interface MenuProps {
-    user?: User;
-    onGoogleSignIn: () => Promise<void>;
-    onNavigation: (options: any) => void;
-    onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export class Menu extends React.Component<MenuProps> {
-    render() {
-        const { user } = this.props;
-        return (
-            <ul className={menuStyle}>
-                <li>
-                    <h1>Proverbial</h1>
-                </li>
-                <li
-                    onClick={() => this.props.onNavigation({ view: View.List })}
-                >
-                    <div className={menuButtonStyle}>
-                        <span>
-                            <GridIcon size={26} fill={"#333333"} />
-                        </span>
-                        <p>List</p>
-                    </div>
-                </li>
-                <li
-                    onClick={() =>
-                        this.props.onNavigation({
-                            view: View.Item,
-                            random: true
-                        })
-                    }
-                >
-                    <div className={menuButtonStyle}>
-                        <span>
-                            <ShuffleIcon size={26} fill={"#333333"} />
-                        </span>
-                        <p>Random</p>
-                    </div>
-                </li>
-                <li>
-                    <FilterBar onSearch={this.props.onSearch} />
-                </li>
-                <li className={alignRightStyle}>
-                    {user ? (
-                        <div className={userInfo}>
-                            Welcome back, {user.firstName}!
-                        </div>
-                    ) : (
-                        <GoogleLogin onClick={this.props.onGoogleSignIn}>
-                            <GoogleIcon size={32} />
-                            <p>Sign In with Google</p>
-                        </GoogleLogin>
-                    )}
-                </li>
-            </ul>
-        );
-    }
-}
-
 const alignRightStyle = css`
     margin-left: auto;
+    display: flex;
 `;
 
-const userInfo = css`
+const userGreetingStyle = css`
     color: white;
+    margin-right: 12px;
+`;
+
+const userInfoStyle = css`
+    display: flex;
+    align-items: center;
 `;

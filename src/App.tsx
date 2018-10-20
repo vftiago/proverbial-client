@@ -20,24 +20,27 @@ import { Page, Proverb, Options, User, View } from "./types/types";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
+const gapiParams = {
+    access_type: "online",
+    client_id: GOOGLE_CLIENT_ID,
+    ux_mode: "redirect",
+    scope: "profile email",
+    fetch_basic_profile: true
+};
+
 interface State {
+    AuthInstance?: any;
     id: number;
     list: Proverb[];
     loading: boolean;
     proverbList: Proverb[];
     currentPage: Page;
     lang: string;
+    initialLoading: boolean;
     allFetched: boolean;
-    user?: User;
+    proverbialUser?: User;
     errorMessage?: string;
 }
-
-const root = css`
-    font-family: "Roboto Condensed";
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-`;
 
 export class App extends React.Component<{}, State> {
     state: State = {
@@ -46,6 +49,7 @@ export class App extends React.Component<{}, State> {
         proverbList: [],
         loading: true,
         currentPage: Page.LoadingPage,
+        initialLoading: true,
         lang: DEFAULTS.lang,
         allFetched: false
     };
@@ -111,99 +115,102 @@ export class App extends React.Component<{}, State> {
         const GoogleAuth = window.gapi.auth2.getAuthInstance();
 
         try {
-            const currentUser = await GoogleAuth.signIn();
-            this.handleGoogleSignIn(currentUser);
+            await GoogleAuth.signIn();
+            this.fetchApplicationContent();
         } catch (err) {
             console.error(err);
         }
     };
 
-    handleGoogleSignIn = async (currentUser: any) => {
-        const authResponse = currentUser.getAuthResponse();
-        const user = await api.fetchUser(authResponse.id_token);
-        this.componentDidMountWithUser(user);
+    onGoogleSignOut = async () => {
+        const GoogleAuth = window.gapi.auth2.getAuthInstance();
+
+        try {
+            await GoogleAuth.signOut();
+            this.fetchApplicationContent();
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     onGapiLoaded = async () => {
-        const GoogleAuth =
+        const AuthInstance =
             window.gapi.auth2.getAuthInstance() ||
-            (await window.gapi.auth2.init({
-                access_type: "online",
-                client_id: GOOGLE_CLIENT_ID,
-                ux_mode: "redirect",
-                scope: "profile email",
-                fetch_basic_profile: true
-            }));
+            (await window.gapi.auth2.init(gapiParams));
 
-        if (GoogleAuth.isSignedIn.get()) {
-            const currentUser = GoogleAuth.currentUser.get();
-            this.handleGoogleSignIn(currentUser);
-        } else {
-            this.componentDidMountWithoutUser();
-        }
-        console.log("Gapi loaded");
+        this.setState({
+            AuthInstance
+        });
+
+        this.fetchApplicationContent();
     };
 
-    async componentDidMountWithUser(user: User) {
+    fetchApplicationContent = async () => {
+        let googleUser, proverbialUser;
+
+        const { AuthInstance } = this.state;
+
+        if (AuthInstance.isSignedIn.get()) {
+            googleUser = AuthInstance.currentUser.get();
+        }
+
+        if (googleUser) {
+            const authResponse = googleUser.getAuthResponse();
+            proverbialUser = await api.fetchUser(authResponse.id_token);
+        }
+
         try {
             const proverbList = await api.fetchList(this.state.lang);
 
             this.setState({
-                user,
+                proverbialUser,
                 currentPage: Page.ContentPage,
                 proverbList,
-                loading: false
+                loading: false,
+                initialLoading: false
             });
         } catch (errorMessage) {
             this.setState({
-                user,
+                proverbialUser,
                 currentPage: Page.ErrorPage,
                 errorMessage,
-                loading: false
+                loading: false,
+                initialLoading: false
             });
         }
-    }
-
-    async componentDidMountWithoutUser() {
-        try {
-            const proverbList = await api.fetchList(this.state.lang);
-
-            this.setState({
-                currentPage: Page.ContentPage,
-                proverbList,
-                loading: false
-            });
-        } catch (errorMessage) {
-            this.setState({
-                currentPage: Page.ErrorPage,
-                errorMessage,
-                loading: false
-            });
-        }
-    }
+    };
 
     async componentDidMount() {
         try {
-            await window.gapi.load("auth2", this.onGapiLoaded);
+            window.gapi.load("auth2", this.onGapiLoaded);
         } catch (errorMessage) {
             this.setState({
                 currentPage: Page.ErrorPage,
                 errorMessage,
-                loading: false
+                loading: false,
+                initialLoading: false
             });
         }
     }
 
     render() {
-        const { errorMessage, currentPage, proverbList, user } = this.state;
+        const {
+            currentPage,
+            errorMessage,
+            initialLoading,
+            proverbList,
+            proverbialUser
+        } = this.state;
 
         return (
             <div className={root}>
                 <Menu
                     onGoogleSignIn={this.onGoogleSignIn}
+                    onGoogleSignOut={this.onGoogleSignOut}
                     onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
-                    user={user}
+                    initialLoading={initialLoading}
+                    user={proverbialUser}
                 />
                 <Content
                     currentPage={currentPage}
@@ -224,3 +231,10 @@ export class App extends React.Component<{}, State> {
         );
     }
 }
+
+const root = css`
+    font-family: "Roboto Condensed";
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+`;
