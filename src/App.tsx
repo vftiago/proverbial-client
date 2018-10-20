@@ -20,12 +20,17 @@ import { Page, Proverb, Options, User, View } from "./types/types";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
-const gapiParams = {
+const gapiInitParams = {
     access_type: "online",
     client_id: GOOGLE_CLIENT_ID,
     ux_mode: "redirect",
     scope: "profile email",
     fetch_basic_profile: true
+};
+
+const gapiSignInParams = {
+    scope: "profile email",
+    prompt: "select_account"
 };
 
 interface State {
@@ -115,10 +120,7 @@ export class App extends React.Component<{}, State> {
         const AuthInstance = window.gapi.auth2.getAuthInstance();
 
         try {
-            await AuthInstance.signIn({
-                scope: "profile email",
-                prompt: "select_account"
-            });
+            await AuthInstance.signIn(gapiSignInParams);
             this.fetchApplicationContent();
         } catch (err) {
             console.error(err);
@@ -139,7 +141,7 @@ export class App extends React.Component<{}, State> {
     onGapiLoaded = async () => {
         const AuthInstance =
             window.gapi.auth2.getAuthInstance() ||
-            (await window.gapi.auth2.init(gapiParams));
+            (await window.gapi.auth2.init(gapiInitParams));
 
         this.setState({
             AuthInstance

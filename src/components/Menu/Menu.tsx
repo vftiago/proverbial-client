@@ -1,7 +1,6 @@
 // vendor
 import * as React from "react";
 import { css } from "emotion";
-import GoogleLogin from "./GoogleLogin";
 
 // local
 import GoogleIcon from "../Icons/GoogleIcon";
@@ -64,10 +63,10 @@ export class Menu extends React.Component<MenuProps> {
                                 </MenuButton>
                             </div>
                         ) : (
-                            <GoogleLogin onClick={this.props.onGoogleSignIn}>
+                            <MenuButton onClick={this.props.onGoogleSignIn}>
                                 <GoogleIcon size={32} />
                                 <p>Sign In with Google</p>
-                            </GoogleLogin>
+                            </MenuButton>
                         )}
                     </li>
                 )}

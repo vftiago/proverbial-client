@@ -2,6 +2,22 @@
 import * as React from "react";
 import { css } from "emotion";
 
+interface MenuButtonProps {
+    onClick: () => void;
+}
+
+export default class MenuButton extends React.Component<MenuButtonProps> {
+    render() {
+        const { children, onClick } = this.props;
+
+        return (
+            <div className={menuButtonStyle} onClick={onClick}>
+                {children}
+            </div>
+        );
+    }
+}
+
 const menuButtonStyle = css`
     cursor: pointer;
     border-radius: 3px;
@@ -21,19 +37,3 @@ const menuButtonStyle = css`
         left: -4px;
     }
 `;
-
-export interface MenuButtonProps {
-    onClick: () => void;
-}
-
-export default class MenuButton extends React.Component<MenuButtonProps> {
-    render() {
-        const { children, onClick } = this.props;
-
-        return (
-            <div className={menuButtonStyle} onClick={onClick}>
-                {children}
-            </div>
-        );
-    }
-}
