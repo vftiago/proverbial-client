@@ -27,7 +27,8 @@ export enum View {
 }
 
 export enum Page {
-    LoadingPage = "LoadingPage",
     ContentPage = "ContentPage",
-    ErrorPage = "ErrorPage"
+    ErrorPage = "ErrorPage",
+    LoadingPage = "LoadingPage",
+    SettingsPage = "SettingsPage"
 }

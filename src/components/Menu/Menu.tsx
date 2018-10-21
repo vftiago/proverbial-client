@@ -1,6 +1,7 @@
 // vendor
 import * as React from "react";
 import { css } from "emotion";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 // local
 import GoogleIcon from "../Icons/GoogleIcon";
@@ -14,12 +15,26 @@ export interface MenuProps {
     onGoogleSignIn: () => Promise<void>;
     onGoogleSignOut: () => Promise<void>;
     onNavigation: (options: any) => void;
+    onClickSettingsPage: () => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export class Menu extends React.Component<MenuProps> {
+export default class Menu extends React.Component<MenuProps> {
+    state = {
+        anchorEl: null
+    };
+
+    handleClick = (event: React.MouseEvent<HTMLElement>) => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
+
     render() {
-        const { initialLoading, user } = this.props;
+        const { initialLoading, user, onClickSettingsPage } = this.props;
+
         return (
             <ul className={menuStyle}>
                 <li>
@@ -53,9 +68,21 @@ export class Menu extends React.Component<MenuProps> {
                     <li className={alignRightStyle}>
                         {user ? (
                             <div className={userInfoStyle}>
-                                <p className={userGreetingStyle}>
-                                    Welcome back, {user.firstName}!
-                                </p>
+                                <div className={userAvatarStyle}>
+                                    <img
+                                        src={user.imageURL}
+                                        alt="user profile picture"
+                                    />
+                                </div>
+                                <div className={userGreetingStyle}>
+                                    Hello, {user.firstName}!
+                                </div>
+                                <div
+                                    className={settingsButtonStyle}
+                                    onClick={onClickSettingsPage}
+                                >
+                                    <SettingsIcon />
+                                </div>
                                 <MenuButton
                                     onClick={this.props.onGoogleSignOut}
                                 >
@@ -90,8 +117,14 @@ const menuStyle = css`
     }
     li {
         padding: 0 10px;
-        cursor: pointer;
     }
+`;
+
+const settingsButtonStyle = css`
+    display: flex;
+    color: white;
+    padding: 0 12px;
+    cursor: pointer;
 `;
 
 const alignRightStyle = css`
@@ -99,12 +132,21 @@ const alignRightStyle = css`
     display: flex;
 `;
 
-const userGreetingStyle = css`
-    color: white;
-    margin-right: 12px;
-`;
-
 const userInfoStyle = css`
     display: flex;
     align-items: center;
+`;
+
+const userAvatarStyle = css`
+    margin-right: 12px;
+    height: 32px;
+    img {
+        border-radius: 50%;
+        height: 32px;
+        width: 32px;
+    }
+`;
+
+const userGreetingStyle = css`
+    color: white;
 `;

@@ -11,7 +11,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 // local imports
 import { Content } from "./components/Content/Content";
-import { Menu } from "./components/Menu/Menu";
+import Menu from "./components/Menu/Menu";
 import api from "./api/api";
 import { DEFAULTS } from "./defaults";
 
@@ -83,6 +83,7 @@ export class App extends React.Component<{}, State> {
         this.setState({
             id,
             proverbList,
+            currentPage: Page.ContentPage,
             loading: false
         });
     }
@@ -107,6 +108,12 @@ export class App extends React.Component<{}, State> {
         const list = await api.fetchList(this.state.lang);
         this.setState({ list, allFetched: true });
         this.filterList(term);
+    };
+
+    onClickSettingsPage = () => {
+        this.setState({
+            currentPage: Page.SettingsPage
+        });
     };
 
     onNavigation = (options: Options) => {
@@ -208,10 +215,11 @@ export class App extends React.Component<{}, State> {
         } = this.state;
 
         return (
-            <div className={root}>
+            <div className={rootStlye}>
                 <Menu
                     onGoogleSignIn={this.onGoogleSignIn}
                     onGoogleSignOut={this.onGoogleSignOut}
+                    onClickSettingsPage={this.onClickSettingsPage}
                     onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
                     initialLoading={initialLoading}
@@ -237,9 +245,11 @@ export class App extends React.Component<{}, State> {
     }
 }
 
-const root = css`
+// #region styles
+const rootStlye = css`
     font-family: "Roboto Condensed";
     height: 100%;
     display: flex;
     flex-direction: column;
 `;
+// #endregion styles

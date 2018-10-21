@@ -1,0 +1,46 @@
+{
+    "root": true,
+    "extends": ["prettier", "prettier/react"],
+    "env": {
+        "es6": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true,
+            "jsx": true
+        }
+    },
+    "rules": {
+        "no-warning-comments": "off",
+        "no-undef": "off",
+        "no-undefined": "off",
+        "camelcase": "off",
+        "no-use-before-define": "error"
+    },
+    "overrides": [
+        {
+            "files": ["**/*.ts", "**/*.tsx"],
+            "parser": "typescript-eslint-parser",
+            "plugins": ["typescript"],
+            "rules": {
+                "no-undef": "off",
+                "no-undefined": "off",
+                "camelcase": "off",
+                "no-use-before-define": "off",
+                "typescript/no-unused-vars": "error",
+                "typescript/no-angle-bracket-type-assertion": "error",
+                "typescript/no-namespace": { "allowDeclarations": true },
+                "typescript/adjacent-overload-signatures": "error",
+                "typescript/class-name-casing": "error"
+            }
+        }
+    ],
+    "settings": {
+        "react": {
+            "version": "16.5.2"
+        }
+    }
+}

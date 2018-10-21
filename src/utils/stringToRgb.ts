@@ -1,6 +1,6 @@
 import * as sr from "seedrandom";
 
-interface rgbColor {
+interface RgbColor {
     r: number;
     g: number;
     b: number;
@@ -9,11 +9,11 @@ interface rgbColor {
 
 const stringToRgb = (
     string: string,
-    baseColor: rgbColor = { r: 255, g: 255, b: 255 },
+    baseColor: RgbColor = { r: 255, g: 255, b: 255 },
     darken: number = 2
 ): string => {
-    let finalColor: rgbColor = { r: 0, g: 0, b: 0 };
-    let colorSeeds: rgbColor = { r: 0, g: 0, b: 0 };
+    let finalColor: RgbColor = { r: 0, g: 0, b: 0 };
+    let colorSeeds: RgbColor = { r: 0, g: 0, b: 0 };
 
     if (string.length) {
         let seed = Math.abs(sr(string).int32());

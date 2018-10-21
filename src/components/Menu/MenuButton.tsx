@@ -3,7 +3,7 @@ import * as React from "react";
 import { css } from "emotion";
 
 interface MenuButtonProps {
-    onClick: () => void;
+    onClick?: () => void;
 }
 
 export default class MenuButton extends React.Component<MenuButtonProps> {
@@ -20,7 +20,7 @@ export default class MenuButton extends React.Component<MenuButtonProps> {
 
 const menuButtonStyle = css`
     cursor: pointer;
-    border-radius: 3px;
+    border-radius: 2px;
     font-size: 14px;
     padding: 0 12px;
     background-color: white;

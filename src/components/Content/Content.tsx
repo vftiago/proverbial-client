@@ -7,6 +7,7 @@ import { List } from "./List/List";
 import { Options, Page, Proverb } from "../../types/types";
 import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
+import SettingsPage from "../SettingsPage";
 
 interface ContentProps {
     list: Proverb[];
@@ -42,6 +43,9 @@ export class Content extends React.Component<ContentProps> {
                 break;
             case Page.ErrorPage:
                 content = <ErrorPage />;
+                break;
+            case Page.SettingsPage:
+                content = <SettingsPage />;
                 break;
             default:
                 content = (
