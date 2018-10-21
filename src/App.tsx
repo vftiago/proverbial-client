@@ -80,18 +80,48 @@ export class App extends React.Component<{}, State> {
     };
 
     onClickProverb = async (id: string) => {
+        const { loading } = this.state;
+        if (!loading) {
+            this.setState({
+                loading: true
+            });
+        }
         const proverbList = await api.fetchItem(this.state.lang, id);
-        this.setState({ proverbList });
+        this.setState({
+            currentPage: Page.ContentPage,
+            proverbList,
+            loading: false
+        });
     };
 
     onClickRandomProverb = async () => {
+        const { loading } = this.state;
+        if (!loading) {
+            this.setState({
+                loading: true
+            });
+        }
         const proverbList = await api.fetchItem(this.state.lang, "random");
-        this.setState({ proverbList });
+        this.setState({
+            currentPage: Page.ContentPage,
+            proverbList,
+            loading: false
+        });
     };
 
     onClickListProverbs = async () => {
+        const { loading } = this.state;
+        if (!loading) {
+            this.setState({
+                loading: true
+            });
+        }
         const proverbList = await api.fetchList(this.state.lang);
-        this.setState({ proverbList });
+        this.setState({
+            currentPage: Page.ContentPage,
+            proverbList,
+            loading: false
+        });
     };
 
     onClickSettingsPage = () => {
