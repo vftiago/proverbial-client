@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import stringToRgb from "../../../../utils/stringToRgb";
 // types
-import { Proverb, View } from "../../../../types/types";
+import { Proverb } from "../../../../types/types";
 
 const itemStyle = css`
     text-align: center;
@@ -33,20 +33,22 @@ const singleItemStyle = css`
 
 interface ItemProps {
     el: Proverb;
-    onNavigation: (options: any) => void;
+    onClickProverb: (id: string) => void;
     proverbCount: number;
 }
 
 const Item: React.SFC<ItemProps> = props => {
+    const { onClickProverb, el } = props;
+
     return (
         <li
             className={props.proverbCount === 1 ? singleItemStyle : itemStyle}
             onClick={() => {
-                props.onNavigation({ view: View.Item, id: props.el._id });
+                onClickProverb(el._id);
             }}
-            style={{ background: stringToRgb(props.el._id.toString()) }}
+            style={{ background: stringToRgb(el._id.toString()) }}
         >
-            <span>{props.el.text}</span>
+            <span>{el.text}</span>
         </li>
     );
 };

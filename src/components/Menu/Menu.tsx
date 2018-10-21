@@ -1,39 +1,35 @@
 // vendor
 import * as React from "react";
 import { css } from "emotion";
-import SettingsIcon from "@material-ui/icons/Settings";
 
 // local
 import GoogleIcon from "../Icons/GoogleIcon";
 import MenuButton from "./MenuButton";
-import { User, View } from "../../types/types";
+import { User } from "../../types/types";
 import { FilterBar } from "./FilterBar";
+import UserBar from "./UserBar";
 
 export interface MenuProps {
     user?: User;
     initialLoading: boolean;
     onGoogleSignIn: () => Promise<void>;
     onGoogleSignOut: () => Promise<void>;
-    onNavigation: (options: any) => void;
+    onClickRandomProverb: () => Promise<void>;
+    onClickListProverbs: () => Promise<void>;
     onClickSettingsPage: () => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default class Menu extends React.Component<MenuProps> {
-    state = {
-        anchorEl: null
-    };
-
-    handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        this.setState({ anchorEl: event.currentTarget });
-    };
-
-    handleClose = () => {
-        this.setState({ anchorEl: null });
-    };
-
     render() {
-        const { initialLoading, user, onClickSettingsPage } = this.props;
+        const {
+            initialLoading,
+            user,
+            onGoogleSignOut,
+            onClickSettingsPage,
+            onClickRandomProverb,
+            onClickListProverbs
+        } = this.props;
 
         return (
             <ul className={menuStyle}>
@@ -41,23 +37,12 @@ export default class Menu extends React.Component<MenuProps> {
                     <h1>Proverbial</h1>
                 </li>
                 <li>
-                    <MenuButton
-                        onClick={() =>
-                            this.props.onNavigation({ view: View.List })
-                        }
-                    >
+                    <MenuButton onClick={onClickListProverbs}>
                         <p>List</p>
                     </MenuButton>
                 </li>
                 <li>
-                    <MenuButton
-                        onClick={() =>
-                            this.props.onNavigation({
-                                view: View.Item,
-                                random: true
-                            })
-                        }
-                    >
+                    <MenuButton onClick={onClickRandomProverb}>
                         <p>Random</p>
                     </MenuButton>
                 </li>
@@ -67,28 +52,11 @@ export default class Menu extends React.Component<MenuProps> {
                 {!initialLoading && (
                     <li className={alignRightStyle}>
                         {user ? (
-                            <div className={userInfoStyle}>
-                                <div className={userAvatarStyle}>
-                                    <img
-                                        src={user.imageURL}
-                                        alt="user profile picture"
-                                    />
-                                </div>
-                                <div className={userGreetingStyle}>
-                                    Hello, {user.firstName}!
-                                </div>
-                                <div
-                                    className={settingsButtonStyle}
-                                    onClick={onClickSettingsPage}
-                                >
-                                    <SettingsIcon />
-                                </div>
-                                <MenuButton
-                                    onClick={this.props.onGoogleSignOut}
-                                >
-                                    <p>Sign Out</p>
-                                </MenuButton>
-                            </div>
+                            <UserBar
+                                user={user}
+                                onClickSettingsPage={onClickSettingsPage}
+                                onGoogleSignOut={onGoogleSignOut}
+                            />
                         ) : (
                             <MenuButton onClick={this.props.onGoogleSignIn}>
                                 <GoogleIcon size={32} />
@@ -102,6 +70,7 @@ export default class Menu extends React.Component<MenuProps> {
     }
 }
 
+// #region styles
 const menuStyle = css`
     list-style: none;
     display: flex;
@@ -120,33 +89,8 @@ const menuStyle = css`
     }
 `;
 
-const settingsButtonStyle = css`
-    display: flex;
-    color: white;
-    padding: 0 12px;
-    cursor: pointer;
-`;
-
 const alignRightStyle = css`
     margin-left: auto;
     display: flex;
 `;
-
-const userInfoStyle = css`
-    display: flex;
-    align-items: center;
-`;
-
-const userAvatarStyle = css`
-    margin-right: 12px;
-    height: 32px;
-    img {
-        border-radius: 50%;
-        height: 32px;
-        width: 32px;
-    }
-`;
-
-const userGreetingStyle = css`
-    color: white;
-`;
+// #endregion styles

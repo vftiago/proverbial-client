@@ -16,7 +16,7 @@ import api from "./api/api";
 import { DEFAULTS } from "./defaults";
 
 // types
-import { Page, Proverb, Options, User, View } from "./types/types";
+import { Page, Proverb, User } from "./types/types";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
@@ -35,7 +35,6 @@ const gapiSignInParams = {
 
 interface State {
     AuthInstance?: any;
-    id: number;
     list: Proverb[];
     loading: boolean;
     proverbList: Proverb[];
@@ -49,7 +48,6 @@ interface State {
 
 export class App extends React.Component<{}, State> {
     state: State = {
-        id: DEFAULTS.id,
         list: [],
         proverbList: [],
         loading: true,
@@ -58,35 +56,6 @@ export class App extends React.Component<{}, State> {
         lang: DEFAULTS.lang,
         allFetched: false
     };
-
-    async update(options: Options) {
-        let proverbList = [];
-        let id = options.id;
-        const { loading } = this.state;
-
-        if (!loading) {
-            this.setState({
-                loading: true
-            });
-        }
-        switch (options.view) {
-            case View.List:
-                proverbList = await api.fetchList(this.state.lang);
-                break;
-            case View.Item:
-                proverbList = await api.fetchItem(this.state.lang, id);
-                break;
-            default:
-                return false;
-        }
-
-        this.setState({
-            id,
-            proverbList,
-            currentPage: Page.ContentPage,
-            loading: false
-        });
-    }
 
     onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value.toLowerCase();
@@ -110,17 +79,25 @@ export class App extends React.Component<{}, State> {
         this.filterList(term);
     };
 
+    onClickProverb = async (id: string) => {
+        const proverbList = await api.fetchItem(this.state.lang, id);
+        this.setState({ proverbList });
+    };
+
+    onClickRandomProverb = async () => {
+        const proverbList = await api.fetchItem(this.state.lang, "random");
+        this.setState({ proverbList });
+    };
+
+    onClickListProverbs = async () => {
+        const proverbList = await api.fetchList(this.state.lang);
+        this.setState({ proverbList });
+    };
+
     onClickSettingsPage = () => {
         this.setState({
             currentPage: Page.SettingsPage
         });
-    };
-
-    onNavigation = (options: Options) => {
-        if (options.id && this.state.id === options.id) {
-            return false;
-        }
-        this.update(options);
     };
 
     onGoogleSignIn = async () => {
@@ -220,7 +197,8 @@ export class App extends React.Component<{}, State> {
                     onGoogleSignIn={this.onGoogleSignIn}
                     onGoogleSignOut={this.onGoogleSignOut}
                     onClickSettingsPage={this.onClickSettingsPage}
-                    onNavigation={this.onNavigation}
+                    onClickListProverbs={this.onClickListProverbs}
+                    onClickRandomProverb={this.onClickRandomProverb}
                     onSearch={this.onSearch}
                     initialLoading={initialLoading}
                     user={proverbialUser}
@@ -229,8 +207,8 @@ export class App extends React.Component<{}, State> {
                     currentPage={currentPage}
                     errorMessage={errorMessage}
                     list={proverbList}
-                    onNavigation={this.onNavigation}
                     onSearch={this.onSearch}
+                    onClickProverb={this.onClickProverb}
                 />
                 <Snackbar
                     anchorOrigin={{

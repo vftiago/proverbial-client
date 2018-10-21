@@ -4,7 +4,7 @@ import { css } from "emotion";
 // local imports
 import { List } from "./List/List";
 // types
-import { Options, Page, Proverb } from "../../types/types";
+import { Page, Proverb } from "../../types/types";
 import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
 import SettingsPage from "../SettingsPage";
@@ -13,7 +13,7 @@ interface ContentProps {
     list: Proverb[];
     currentPage: Page;
     errorMessage: string | undefined;
-    onNavigation: (options: Options) => void;
+    onClickProverb: (id: string) => void;
     onSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -33,7 +33,7 @@ export class Content extends React.Component<ContentProps> {
     }
 
     render() {
-        const { currentPage } = this.props;
+        const { currentPage, onClickProverb } = this.props;
 
         let content;
 
@@ -51,7 +51,7 @@ export class Content extends React.Component<ContentProps> {
                 content = (
                     <List
                         list={this.props.list}
-                        onNavigation={this.props.onNavigation}
+                        onClickProverb={onClickProverb}
                     />
                 );
                 break;

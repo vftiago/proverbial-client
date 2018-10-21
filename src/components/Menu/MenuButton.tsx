@@ -18,6 +18,7 @@ export default class MenuButton extends React.Component<MenuButtonProps> {
     }
 }
 
+// #region styles
 const menuButtonStyle = css`
     cursor: pointer;
     border-radius: 2px;
@@ -37,3 +38,5 @@ const menuButtonStyle = css`
         left: -4px;
     }
 `;
+
+//#endregion styles

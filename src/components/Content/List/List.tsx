@@ -3,12 +3,12 @@ import * as React from "react";
 import { css } from "emotion";
 
 // types
-import { Options, Proverb } from "../../../types/types";
+import { Proverb } from "../../../types/types";
 import Item from "./Item/Item";
 
 interface ListProps {
     list: Proverb[];
-    onNavigation: (options: Options) => void;
+    onClickProverb: (id: string) => void;
 }
 
 const list = css`
@@ -33,12 +33,13 @@ export class List extends React.Component<ListProps> {
     }
 
     format(arr: Proverb[]): JSX.Element[] {
+        const { onClickProverb, list } = this.props;
         return arr.map((el, index) => (
             <Item
                 key={index}
                 el={el}
-                onNavigation={this.props.onNavigation}
-                proverbCount={this.props.list.length}
+                onClickProverb={onClickProverb}
+                proverbCount={list.length}
             />
         ));
     }

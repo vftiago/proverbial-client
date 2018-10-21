@@ -1,7 +1,4 @@
-import { Options, View } from "./types/types";
-
-const DEFAULTS: Options = {
-    view: View.Item,
+const DEFAULTS = {
     id: 0,
     lang: "en",
     pageSize: 120,
