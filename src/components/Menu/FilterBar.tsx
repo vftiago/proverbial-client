@@ -11,6 +11,7 @@ interface FilterBarProps {
 const filterBarStyle = css`
     display: flex;
     align-items: center;
+    margin-right: -28px;
     input {
         height: 20px;
         flex-grow: 0;
@@ -37,7 +38,7 @@ const filterBarStyle = css`
     }
     svg {
         position: relative;
-        right: 33px;
+        right: 28px;
     }
 `;
 

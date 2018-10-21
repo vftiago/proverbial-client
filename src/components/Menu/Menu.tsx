@@ -49,6 +49,11 @@ export default class Menu extends React.Component<MenuProps> {
                 <li>
                     <FilterBar onSearch={this.props.onSearch} />
                 </li>
+                <li>
+                    <a href="https://github.com/vftiago/proverbial-client">
+                        See this project on GitHub
+                    </a>
+                </li>
                 {!initialLoading && (
                     <li className={alignRightStyle}>
                         {user ? (
@@ -86,6 +91,9 @@ const menuStyle = css`
     }
     li {
         padding: 0 10px;
+        a {
+            color: white;
+        }
     }
 `;
 
