@@ -4,12 +4,13 @@ import { css } from "emotion";
 // local imports
 import { List } from "./List/List";
 // types
-import { Page, Proverb } from "../../types/types";
+import { Page, Proverb, User } from "../../types/types";
 import LoadingPage from "../LoadingPage";
 import ErrorPage from "../ErrorPage";
 import SettingsPage from "../SettingsPage";
 
 interface ContentProps {
+    proverbialUser?: User;
     list: Proverb[];
     currentPage: Page;
     errorMessage: string | undefined;
@@ -33,7 +34,7 @@ export class Content extends React.Component<ContentProps> {
     }
 
     render() {
-        const { currentPage, onClickProverb } = this.props;
+        const { currentPage, onClickProverb, proverbialUser } = this.props;
 
         let content;
 
@@ -45,7 +46,8 @@ export class Content extends React.Component<ContentProps> {
                 content = <ErrorPage />;
                 break;
             case Page.SettingsPage:
-                content = <SettingsPage />;
+                if (!proverbialUser) return; // we should always have a user on the settings page
+                content = <SettingsPage proverbialUser={proverbialUser} />;
                 break;
             default:
                 content = (

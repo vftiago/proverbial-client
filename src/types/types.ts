@@ -1,10 +1,18 @@
+export type Language = {
+    _id: string;
+    label: string;
+};
+
 export type User = {
-    googleID: string;
+    _id: string;
     firstName: string;
     lastName: string;
     username: string;
     email: string;
     imageURL: string;
+    settings: {
+        selectedLanguages: Language[];
+    };
 };
 
 export interface Proverb {

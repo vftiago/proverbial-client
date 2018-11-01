@@ -1,6 +1,7 @@
 declare global {
     interface Window {
         gapi: any;
+        __MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__: boolean;
     }
 }
 
@@ -19,6 +20,7 @@ import { DEFAULTS } from "./defaults";
 import { Page, Proverb, User } from "./types/types";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 const gapiInitParams = {
     access_type: "online",
@@ -214,6 +216,7 @@ export class App extends React.Component<{}, State> {
 
     render() {
         const {
+            loading,
             currentPage,
             errorMessage,
             initialLoading,
@@ -239,14 +242,15 @@ export class App extends React.Component<{}, State> {
                     list={proverbList}
                     onSearch={this.onSearch}
                     onClickProverb={this.onClickProverb}
+                    proverbialUser={proverbialUser}
                 />
                 <Snackbar
                     anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left"
                     }}
-                    open={this.state.loading}
-                    message={<span id="message-id">Loading...</span>}
+                    open={loading}
+                    message={"Loading..."}
                 />
             </div>
         );

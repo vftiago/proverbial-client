@@ -1,10 +1,21 @@
 import React from "react";
 import { css } from "emotion";
 
-const SettingsPage = () => {
+import { User } from "../types/types";
+
+interface SettingsPageProps {
+    proverbialUser: User;
+}
+
+const SettingsPage: React.SFC<SettingsPageProps> = props => {
+    const { proverbialUser } = props;
+
+    console.log(proverbialUser);
+
     return (
-        <div className={rootStyle}>
-            <p>Settings Page</p>
+        <div className={settingsPageRootStyle}>
+            <h1>Settings Page</h1>
+            <p>{proverbialUser.settings.selectedLanguages[0].label}</p>
         </div>
     );
 };
@@ -12,7 +23,7 @@ const SettingsPage = () => {
 export default SettingsPage;
 
 // #region styles
-const rootStyle = css`
+const settingsPageRootStyle = css`
     height: 100%;
     display: flex;
     background-color: #333;
