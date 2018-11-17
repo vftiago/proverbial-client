@@ -10,7 +10,6 @@ const instance = axios.create({
 
 const api = {
     fetchUser: async (code: string) => {
-        console.log(code);
         try {
             const response = await instance.post("api/auth/user", {
                 headers: {
@@ -18,7 +17,6 @@ const api = {
                 },
                 data: code
             });
-            console.log(response);
             return response.data;
         } catch (e) {
             const axiosError = e as AxiosError;
