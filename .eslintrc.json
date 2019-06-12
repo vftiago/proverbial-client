@@ -18,7 +18,8 @@
     "no-undef": "off",
     "no-undefined": "off",
     "camelcase": "off",
-    "no-use-before-define": "error"
+    "no-use-before-define": "error",
+    "no-console": "error"
   },
   "overrides": [
     {

@@ -4,10 +4,11 @@
   "description": "your proverbial app",
   "scripts": {
     "lint": "./node_modules/.bin/eslint './src/**/*'",
+    "lint-staged": "lint-staged",
     "start": "http-server ./dist",
     "start:dev": "webpack-dev-server",
     "postinstall": "webpack",
-    "format": "prettier --write '**/*.{js,jsx,ts,tsx,yml,css,sass,json,md}'",
+    "format": "prettier --write 'src/*.{js,jsx,ts,tsx,yml,css,sass,json,md}'",
     "tsc": "tsc"
   },
   "author": "Tiago Fernandes <vf.tiago@gmail.com>",
@@ -56,6 +57,8 @@
     "eslint-config-prettier": "^4.3.0",
     "eslint-config-typescript": "^2.0.0",
     "eslint-plugin-typescript": "^0.14.0",
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.0",
     "prettier": "^1.18.2",
     "typescript": "^3.5.1",
     "typescript-eslint-parser": "^22.0.0",
@@ -63,6 +66,15 @@
     "webpack-dev-server": "^3.7.1"
   },
   "lint-staged": {
-    "lint": "npm run lint"
+    "./src/**/*.{js,jsx,ts,tsx,yml,css,sass,json,md}": [
+      "eslint",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
   }
 }
