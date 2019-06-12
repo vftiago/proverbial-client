@@ -1,267 +1,267 @@
 declare global {
-    interface Window {
-        gapi: any;
-        __MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__: boolean;
-    }
+  interface Window {
+    gapi: any;
+    __MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__: boolean;
+  }
 }
 
 // vendor imports
-import * as React from "react";
-import { css } from "emotion";
-import Snackbar from "@material-ui/core/Snackbar";
+import * as React from 'react';
+import { css } from 'emotion';
+import Snackbar from '@material-ui/core/Snackbar';
 
 // local imports
-import { Content } from "./components/Content/Content";
-import Menu from "./components/Menu/Menu";
-import api from "./api/api";
-import { DEFAULTS } from "./defaults";
+import { Content } from './components/Content/Content';
+import Menu from './components/Menu/Menu';
+import api from './api/api';
+import { DEFAULTS } from './defaults';
 
 // types
-import { Page, Proverb, User } from "./types/types";
+import { Page, Proverb, User } from './types/types';
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
 
 const gapiInitParams = {
-    access_type: "online",
-    client_id: GOOGLE_CLIENT_ID,
-    ux_mode: "redirect",
-    scope: "profile email",
-    fetch_basic_profile: true
+  access_type: 'online',
+  client_id: GOOGLE_CLIENT_ID,
+  ux_mode: 'redirect',
+  scope: 'profile email',
+  fetch_basic_profile: true,
 };
 
 const gapiSignInParams = {
-    scope: "profile email",
-    prompt: "select_account"
+  scope: 'profile email',
+  prompt: 'select_account',
 };
 
 interface State {
-    AuthInstance?: any;
-    list: Proverb[];
-    loading: boolean;
-    proverbList: Proverb[];
-    currentPage: Page;
-    lang: string;
-    initialLoading: boolean;
-    allFetched: boolean;
-    proverbialUser?: User;
-    errorMessage?: string;
+  AuthInstance?: any;
+  list: Proverb[];
+  loading: boolean;
+  proverbList: Proverb[];
+  currentPage: Page;
+  lang: string;
+  initialLoading: boolean;
+  allFetched: boolean;
+  proverbialUser?: User;
+  errorMessage?: string;
 }
 
 export class App extends React.Component<{}, State> {
-    state: State = {
-        list: [],
-        proverbList: [],
+  state: State = {
+    list: [],
+    proverbList: [],
+    loading: true,
+    currentPage: Page.LoadingPage,
+    initialLoading: true,
+    lang: DEFAULTS.lang,
+    allFetched: false,
+  };
+
+  onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const term = e.target.value.toLowerCase();
+    if (!this.state.allFetched) {
+      this.fetchAll(term);
+    } else {
+      this.filterList(term);
+    }
+  };
+
+  filterList = (term: string) => {
+    const proverbList = this.state.list.filter(
+      item => item.text.toLowerCase().search(term) !== -1
+    );
+    this.setState({ proverbList });
+  };
+
+  fetchAll = async (term: string) => {
+    const list = await api.fetchList(this.state.lang);
+    this.setState({ list, allFetched: true });
+    this.filterList(term);
+  };
+
+  onClickProverb = async (id: string) => {
+    const { loading } = this.state;
+    if (!loading) {
+      this.setState({
         loading: true,
-        currentPage: Page.LoadingPage,
-        initialLoading: true,
-        lang: DEFAULTS.lang,
-        allFetched: false
-    };
+      });
+    }
+    const proverbList = await api.fetchItem(this.state.lang, id);
+    this.setState({
+      currentPage: Page.ContentPage,
+      proverbList,
+      loading: false,
+    });
+  };
 
-    onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const term = e.target.value.toLowerCase();
-        if (!this.state.allFetched) {
-            this.fetchAll(term);
-        } else {
-            this.filterList(term);
-        }
-    };
+  onClickRandomProverb = async () => {
+    const { loading } = this.state;
+    if (!loading) {
+      this.setState({
+        loading: true,
+      });
+    }
+    const proverbList = await api.fetchItem(this.state.lang, 'random');
+    this.setState({
+      currentPage: Page.ContentPage,
+      proverbList,
+      loading: false,
+    });
+  };
 
-    filterList = (term: string) => {
-        const proverbList = this.state.list.filter(
-            item => item.text.toLowerCase().search(term) !== -1
-        );
-        this.setState({ proverbList });
-    };
+  onClickListProverbs = async () => {
+    const { loading } = this.state;
+    if (!loading) {
+      this.setState({
+        loading: true,
+      });
+    }
+    const proverbList = await api.fetchList(this.state.lang);
+    this.setState({
+      currentPage: Page.ContentPage,
+      proverbList,
+      loading: false,
+    });
+  };
 
-    fetchAll = async (term: string) => {
-        const list = await api.fetchList(this.state.lang);
-        this.setState({ list, allFetched: true });
-        this.filterList(term);
-    };
+  onClickSettingsPage = () => {
+    this.setState({
+      currentPage: Page.SettingsPage,
+    });
+  };
 
-    onClickProverb = async (id: string) => {
-        const { loading } = this.state;
-        if (!loading) {
-            this.setState({
-                loading: true
-            });
-        }
-        const proverbList = await api.fetchItem(this.state.lang, id);
-        this.setState({
-            currentPage: Page.ContentPage,
-            proverbList,
-            loading: false
-        });
-    };
+  onGoogleSignIn = async () => {
+    const AuthInstance = window.gapi.auth2.getAuthInstance();
 
-    onClickRandomProverb = async () => {
-        const { loading } = this.state;
-        if (!loading) {
-            this.setState({
-                loading: true
-            });
-        }
-        const proverbList = await api.fetchItem(this.state.lang, "random");
-        this.setState({
-            currentPage: Page.ContentPage,
-            proverbList,
-            loading: false
-        });
-    };
+    try {
+      await AuthInstance.signIn(gapiSignInParams);
+      this.fetchApplicationContent();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    onClickListProverbs = async () => {
-        const { loading } = this.state;
-        if (!loading) {
-            this.setState({
-                loading: true
-            });
-        }
-        const proverbList = await api.fetchList(this.state.lang);
-        this.setState({
-            currentPage: Page.ContentPage,
-            proverbList,
-            loading: false
-        });
-    };
+  onGoogleSignOut = async () => {
+    const AuthInstance = window.gapi.auth2.getAuthInstance();
 
-    onClickSettingsPage = () => {
-        this.setState({
-            currentPage: Page.SettingsPage
-        });
-    };
+    try {
+      await AuthInstance.signOut();
+      this.fetchApplicationContent();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    onGoogleSignIn = async () => {
-        const AuthInstance = window.gapi.auth2.getAuthInstance();
+  onGapiLoaded = async () => {
+    const AuthInstance =
+      window.gapi.auth2.getAuthInstance() ||
+      (await window.gapi.auth2.init(gapiInitParams));
 
-        try {
-            await AuthInstance.signIn(gapiSignInParams);
-            this.fetchApplicationContent();
-        } catch (err) {
-            console.error(err);
-        }
-    };
+    this.setState({
+      AuthInstance,
+    });
 
-    onGoogleSignOut = async () => {
-        const AuthInstance = window.gapi.auth2.getAuthInstance();
+    this.fetchApplicationContent();
+  };
 
-        try {
-            await AuthInstance.signOut();
-            this.fetchApplicationContent();
-        } catch (err) {
-            console.error(err);
-        }
-    };
+  fetchApplicationContent = async () => {
+    let googleUser, proverbialUser;
 
-    onGapiLoaded = async () => {
-        const AuthInstance =
-            window.gapi.auth2.getAuthInstance() ||
-            (await window.gapi.auth2.init(gapiInitParams));
+    const { AuthInstance } = this.state;
 
-        this.setState({
-            AuthInstance
-        });
-
-        this.fetchApplicationContent();
-    };
-
-    fetchApplicationContent = async () => {
-        let googleUser, proverbialUser;
-
-        const { AuthInstance } = this.state;
-
-        if (AuthInstance.isSignedIn.get()) {
-            googleUser = AuthInstance.currentUser.get();
-        }
-
-        if (googleUser) {
-            const authResponse = googleUser.getAuthResponse();
-            proverbialUser = await api.fetchUser(authResponse.id_token);
-        }
-
-        try {
-            const proverbList = await api.fetchList(this.state.lang);
-
-            this.setState({
-                proverbialUser,
-                currentPage: Page.ContentPage,
-                proverbList,
-                loading: false,
-                initialLoading: false
-            });
-        } catch (errorMessage) {
-            this.setState({
-                proverbialUser,
-                currentPage: Page.ErrorPage,
-                errorMessage,
-                loading: false,
-                initialLoading: false
-            });
-        }
-    };
-
-    async componentDidMount() {
-        try {
-            window.gapi.load("auth2", this.onGapiLoaded);
-        } catch (errorMessage) {
-            this.setState({
-                currentPage: Page.ErrorPage,
-                errorMessage,
-                loading: false,
-                initialLoading: false
-            });
-        }
+    if (AuthInstance.isSignedIn.get()) {
+      googleUser = AuthInstance.currentUser.get();
     }
 
-    render() {
-        const {
-            loading,
-            currentPage,
-            errorMessage,
-            initialLoading,
-            proverbList,
-            proverbialUser
-        } = this.state;
-
-        return (
-            <div className={rootStlye}>
-                <Menu
-                    onGoogleSignIn={this.onGoogleSignIn}
-                    onGoogleSignOut={this.onGoogleSignOut}
-                    onClickSettingsPage={this.onClickSettingsPage}
-                    onClickListProverbs={this.onClickListProverbs}
-                    onClickRandomProverb={this.onClickRandomProverb}
-                    onSearch={this.onSearch}
-                    initialLoading={initialLoading}
-                    user={proverbialUser}
-                />
-                <Content
-                    currentPage={currentPage}
-                    errorMessage={errorMessage}
-                    list={proverbList}
-                    onSearch={this.onSearch}
-                    onClickProverb={this.onClickProverb}
-                    proverbialUser={proverbialUser}
-                />
-                <Snackbar
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left"
-                    }}
-                    open={loading}
-                    message={"Loading..."}
-                />
-            </div>
-        );
+    if (googleUser) {
+      const authResponse = googleUser.getAuthResponse();
+      proverbialUser = await api.fetchUser(authResponse.id_token);
     }
+
+    try {
+      const proverbList = await api.fetchList(this.state.lang);
+
+      this.setState({
+        proverbialUser,
+        currentPage: Page.ContentPage,
+        proverbList,
+        loading: false,
+        initialLoading: false,
+      });
+    } catch (errorMessage) {
+      this.setState({
+        proverbialUser,
+        currentPage: Page.ErrorPage,
+        errorMessage,
+        loading: false,
+        initialLoading: false,
+      });
+    }
+  };
+
+  async componentDidMount() {
+    try {
+      window.gapi.load('auth2', this.onGapiLoaded);
+    } catch (errorMessage) {
+      this.setState({
+        currentPage: Page.ErrorPage,
+        errorMessage,
+        loading: false,
+        initialLoading: false,
+      });
+    }
+  }
+
+  render() {
+    const {
+      loading,
+      currentPage,
+      errorMessage,
+      initialLoading,
+      proverbList,
+      proverbialUser,
+    } = this.state;
+
+    return (
+      <div className={rootStlye}>
+        <Menu
+          onGoogleSignIn={this.onGoogleSignIn}
+          onGoogleSignOut={this.onGoogleSignOut}
+          onClickSettingsPage={this.onClickSettingsPage}
+          onClickListProverbs={this.onClickListProverbs}
+          onClickRandomProverb={this.onClickRandomProverb}
+          onSearch={this.onSearch}
+          initialLoading={initialLoading}
+          user={proverbialUser}
+        />
+        <Content
+          currentPage={currentPage}
+          errorMessage={errorMessage}
+          list={proverbList}
+          onSearch={this.onSearch}
+          onClickProverb={this.onClickProverb}
+          proverbialUser={proverbialUser}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={loading}
+          message={'Loading...'}
+        />
+      </div>
+    );
+  }
 }
 
 // #region styles
 const rootStlye = css`
-    font-family: "Roboto Condensed";
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+  font-family: 'Roboto Condensed';
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 `;
 // #endregion styles
