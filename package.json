@@ -4,7 +4,6 @@
   "description": "your proverbial app",
   "scripts": {
     "lint": "./node_modules/.bin/eslint './src/**/*'",
-    "lint-staged": "lint-staged",
     "start": "http-server ./dist",
     "start:dev": "webpack-dev-server",
     "postinstall": "webpack",
@@ -62,31 +61,5 @@
     "@types/seedrandom": "^2.4.28",
     "webpack-cli": "^3.3.3",
     "webpack-dev-server": "^3.7.1"
-  },
-  "node-hooks": {
-    "preserve-scripts": [
-      "lint"
-    ],
-    "preserve-hooks": [
-      "pre-commit"
-    ],
-    "preserve-files": [
-      ".eslintrc.json"
-    ]
-  },
-  "lint-staged": {
-    "*.{js,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ],
-    "*.{yml,css,sass,json,md}": [
-      "prettier --write",
-      "git add"
-    ]
-  },
-  "pre-commit": [
-    "tsc",
-    "lint-staged"
-  ]
+  }
 }
