@@ -63,6 +63,17 @@
     "webpack-cli": "^3.3.3",
     "webpack-dev-server": "^3.7.1"
   },
+  "node-hooks": {
+    "preserve-scripts": [
+      "lint"
+    ],
+    "preserve-hooks": [
+      "pre-commit"
+    ],
+    "preserve-files": [
+      ".eslintrc.json"
+    ]
+  },
   "lint-staged": {
     "*.{js,ts,tsx}": [
       "eslint --fix",
