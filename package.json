@@ -61,5 +61,8 @@
     "typescript-eslint-parser": "^22.0.0",
     "webpack-cli": "^3.3.3",
     "webpack-dev-server": "^3.7.1"
+  },
+  "lint-staged": {
+    "lint": "npm run lint"
   }
 }
